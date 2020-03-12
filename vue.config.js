@@ -17,13 +17,13 @@ module.exports = {
       .set("store", resolve("src/store"));
   },
   devServer: {
-    // proxy: {
-    //   '/front_api': {
-    //     target: 'http://127.0.0.1:49000',
-    //     ws: true,
-    //     changeOrigin: true
-    //   }
-    // },
+    proxy: {
+      '/front': {
+        target: 'http://127.0.0.1:8081',
+        ws: true,
+        changeOrigin: true
+      }
+    },
     overlay: {
       warning: false
     }
