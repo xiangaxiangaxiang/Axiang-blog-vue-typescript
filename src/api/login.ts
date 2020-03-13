@@ -1,5 +1,9 @@
-import service from './index'
+import service from "./index";
 
-function login(data) {
-    return service.post('/front/user/test')
+export function login(data):Promise<object> {
+  return service.post("/front/user/test", data, {
+    headers: {
+      'Content-type': 'multipart/form-data'
+    }
+  });
 }

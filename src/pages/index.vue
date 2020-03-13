@@ -3,8 +3,8 @@
     <!-- <div class="canvas">
       <div class="content content--canvas"></div>
     </div> -->
-    <input type="file" @change="test" ref="file"/>
-    <div class="body">
+    <input type="file" @change="test" style="float: left" />
+    <!-- <div class="body"> -->
       <nav class="nav">
         <router-link to="/" class="nav-item">首页</router-link>
         <router-link to="" class="nav-item">动态</router-link>
@@ -14,7 +14,7 @@
         <router-link to="" class="nav-item">关于</router-link>
       </nav>
       <div class="avatar">
-        <img src="../common/static/profile1.jpg" alt="图片加载失败">
+        <img src="../common/static/profile1.jpg" alt="图片加载失败" />
       </div>
     </div>
   </div>
@@ -22,11 +22,15 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import "common/js/canvas.js";
+// import "common/js/canvas.js";
+import { login } from "api/login";
 @Component
 export default class Index extends Vue {
-  test() {
-    console.log(this.$refs.file.files)
+  async test() {
+    const formdata = new FormData()
+    formdata.append("file", event.target.files);
+    const res = await login(formdata)
+    console.log(res)
   }
 }
 </script>

@@ -10,7 +10,6 @@ export interface ResponseData {
 // 创建 axios 实例
 let service: AxiosInstance | any;
 service = axios.create({
-  baseURL: "/api", // api 的 base_url
   timeout: 50000 // 请求超时时间
 });
 
