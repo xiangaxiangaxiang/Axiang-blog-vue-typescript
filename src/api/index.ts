@@ -2,9 +2,9 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Message } from "element-ui";
 
 export interface ResponseData {
-  code: number;
+  status: number;
   data?: any;
-  message: string;
+  msg: string;
 }
 
 // 创建 axios 实例
@@ -32,11 +32,11 @@ service.interceptors.response.use(
     // code == 0: success
     if (res.status === 200) {
       const data: ResponseData = res.data;
-      if (data.code === 0) {
+      if (data.status === 0) {
         return data.data;
       } else {
         Message({
-          message: data.message,
+          message: data.msg,
           type: "error"
         });
       }

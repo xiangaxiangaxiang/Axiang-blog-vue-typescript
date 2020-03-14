@@ -1,10 +1,9 @@
 <template>
   <div class="container">
-    <!-- <div class="canvas">
+    <div class="canvas">
       <div class="content content--canvas"></div>
-    </div> -->
-    <input type="file" @change="test" style="float: left" />
-    <!-- <div class="body"> -->
+    </div>
+    <div class="body">
       <nav class="nav">
         <router-link to="/" class="nav-item">首页</router-link>
         <router-link to="" class="nav-item">动态</router-link>
@@ -22,17 +21,12 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-// import "common/js/canvas.js";
+import "common/js/canvas.js";
 import { login } from "api/login";
+
 @Component
-export default class Index extends Vue {
-  async test() {
-    const formdata = new FormData()
-    formdata.append("file", event.target.files);
-    const res = await login(formdata)
-    console.log(res)
-  }
-}
+export default class Index extends Vue {}
+
 </script>
 <style lang="stylus" scoped>
 @import '../common/stylus/variables'
