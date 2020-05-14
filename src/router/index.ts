@@ -1,21 +1,15 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Index from "pages/index.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import frontRouter from './front'
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "Index",
-    component: Index
-  }
-];
+const routes = [...frontRouter]
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 });
 
 export default router;
