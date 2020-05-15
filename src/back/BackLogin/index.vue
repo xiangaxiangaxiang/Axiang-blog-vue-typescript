@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-15 23:00:51
+ * @LastEditTime: 2020-05-15 23:03:54
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -52,6 +52,10 @@
     import { Component, Vue } from 'vue-property-decorator';
     @Component
     export default class BackLogin extends Vue {
+        private loginForm = {
+            username: '',
+            password: ''
+        }
     }
 </script>
 <style lang="stylus" scoped>
