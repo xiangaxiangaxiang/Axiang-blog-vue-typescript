@@ -3,11 +3,10 @@ import App from './App.vue'
 import router from './router'
 // import store from "./store"
 
+import './plugins/element.js'
 import './plugins/fontawesome'
 import './plugins/md.js'
 
-// eslint-disable-next-line
-// @import './common/stylus/index.styl'
 
 Vue.config.productionTip = false
 

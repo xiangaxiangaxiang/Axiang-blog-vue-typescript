@@ -1,75 +1,279 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-15 23:03:54
+ * @LastEditTime: 2020-05-16 20:05:21
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
 <template>
-    <div class="login-container">
-        <el-form
-            ref="loginForm"
-            :model="loginForm"
-            :rules="loginRules"
-            class="login-form"
-            autocomplete="on"
-            label-position="left"
-        >
-            <div class="title-container">
-                <h3 class="title">
-                    登录
-                </h3>
-            </div>
-            <el-form-item prop="username">
-                <span class="svg-container">
-                    <font-awesome-icon icon="user" />
-                </span>
-                <el-input
-                    ref="username"
-                    v-model="loginForm.username"
-                    placeholder="Username"
-                    name="username"
-                    type="text"
-                />
-            </el-form-item>
-            <el-form-item prop="password">
-                <span class="svg-container">
-                    <font-awesome-icon icon="lock" />
-                </span>
-                <el-input
-                    ref="password"
-                    v-model="loginForm.password"
-                    placeholder="Password"
-                    name="password"
-                    type="password"
-                />
-            </el-form-item>
-        </el-form>
+    <div class="container">
+        <sakura class="sakura" />
+        <div class="form-container">
+            <transition-group
+                name="fade-transform"
+                mode="out-in"
+            >
+                <div
+                    class="login-form"
+                    v-if="showLogin"
+                    key="loginForm"
+                >
+                    <div class="title-container">
+                        <h3 class="title">
+                            Login
+                        </h3>
+                    </div>
+                    <div
+                        class="input-content"
+                        placeholder="Account"
+                        :class="accountFocus ? 'focus': ''"
+                    >
+                        <input
+                            type="text"
+                            v-model="loginForm.username"
+                            @focus="accountFocus = true"
+                            @blur="loginMouseBlur('account')"
+                        >
+                    </div>
+                    <div
+                        class="input-content"
+                        placeholder="Password"
+                        :class="passwordFocus ? 'focus': ''"
+                    >
+                        <input
+                            type="password"
+                            v-model="loginForm.password"
+                            @focus="passwordFocus = true"
+                            @blur="loginMouseBlur('password')"
+                        >
+                    </div>
+                    <button class="login-btn">
+                        Login
+                    </button>
+                    <div class="footer">
+                        <span @click="showLogin = false">
+                            Register
+                        </span>
+                    </div>
+                </div>
+                <div
+                    class="register-form"
+                    v-if="!showLogin"
+                    key="registerForm"
+                >
+                    <div class="title-container">
+                        <h3 class="title">
+                            Register
+                        </h3>
+                    </div>
+                    <div
+                        class="input-content"
+                        placeholder="Nickname"
+                        :class="rgNicknameFocus ? 'focus': ''"
+                    >
+                        <input
+                            type="text"
+                            v-model="registerForm.nickname"
+                            @focus="rgNicknameFocus = true"
+                            @blur="registerMouseBlur('nickname')"
+                        >
+                    </div>
+                    <div
+                        class="input-content"
+                        placeholder="Account"
+                        :class="rgAccountFocus ? 'focus': ''"
+                    >
+                        <input
+                            type="text"
+                            v-model="registerForm.account"
+                            @focus="rgAccountFocus = true"
+                            @blur="registerMouseBlur('account')"
+                        >
+                    </div>
+                    <div
+                        class="input-content"
+                        placeholder="Password"
+                        :class="rgPasswordFocus ? 'focus': ''"
+                    >
+                        <input
+                            type="password"
+                            v-model="registerForm.password"
+                            @focus="rgPasswordFocus = true"
+                            @blur="registerMouseBlur('password')"
+                        >
+                    </div>
+                    <div
+                        class="input-content"
+                        placeholder="Secret"
+                        :class="rgSecretFocus ? 'focus': ''"
+                    >
+                        <input
+                            type="password"
+                            v-model="registerForm.secret"
+                            @focus="rgSecretFocus = true"
+                            @blur="registerMouseBlur('secret')"
+                        >
+                    </div>
+                    <button
+                        class="login-btn"
+                    >
+                        Register
+                    </button>
+                    <div class="footer">
+                        <span @click="showLogin = true">
+                            Login
+                        </span>
+                    </div>
+                </div>
+            </transition-group>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    @Component
+    import Sakura from 'components/Sakura/index.vue'
+    @Component({
+        components: {
+            Sakura
+        }
+    })
     export default class BackLogin extends Vue {
+        private showLogin: boolean = true
+        // 登陆
+        private accountFocus: boolean = false
+        private passwordFocus:boolean = false
         private loginForm = {
-            username: '',
+            account: '',
             password: ''
+        }
+
+        // 注册
+        private rgAccountFocus: boolean = false
+        private rgPasswordFocus:boolean = false
+        private rgNicknameFocus: boolean = false
+        private rgSecretFocus:boolean = false
+        private registerForm = {
+            account: '',
+            password: '',
+            nickname: '',
+            secret: ''
+        }
+
+        loginMouseBlur(type:string): void {
+            if (type === 'account' && this.loginForm.account === '') {
+                this.accountFocus = false
+            }
+            if (type === 'password' && this.loginForm.password === '') {
+                this.passwordFocus = false
+            }
+        }
+
+        registerMouseBlur(type:string): void {
+            if (type === 'account' && this.registerForm.account === '') {
+                this.rgAccountFocus = false
+            }
+            if (type === 'password' && this.registerForm.password === '') {
+                this.rgPasswordFocus = false
+            }
+            if (type === 'nickname' && this.registerForm.nickname === '') {
+                this.rgNicknameFocus = false
+            }
+            if (type === 'secret' && this.registerForm.secret === '') {
+                this.rgSecretFocus = false
+            }
         }
     }
 </script>
 <style lang="stylus" scoped>
-    @import '../../common/stylus/variables.styl';
-    .login-container
+    .container
+        min-height 55rem
         width 100vw
         height 100vh
-        display flex
-        justify-content center
-        align-items center
-        background $loginBg
-        .login-card
-            width 40rem
-            height 30rem
-            background #fff
-            border-radius 1rem
+        position relative
+        .sakura
+            width 100%
+            height 100%
+            position absolute
+            left 0
+            top 0
+            z-index -1
+        .form-container
+            width 100%
+            height 100%
+            position absolute
+            left 0
+            top 0
+            z-index 1
+            .login-form
+                height 30rem
+            .register-form
+                height 45rem
+            .login-form,
+            .register-form
+                margin 15rem auto 0
+                padding 1.5rem 3rem
+                box-sizing border-box
+                width 40rem
+                background rgba(255, 255, 255, .4)
+                border-radius 1rem
+                .title-container
+                    width 100%
+                    height 6.5rem
+                    text-align center
+                    .title
+                        width 100%
+                        height 4rem
+                        line-height 4rem
+                        font-size $fs-lx
+                        color $light-purple
+                        font-weight bold
+                .input-content
+                    width 100%
+                    height 6rem
+                    position relative
+                    &.focus
+                        &::before
+                            font-size $fs-m
+                            top -20%
+                    &::before
+                        content attr(placeholder)
+                        position absolute
+                        left 0
+                        top 10%
+                        font-size $fs-l
+                        color $purple
+                        transition .3s
+                        pointer-events none
+                    input
+                        width 100%
+                        height 3rem
+                        background transparent
+                        border-bottom 1px solid $purple
+                        outline none
+                        font-size $fs-m
+                        caret-color: $light-blue
+                        color #6c5ce7
+                .login-btn
+                    border 0
+                    outline 0
+                    margin 0 auto
+                    width 100%
+                    height 3.5rem
+                    border-radius 3rem
+                    color white
+                    background linear-gradient(90deg, rgb(181,154,254), rgb(245,189,253))
+                    box-shadow 0 0 8px rgb(181,154,254)
+                    cursor pointer
+                .footer
+                    width 100%
+                    height 3rem
+                    margin-top 2.5rem
+                    color $purple
+                    text-align right
+                    span
+                        display inline-block
+                        width 6rem
+                        font-size $fs-ss
+                        cursor pointer
 </style>
