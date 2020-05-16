@@ -61,11 +61,11 @@
         "experimentalObjectRestSpread": true
     },
     "parserOptions": {
-            "parser": "babel-eslint",
-            "ecmaVersion": 6,
-            "ecmaFeatures": {
-                "legacyDecorators": true
-            }
+        "parser": "@typescript-eslint/parser",
+        "ecmaFeatures": {
+            "legacyDecorators": true
+        },
+        "ecmaVersion": 2019
     },
     "extends": [
             "plugin:vue/strongly-recommended"

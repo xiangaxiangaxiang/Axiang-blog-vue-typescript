@@ -5,7 +5,12 @@ import backRouter from './back'
 
 Vue.use(VueRouter);
 
-const routes = [...frontRouter, ...backRouter]
+const routes = [{
+    path: '/',
+    redirect: {
+        name: 'Home'
+    }
+}, ...frontRouter, ...backRouter]
 
 const router = new VueRouter({
     mode: 'history',
