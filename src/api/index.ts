@@ -1,17 +1,29 @@
-import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+// eslint-disable-next-line no-unused-vars
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import qs from 'qs'
+import { Message } from 'element-ui'
 
-const service = axios.create({
-    timeout: 5000
+export interface ResponseData {
+    code: number;
+    data?: any;
+    message: string;
+}
+
+const service: AxiosInstance = axios.create({
+    timeout: 5000,
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
 })
 
 // Request interceptors
 service.interceptors.request.use(
-    (config) => {
+    (config:AxiosRequestConfig) => {
         // Add X-Access-Token header to every request, you can add other custom headers here
         // if (UserModule.token) {
         //     config.headers['X-Access-Token'] = UserModule.token
         // }
+        config.data = qs.stringify(config.data)
         return config
     },
     (error) => {
@@ -21,7 +33,7 @@ service.interceptors.request.use(
 
 // Response interceptors
 service.interceptors.response.use(
-    (response) => {
+    (response:AxiosResponse) => {
     // Some example codes here:
     // code == 20000: success
     // code == 50001: invalid access token
@@ -31,29 +43,15 @@ service.interceptors.response.use(
     // code == 50005: username or password is incorrect
     // You can change this part for your own usage.
         const res = response.data
-        if (res.code !== 20000) {
+        if (res.errorCode !== 0) {
             Message({
                 message: res.message || 'Error',
                 type: 'error',
                 duration: 5 * 1000
             })
-            if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-                MessageBox.confirm(
-                    '你已被登出，可以取消继续留在该页面，或者重新登录',
-                    '确定登出',
-                    {
-                        confirmButtonText: '重新登录',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }
-                ).then(() => {
-                    location.reload() // To prevent bugs from vue-router
-                })
-            }
             return Promise.reject(new Error(res.message || 'Error'))
         }
         return response.data
-
     },
     (error) => {
         Message({

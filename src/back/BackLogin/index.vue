@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-16 20:05:21
+ * @LastEditTime: 2020-05-17 17:59:32
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -100,6 +100,7 @@
                             v-model="registerForm.password"
                             @focus="rgPasswordFocus = true"
                             @blur="registerMouseBlur('password')"
+                            @keyup.enter.native="handleRegister"
                         >
                     </div>
                     <div
@@ -112,10 +113,12 @@
                             v-model="registerForm.secret"
                             @focus="rgSecretFocus = true"
                             @blur="registerMouseBlur('secret')"
+                            @keyup.enter.native="handleRegister"
                         >
                     </div>
                     <button
                         class="login-btn"
+                        @click="handleRegister"
                     >
                         Register
                     </button>
@@ -133,6 +136,15 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import Sakura from 'components/Sakura/index.vue'
+    import { adminRegisterApi } from '@/api/back/userManage'
+
+    type form = {
+        account: string,
+        password: string,
+        secret ?: string,
+        nickname ?: string
+    }
+
     @Component({
         components: {
             Sakura
@@ -183,11 +195,58 @@
                 this.rgSecretFocus = false
             }
         }
+
+        // register
+        async handleRegister() {
+            const result = this.validator(this.registerForm)
+            if (!result.pass) {
+                this.$message.error(result.msg)
+                return
+            }
+            const res = await adminRegisterApi(this.registerForm)
+            try {
+                if (res.errorCode === 0) {
+                    this.$message.success('注册成功')
+                } else {
+                    this.$message.error(res.msg)
+                }
+            } catch (error) {
+                this.$message.error(error.msg)
+            }
+        }
+
+        validator(form:form):{pass: boolean, msg : string} {
+            if (form.account === '') {
+                return {
+                    pass: false,
+                    msg: '账号不能为空'
+                }
+            }
+            if (form.password === '') {
+                return {
+                    pass: false,
+                    msg: '密码不能为空'
+                }
+            }
+            if (typeof form.nickname !== 'undefined' && form.nickname === '') {
+                return {
+                    pass: false,
+                    msg: '密码不能为空'
+                }
+            }
+            if (typeof form.secret !== 'undefined' && form.secret === '') {
+                return {
+                    pass: false,
+                    msg: '密令不能为空'
+                }
+            }
+            return {pass: true, msg: 'pass'}
+        }
     }
 </script>
 <style lang="stylus" scoped>
     .container
-        min-height 55rem
+        min-height 65rem
         width 100vw
         height 100vh
         position relative
@@ -211,7 +270,11 @@
                 height 45rem
             .login-form,
             .register-form
-                margin 15rem auto 0
+                // margin 15rem auto 0
+                position absolute
+                top 15rem
+                left 50%
+                transform translateX(-50%)
                 padding 1.5rem 3rem
                 box-sizing border-box
                 width 40rem
