@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-17 17:59:32
+ * @LastEditTime: 2020-05-18 22:43:03
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -20,12 +20,12 @@
                 >
                     <div class="title-container">
                         <h3 class="title">
-                            Login
+                            登 录
                         </h3>
                     </div>
                     <div
                         class="input-content"
-                        placeholder="Account"
+                        placeholder="账号"
                         :class="accountFocus ? 'focus': ''"
                     >
                         <input
@@ -37,7 +37,7 @@
                     </div>
                     <div
                         class="input-content"
-                        placeholder="Password"
+                        placeholder="密码"
                         :class="passwordFocus ? 'focus': ''"
                     >
                         <input
@@ -48,11 +48,11 @@
                         >
                     </div>
                     <button class="login-btn">
-                        Login
+                        登 录
                     </button>
                     <div class="footer">
                         <span @click="showLogin = false">
-                            Register
+                            注册
                         </span>
                     </div>
                 </div>
@@ -63,12 +63,12 @@
                 >
                     <div class="title-container">
                         <h3 class="title">
-                            Register
+                            注 册
                         </h3>
                     </div>
                     <div
                         class="input-content"
-                        placeholder="Nickname"
+                        placeholder="昵称"
                         :class="rgNicknameFocus ? 'focus': ''"
                     >
                         <input
@@ -80,7 +80,7 @@
                     </div>
                     <div
                         class="input-content"
-                        placeholder="Account"
+                        placeholder="账号"
                         :class="rgAccountFocus ? 'focus': ''"
                     >
                         <input
@@ -92,20 +92,33 @@
                     </div>
                     <div
                         class="input-content"
-                        placeholder="Password"
+                        placeholder="密码"
                         :class="rgPasswordFocus ? 'focus': ''"
                     >
                         <input
                             type="password"
-                            v-model="registerForm.password"
+                            v-model="registerForm.password1"
                             @focus="rgPasswordFocus = true"
-                            @blur="registerMouseBlur('password')"
-                            @keyup.enter.native="handleRegister"
+                            @blur="registerMouseBlur('password1')"
+                            @keyup.enter="handleRegister"
                         >
                     </div>
                     <div
                         class="input-content"
-                        placeholder="Secret"
+                        placeholder="重复密码"
+                        :class="rgRepeatFocus ? 'focus': ''"
+                    >
+                        <input
+                            type="password"
+                            v-model="registerForm.password2"
+                            @focus="rgRepeatFocus = true"
+                            @blur="registerMouseBlur('password2')"
+                            @keyup.enter="handleRegister"
+                        >
+                    </div>
+                    <div
+                        class="input-content"
+                        placeholder="密令"
                         :class="rgSecretFocus ? 'focus': ''"
                     >
                         <input
@@ -113,18 +126,18 @@
                             v-model="registerForm.secret"
                             @focus="rgSecretFocus = true"
                             @blur="registerMouseBlur('secret')"
-                            @keyup.enter.native="handleRegister"
+                            @keyup.enter="handleRegister"
                         >
                     </div>
                     <button
                         class="login-btn"
                         @click="handleRegister"
                     >
-                        Register
+                        注 册
                     </button>
                     <div class="footer">
                         <span @click="showLogin = true">
-                            Login
+                            登录
                         </span>
                     </div>
                 </div>
@@ -140,7 +153,9 @@
 
     type form = {
         account: string,
-        password: string,
+        password?: string,
+        password1?: string,
+        password2?: string,
         secret ?: string,
         nickname ?: string
     }
@@ -164,10 +179,12 @@
         private rgAccountFocus: boolean = false
         private rgPasswordFocus:boolean = false
         private rgNicknameFocus: boolean = false
+        private rgRepeatFocus: boolean = false
         private rgSecretFocus:boolean = false
         private registerForm = {
             account: '',
-            password: '',
+            password1: '',
+            password2: '',
             nickname: '',
             secret: ''
         }
@@ -185,8 +202,11 @@
             if (type === 'account' && this.registerForm.account === '') {
                 this.rgAccountFocus = false
             }
-            if (type === 'password' && this.registerForm.password === '') {
+            if (type === 'password1' && this.registerForm.password1 === '') {
                 this.rgPasswordFocus = false
+            }
+            if (type === 'password2' && this.registerForm.password2 === '') {
+                this.rgRepeatFocus = false
             }
             if (type === 'nickname' && this.registerForm.nickname === '') {
                 this.rgNicknameFocus = false
@@ -215,23 +235,46 @@
             }
         }
 
+        /**
+         * @description: 插个眼，以后回来补充重写验证器，这样硬来太笨比了
+         * @param {type}
+         * @return:
+         */
         validator(form:form):{pass: boolean, msg : string} {
+            if (typeof form.nickname !== 'undefined' && form.nickname === '') {
+                return {
+                    pass: false,
+                    msg: '昵称不能为空'
+                }
+            }
             if (form.account === '') {
                 return {
                     pass: false,
                     msg: '账号不能为空'
                 }
             }
-            if (form.password === '') {
+            if (typeof form.password !== 'undefined' && form.password === '') {
                 return {
                     pass: false,
                     msg: '密码不能为空'
                 }
             }
-            if (typeof form.nickname !== 'undefined' && form.nickname === '') {
+            if (typeof form.password1 !== 'undefined' && form.password1 === '') {
                 return {
                     pass: false,
                     msg: '密码不能为空'
+                }
+            }
+            if (typeof form.password2 !== 'undefined' && form.password2 === '') {
+                return {
+                    pass: false,
+                    msg: '密码不能为空'
+                }
+            }
+            if (form.password2 !== form.password1) {
+                return {
+                    pass: false,
+                    msg: '两次输入的密码不一致'
                 }
             }
             if (typeof form.secret !== 'undefined' && form.secret === '') {
@@ -267,7 +310,7 @@
             .login-form
                 height 30rem
             .register-form
-                height 45rem
+                height 48rem
             .login-form,
             .register-form
                 // margin 15rem auto 0
