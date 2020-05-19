@@ -54,12 +54,33 @@ service.interceptors.response.use(
         return response.data
     },
     (error) => {
-        Message({
-            message: error.message,
-            type: 'error',
-            duration: 5 * 1000
-        })
-        return Promise.reject(error)
+        if (error.response && error.response.data) {
+            const res = error.response.data
+            const baseMsg = `errorcode ${res.status}!`
+            let msg:string = ''
+            if (res.msg instanceof Array && res.msg.length > 0) {
+                msg += baseMsg
+                for (let i = 0; i < res.msg.length; i ++) {
+                    msg += ` (${i+1}) ${res.msg[i]}`
+                }
+                Message({
+                    message: msg,
+                    type: 'error'
+                })
+            } else if (typeof res.msg === 'string') {
+                msg = `${baseMsg} ${res.msg}`
+                Message({
+                    message: msg,
+                    type: 'error'
+                })
+            }
+        } else {
+            Message({
+                message: error.message,
+                type: 'error',
+                duration: 5 * 1000
+            })
+        }
     }
 )
 

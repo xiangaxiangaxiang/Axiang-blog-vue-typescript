@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-18 22:43:03
+ * @LastEditTime: 2020-05-19 22:41:58
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -30,7 +30,7 @@
                     >
                         <input
                             type="text"
-                            v-model="loginForm.username"
+                            v-model="loginForm.account"
                             @focus="accountFocus = true"
                             @blur="loginMouseBlur('account')"
                         >
@@ -45,9 +45,13 @@
                             v-model="loginForm.password"
                             @focus="passwordFocus = true"
                             @blur="loginMouseBlur('password')"
+                            @keyup.enter="handleLogin"
                         >
                     </div>
-                    <button class="login-btn">
+                    <button
+                        class="login-btn"
+                        @click="handleLogin"
+                    >
                         登 录
                     </button>
                     <div class="footer">
@@ -149,7 +153,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import Sakura from 'components/Sakura/index.vue'
-    import { adminRegisterApi } from '@/api/back/userManage'
+    import { adminRegisterApi, adminLogin } from '@/api/back/userManage'
 
     type form = {
         account: string,
@@ -213,6 +217,24 @@
             }
             if (type === 'secret' && this.registerForm.secret === '') {
                 this.rgSecretFocus = false
+            }
+        }
+
+        async handleLogin() {
+            const result = this.validator(this.loginForm)
+            if (!result.pass) {
+                this.$message.error(result.msg)
+                return
+            }
+            try {
+                const res = await adminLogin(this.loginForm)
+                if (res.errorCode === 0) {
+                    this.$message.success('注册成功')
+                } else {
+                    this.$message.error(res.msg)
+                }
+            } catch (error) {
+                this.$message.error(error.msg)
             }
         }
 
