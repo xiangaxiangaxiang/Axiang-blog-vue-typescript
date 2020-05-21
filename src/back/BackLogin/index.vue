@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-19 22:41:58
+ * @LastEditTime: 2020-05-21 22:25:21
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -226,16 +226,17 @@
                 this.$message.error(result.msg)
                 return
             }
-            try {
-                const res = await adminLogin(this.loginForm)
-                if (res.errorCode === 0) {
-                    this.$message.success('注册成功')
-                } else {
-                    this.$message.error(res.msg)
-                }
-            } catch (error) {
-                this.$message.error(error.msg)
-            }
+            const res = await adminLogin(this.loginForm)
+            console.log(res)
+            // try {
+            //     if (res.errorCode === 0) {
+            //         this.$message.success('登陆成功')
+            //     } else {
+            //         this.$message.error(res.msg)
+            //     }
+            // } catch (error) {
+            //     console.log(error)
+            // }
         }
 
         // register

@@ -42,15 +42,15 @@ service.interceptors.response.use(
     // code == 50004: invalid user (user not exist)
     // code == 50005: username or password is incorrect
     // You can change this part for your own usage.
-        const res = response.data
-        if (res.errorCode !== 0) {
-            Message({
-                message: res.message || 'Error',
-                type: 'error',
-                duration: 5 * 1000
-            })
-            return Promise.reject(new Error(res.message || 'Error'))
-        }
+        // const res = response.data
+        // if (res.errorCode !== 0) {
+        //     Message({
+        //         message: res.message || 'Error',
+        //         type: 'error',
+        //         duration: 5 * 1000
+        //     })
+        //     return Promise.reject(new Error(res.message || 'Error'))
+        // }
         return response.data
     },
     (error) => {
@@ -81,6 +81,7 @@ service.interceptors.response.use(
                 duration: 5 * 1000
             })
         }
+        // return Promise.reject(error)
     }
 )
 
