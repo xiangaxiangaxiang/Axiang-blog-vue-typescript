@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-21 22:25:21
+ * @LastEditTime: 2020-05-26 22:21:42
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -152,6 +152,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
+    import md5 from 'md5'
     import Sakura from 'components/Sakura/index.vue'
     import { adminRegisterApi, adminLogin } from '@/api/back/userManage'
 
@@ -226,17 +227,13 @@
                 this.$message.error(result.msg)
                 return
             }
-            const res = await adminLogin(this.loginForm)
-            console.log(res)
-            // try {
-            //     if (res.errorCode === 0) {
-            //         this.$message.success('登陆成功')
-            //     } else {
-            //         this.$message.error(res.msg)
-            //     }
-            // } catch (error) {
-            //     console.log(error)
-            // }
+            const loginData = Object.assign({}, this.loginForm, {
+                password: md5(this.loginForm.password)
+            })
+            const res = await adminLogin(loginData)
+            if (res && res.status === 0) {
+                this.$message.success('登录成功')
+            }
         }
 
         // register
@@ -246,7 +243,11 @@
                 this.$message.error(result.msg)
                 return
             }
-            const res = await adminRegisterApi(this.registerForm)
+            const registerData = Object.assign({}, this.registerForm, {
+                password1: md5(this.registerForm.password1),
+                password2: md5(this.registerForm.password1)
+            })
+            const res = await adminRegisterApi(registerData)
             try {
                 if (res.errorCode === 0) {
                     this.$message.success('注册成功')
