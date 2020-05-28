@@ -11,10 +11,8 @@
 </script>
 
 <style lang="stylus">
-@import './common/stylus/index.styl';
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+    @import './common/stylus/index.styl';
+    #app
+        width 100%
+        height 100vh
 </style>
