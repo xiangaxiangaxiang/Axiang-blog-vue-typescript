@@ -1,7 +1,7 @@
 /*
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:40:44
- * @LastEditTime: 2020-05-28 22:03:19
+ * @LastEditTime: 2020-05-31 12:53:41
  * @Description: 后台管理路由
  * @FilePath: \axiang-blog-vue-typescript\src\router\back.ts
  */
@@ -27,7 +27,7 @@ const backRouter: RouteConfig[] = [{
         name: 'AdminHome',
         component: () => import('back/home/index.vue'),
         meta: {
-            title: '后台管理登陆'
+            title: '首页'
         }
     }]
 }]
