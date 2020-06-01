@@ -1,7 +1,7 @@
 /*
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:40:44
- * @LastEditTime: 2020-05-31 12:53:41
+ * @LastEditTime: 2020-06-01 22:21:27
  * @Description: 后台管理路由
  * @FilePath: \axiang-blog-vue-typescript\src\router\back.ts
  */
@@ -22,12 +22,17 @@ const backRouter: RouteConfig[] = [{
     redirect: {
         name: 'AdminHome'
     },
+    meta: {
+        title: '首页',
+        icon: 'home'
+    },
     children: [{
         path: '/admin/home',
         name: 'AdminHome',
         component: () => import('back/home/index.vue'),
         meta: {
-            title: '首页'
+            title: '首页',
+            icon: 'home'
         }
     }]
 }]
