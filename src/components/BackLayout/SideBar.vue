@@ -1,33 +1,47 @@
 <template>
-    <div class="side-bar">
+    <el-scrollbar wrap-class="scrollbar-wrapper">
         <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
+            :default-active="activeRoute"
+            class="menu"
+            background-color="#304156"
+            text-color="#bfcbd9"
+            active-text-color="#409EFF"
+            :router="true"
         >
-            <el-submenu
-                v-for="(router, index) in routerList"
-                :key="index"
-                index="2"
-            >
-                <template slot="title">
-                    <font-awesome-icon :icon="router.icon" />
-                    <span>
-                        {{ router.name }}
+            <template v-for="item in routerList">
+                <el-menu-item
+                    :index="item.path"
+                    v-if="!item.children"
+                    :key="item.title"
+                >
+                    <font-awesome-icon :icon="item.icon" />
+                    <span slot="title">
+                        {{ item.title }}
                     </span>
-                </template>
-                <el-menu-item-group v-if="router.children">
+                </el-menu-item>
+                <el-submenu
+                    v-else
+                    :index="item.path"
+                    :key="item.title"
+                >
+                    <template slot="title">
+                        <font-awesome-icon :icon="item.icon" />&nbsp;
+                        <span>{{ item.title }}</span>
+                    </template>
                     <el-menu-item
-                        v-for="(child, childIndex) in router.children"
-                        :key="child.name + childIndex"
-                        :index="index + '-' + childIndex"
+                        v-for="child in item.children"
+                        :index="child.path"
+                        :key="child.title"
                     >
-                        <font-awesome-icon :icon="child.icon" />
-                        {{ child.name }}
+                        <font-awesome-icon :icon="child.icon" />&nbsp;&nbsp;
+                        <span slot="title">
+                            {{ child.title }}
+                        </span>
                     </el-menu-item>
-                </el-menu-item-group>
-            </el-submenu>
+                </el-submenu>
+            </template>
         </el-menu>
-    </div>
+    </el-scrollbar>
 </template>
 
 <script lang="ts">
@@ -39,23 +53,30 @@
     export default class SideBar extends Vue {
         private routerList:string[] = []
 
+        get activeRoute():string {
+            return this.$route.path
+        }
+
         mounted() {
             backRouter.forEach(item => {
                 let router
                 if (item.children && item.children.length > 1) {
                     router = {
-                        name: item.meta.title,
+                        title: item.meta.title,
                         icon: item.meta.icon,
+                        path: item.path,
                         children: item.children.map(child => {
                             return {
-                                name: child.meta.title,
+                                path: child.path,
+                                title: child.meta.title,
                                 icon: child.meta.icon
                             }
                         })
                     }
                 } else if (item.children && item.children.length === 1) {
                     router = {
-                        name: item.meta.title,
+                        path: item.path,
+                        title: item.meta.title,
                         icon: item.meta.icon
                     }
                 }
@@ -66,5 +87,25 @@
         }
     }
 </script>
+
 <style lang="stylus" scoped>
+    .menu
+        height 100vh
+        width 100%
+    .el-scrollbar
+        height 100%
+</style>
+
+<style lang="stylus">
+    .scrollbar-wrapper
+        overflow-x hidden !important
+    .el-scrollbar__bar.is-vertical
+        right: 0px
+    .el-scrollbar
+        height: 100%
+    .el-scrollbar__bar
+        &.is-vertical
+            right: 0px
+        &.is-horizontal
+            display: none
 </style>

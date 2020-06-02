@@ -1,21 +1,23 @@
 <!--
  * @Author: your name
- * @Date: 2020-05-28 22:02:42
- * @LastEditTime: 2020-06-02 21:45:21
+ * @Date: 2020-06-02 21:39:56
+ * @LastEditTime: 2020-06-02 21:45:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \axiang-blog-vue-typescript\src\back\home\index.vue
+ * @FilePath: \axiang-blog-vue-typescript\src\back\Article\ArticleManage.vue
 -->
 <template>
-    <div class="hone-container">
+    <div class="">
         hello
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    @Component
-    export default class Home extends Vue {
+    @Component({
+        name: ''
+    })
+    export default class ArticleManage extends Vue {
     }
 </script>
 <style lang="stylus" scoped>

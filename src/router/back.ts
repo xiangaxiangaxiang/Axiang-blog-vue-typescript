@@ -1,7 +1,7 @@
 /*
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:40:44
- * @LastEditTime: 2020-06-01 22:21:27
+ * @LastEditTime: 2020-06-02 21:43:32
  * @Description: 后台管理路由
  * @FilePath: \axiang-blog-vue-typescript\src\router\back.ts
  */
@@ -29,10 +29,37 @@ const backRouter: RouteConfig[] = [{
     children: [{
         path: '/admin/home',
         name: 'AdminHome',
-        component: () => import('back/home/index.vue'),
+        component: () => import('back/Home/index.vue'),
         meta: {
             title: '首页',
             icon: 'home'
+        }
+    }]
+}, {
+    path: '/admin/article',
+    component: Layout,
+    redirect: {
+        name: 'ArticleManagement'
+    },
+    meta: {
+        title: '文章管理',
+        icon: 'book-open'
+    },
+    children: [{
+        path: '/admin/article/manage',
+        name: 'ArticleManagement',
+        component: () => import('back/Article/ArticleManage.vue'),
+        meta: {
+            title: '文章列表',
+            icon: 'list-ul'
+        }
+    }, {
+        path: '/admin/article/edit',
+        name: 'EditArticle',
+        component: () => import('back/Article/ArticleManage.vue'),
+        meta: {
+            title: '编辑文章',
+            icon: 'edit'
         }
     }]
 }]
