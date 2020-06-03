@@ -1,9 +1,8 @@
 <!--
- * @Author: your name
+ * @Author: 翔阿翔阿翔
  * @Date: 2020-05-28 21:56:52
  * @LastEditTime: 2020-05-28 22:31:37
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
  * @FilePath: \axiang-blog-vue-typescript\src\components\BackLayout\index.vue
 -->
 <template>
