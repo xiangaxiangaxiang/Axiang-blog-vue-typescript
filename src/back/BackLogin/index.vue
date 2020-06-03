@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-05-26 22:21:42
+ * @LastEditTime: 2020-06-03 21:52:28
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -379,7 +379,7 @@
                         width 100%
                         height 3rem
                         background transparent
-                        border-bottom 1px solid $purple
+                        border-bottom .1rem solid $purple
                         outline none
                         font-size $fs-m
                         caret-color: $light-blue
@@ -393,7 +393,7 @@
                     border-radius 3rem
                     color white
                     background linear-gradient(90deg, rgb(181,154,254), rgb(245,189,253))
-                    box-shadow 0 0 8px rgb(181,154,254)
+                    box-shadow 0 0 .8rem rgb(181,154,254)
                     cursor pointer
                 .footer
                     width 100%

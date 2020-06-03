@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-28 21:56:52
- * @LastEditTime: 2020-05-28 22:31:37
+ * @LastEditTime: 2020-06-03 20:34:27
  * @LastEditors: Please set LastEditors
  * @FilePath: \axiang-blog-vue-typescript\src\components\BackLayout\index.vue
 -->
@@ -25,9 +25,7 @@
             SideBar
         }
     })
-    export default class Layout extends Vue {
-
-    }
+    export default class Layout extends Vue {}
 </script>
 <style lang="stylus" scoped>
     .layout-container
@@ -41,4 +39,6 @@
             bottom 0
             overflow hidden
             background $sidebarColor
+        .main-container
+            margin-left $sidebarWidth
 </style>

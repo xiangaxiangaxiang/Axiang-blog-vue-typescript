@@ -1,14 +1,14 @@
 <!--
- * @Author: your name
+ * @Author: 翔阿翔阿翔
  * @Date: 2020-05-28 21:57:59
- * @LastEditTime: 2020-05-28 22:03:08
+ * @LastEditTime: 2020-06-03 21:56:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \axiang-blog-vue-typescript\src\components\BackLayout\TopBar.vue
---> 
+-->
 <template>
     <header class="layout-header">
-        <div class="bar-title color_blue">
+        <div class="bar-title color-blue">
             <font-awesome-icon :icon="icon" />&nbsp;
             {{ title }}
         </div>
@@ -16,14 +16,27 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+    import { Component, Vue, Watch } from 'vue-property-decorator';
     @Component
     export default class TopBar extends Vue {
+        private title:string = ''
+        private icon:string = ''
+
+        created() {
+            this.title = this.$route.meta.title
+            this.icon = this.$route.meta.icon
+        }
+
+        @Watch('$route')
+        private changeTitle() {
+            this.title = this.$route.meta.title
+            this.icon = this.$route.meta.icon
+        }
     }
 </script>
 <style lang="stylus" scoped>
     .layout-header
-        height 50px
+        height 5rem
         overflow hidden
         position relative
         background #fff
@@ -31,7 +44,8 @@
         .bar-title
             float left
             height 100%
-            line-height 50px
-            min-width 100px
-            margin-left 30px
+            line-height 5rem
+            min-width 10rem
+            margin-left 3rem
+            font-size $fs-ss
 </style>
