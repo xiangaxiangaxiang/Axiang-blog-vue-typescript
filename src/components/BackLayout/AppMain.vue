@@ -5,16 +5,31 @@
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \axiang-blog-vue-typescript\src\components\BackLayout\AppMain.vue
---> 
+-->
 <template>
-    <div class=""></div>
+    <section class="app-main">
+        <transition
+            name="fade-transform"
+            mode="out-in"
+        >
+            <router-view :key="key" />
+        </transition>
+    </section>
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator';
     @Component
     export default class AppMain extends Vue {
+        get key() {
+            return this.$route.path
+        }
     }
 </script>
 <style lang="stylus" scoped>
+    .app-main
+        min-height calc(100vh - 5rem);
+        width 100%
+        box-sizing border-box
+        overflow hidden
 </style>

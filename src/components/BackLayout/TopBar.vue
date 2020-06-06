@@ -12,6 +12,31 @@
             <font-awesome-icon :icon="icon" />&nbsp;
             {{ title }}
         </div>
+        <div class="right-menu pull-right">
+            <el-dropdown
+                trigger="click"
+                class="right-menu-item"
+                placement="bottom-start"
+            >
+                <div class="avatar-wrapper">
+                    <img
+                        :src="avatar"
+                        class="user-avatar"
+                    >
+                    <i class="el-icon-caret-bottom" />
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                        divided
+                        @click.native="logout"
+                    >
+                        <span style="display:block;">
+                            登 出
+                        </span>
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </div>
     </header>
 </template>
 
@@ -21,6 +46,7 @@
     export default class TopBar extends Vue {
         private title:string = ''
         private icon:string = ''
+        private avatar:string = 'https://avatars2.githubusercontent.com/u/42111444?s=60&v=4'
 
         created() {
             this.title = this.$route.meta.title
@@ -32,8 +58,14 @@
             this.title = this.$route.meta.title
             this.icon = this.$route.meta.icon
         }
+
+        logout() {
+            sessionStorage.clear()
+            this.$router.push('/adminLogin')
+        }
     }
 </script>
+
 <style lang="stylus" scoped>
     .layout-header
         height 5rem
@@ -47,5 +79,21 @@
             line-height 5rem
             min-width 10rem
             margin-left 3rem
-            font-size $fs-ss
+            font-size $fs-s
+        .right-menu
+            height 100%
+            width 100px
+            .right-menu-item
+                width 100%
+                height 100%
+                .avatar-wrapper
+                    width 50px
+                    height 100%
+                    display flex
+                    align-items center
+                    cursor pointer
+                    img
+                        width 30px
+                        height 30px
+                        border-radius 50%
 </style>
