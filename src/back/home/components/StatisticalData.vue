@@ -152,13 +152,13 @@
 </script>
 <style lang="stylus" scoped>
     .panel-group
-        margin-top 40px
+        margin-top 2rem
         .card-panel-col
-            margin-bottom 32px
+            margin-bottom 3.2rem
         .card-panel
-            height 108px
+            height 11rem
             cursor pointer
-            font-size 12px
+            font-size 1.2rem
             position relative
             overflow hidden
             color #666
@@ -186,25 +186,25 @@
                 color #34bfa3
             .card-panel-icon-wrapper
                 float left
-                margin 14px 0 0 14px
-                padding 16px
+                margin 1.4rem 0 0 1.4rem
+                padding 1.6rem
                 transition all 0.38s ease-out
-                border-radius 6px
+                border-radius 0.6rem
             .card-panel-icon
                 float left
-                font-size 48px
+                font-size 4.8rem
             .card-panel-description
                 float right
                 font-weight bold
-                margin 26px
+                margin 2.6rem
                 margin-left 0px
                 .card-panel-text
-                    line-height 18px
+                    line-height 1.8rem
                     color rgba(0, 0, 0, 0.45)
                     font-size 16px
-                    margin-bottom 12px
+                    margin-bottom 1.2rem
                 .card-panel-num
-                    font-size 20px
+                    font-size 2rem
 
     @media (max-width550px)
         .card-panel-description
@@ -216,6 +216,6 @@
             margin 0 !important
             .svg-icon
                 display block
-                margin 14px auto !important
+                margin 1.4rem auto !important
                 float none !important
 </style>

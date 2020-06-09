@@ -1,15 +1,15 @@
 <template>
     <div class="hot-spot">
         <h1 class="title text-bold">
-            热门文章
+            活跃用户
         </h1>
         <el-table
-            :data="articles"
+            :data="users"
             style="width: 100%;padding-top: 1.5rem;"
             height="calc(100% - 3.5rem)"
         >
             <el-table-column
-                label="文章标题"
+                label="用户名"
             >
                 <template slot-scope="{row}">
                     {{ row.title }}
@@ -43,7 +43,7 @@
         name: 'StatisticalData'
     })
     export default class HotSpot extends Vue {
-        private articles:{title: string, likes: number, comments: number}[] = []
+        private users:{nickname: string, likes: number, comments: number}[] = []
     }
 </script>
 

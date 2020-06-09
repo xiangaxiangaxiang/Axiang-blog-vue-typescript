@@ -29,7 +29,7 @@
                 :lg="{span: 12}"
                 :xl="{span: 12}"
             >
-                <hot-spot />
+                <active-user />
             </el-col>
         </el-row>
     </div>
@@ -40,12 +40,14 @@
     import StatisticalData from './components/StatisticalData.vue'
     import BarChart from './components/BarChart.vue'
     import HotSpot from './components/HotSpot.vue'
+    import ActiveUser from './components/ActiveUser.vue'
     @Component({
         name: 'Home',
         components: {
             StatisticalData,
             BarChart,
-            HotSpot
+            HotSpot,
+            ActiveUser
         }
     })
     export default class Home extends Vue {
@@ -59,7 +61,7 @@
         min-height calc(100vh - 5rem)
         .chart-wrapper
             width 100%
-            height 40rem
+            height 35rem
             background #fff
             padding 1.5rem
             margin-bottom 3.2rem
