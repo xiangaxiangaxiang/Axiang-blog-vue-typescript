@@ -12,6 +12,26 @@
         <div class="chart-wrapper">
             <bar-chart />
         </div>
+        <el-row :gutter="40">
+            <el-col
+                :xs="{span: 24}"
+                :sm="{span: 24}"
+                :md="{span: 24}"
+                :lg="{span: 12}"
+                :xl="{span: 12}"
+            >
+                <hot-spot />
+            </el-col>
+            <el-col
+                :xs="{span: 24}"
+                :sm="{span: 24}"
+                :md="{span: 24}"
+                :lg="{span: 12}"
+                :xl="{span: 12}"
+            >
+                <hot-spot />
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -19,11 +39,13 @@
     import { Component, Vue } from 'vue-property-decorator'
     import StatisticalData from './components/StatisticalData.vue'
     import BarChart from './components/BarChart.vue'
+    import HotSpot from './components/HotSpot.vue'
     @Component({
         name: 'Home',
         components: {
             StatisticalData,
-            BarChart
+            BarChart,
+            HotSpot
         }
     })
     export default class Home extends Vue {
@@ -40,4 +62,5 @@
             height 40rem
             background #fff
             padding 1.5rem
+            margin-bottom 3.2rem
 </style>
