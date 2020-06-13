@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-05-28 22:02:42
- * @LastEditTime: 2020-06-07 14:35:09
+ * @LastEditTime: 2020-06-13 21:39:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \axiang-blog-vue-typescript\src\back\home\index.vue
@@ -10,7 +10,9 @@
     <div class="home-container">
         <statistical-data />
         <div class="chart-wrapper">
-            <bar-chart />
+            <bar-chart
+                :active-chart="activeChart"
+            />
         </div>
         <el-row :gutter="40">
             <el-col
@@ -41,6 +43,8 @@
     import BarChart from './components/BarChart.vue'
     import HotSpot from './components/HotSpot.vue'
     import ActiveUser from './components/ActiveUser.vue'
+
+    import { getMonthlyStatisticsApi } from '@/api/back/statistics'
     @Component({
         name: 'Home',
         components: {
@@ -51,6 +55,20 @@
         }
     })
     export default class Home extends Vue {
+        private monthlyStatistics:object = {}
+        private activeChart:{'date':string, nums: number}[] = []
+
+        mounted() {
+            this.getMonthlyStatistics()
+        }
+
+        async getMonthlyStatistics() {
+            const res = await getMonthlyStatisticsApi()
+            if (res.status && res.data) {
+                this.monthlyStatistics = res.data
+                this.activeChart = res.data.webHits
+            }
+        }
     }
 </script>
 <style lang="stylus" scoped>

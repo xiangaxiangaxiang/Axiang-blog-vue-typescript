@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-06-06 18:03:55
- * @LastEditTime: 2020-06-06 18:03:55
+ * @LastEditTime: 2020-06-13 15:12:50
  * @LastEditors: Please set LastEditors
  * @Description: 统计数据
  * @FilePath: \axiang-blog-vue-typescript\src\back\home\components\StatisticalData.vue
@@ -133,6 +133,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
     import CountTo from 'vue-count-to'
+    import { getTotalApi } from '../../../api/back/statistics'
     @Component({
         name: 'StatisticalData',
         components: {
@@ -144,6 +145,20 @@
         private likes:number = 0
         private comments:number = 0
         private articleHits:number = 0
+
+        mounted() {
+            this.getTotal()
+        }
+
+        async getTotal() {
+            const res = await getTotalApi()
+            if (res.status === 0 && res.data) {
+                this.webHits = res.data.webHitsTotal
+                this.likes = res.data.likesTotal
+                this.comments = res.data.commentsTotal
+                this.articleHits = res.data.articleHitsTotal
+            }
+        }
 
         getWeekData(type): void {
             this.$emit('getWeekData', type)
