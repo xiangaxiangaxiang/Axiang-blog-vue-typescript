@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-15 22:26:12
- * @LastEditTime: 2020-06-03 21:52:28
+ * @LastEditTime: 2020-06-14 13:37:40
  * @Description: 后台登陆页
  * @FilePath: \axiang-blog-vue-typescript\src\back\BackLogin\index.vue
 -->
@@ -233,6 +233,7 @@
             const res = await adminLogin(loginData)
             if (res && res.status === 0) {
                 this.$message.success('登录成功')
+                sessionStorage.setItem('token', res.data.token)
             }
         }
 

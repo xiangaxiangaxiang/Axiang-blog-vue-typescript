@@ -1,17 +1,18 @@
 <!--
  * @Author: your name
  * @Date: 2020-05-28 22:02:42
- * @LastEditTime: 2020-06-13 21:39:55
+ * @LastEditTime: 2020-06-14 13:08:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \axiang-blog-vue-typescript\src\back\home\index.vue
 -->
 <template>
     <div class="home-container">
-        <statistical-data />
+        <statistical-data @changeStatistical="changeStatistical" />
         <div class="chart-wrapper">
             <bar-chart
                 :active-chart="activeChart"
+                :type="statisticsType"
             />
         </div>
         <el-row :gutter="40">
@@ -57,6 +58,7 @@
     export default class Home extends Vue {
         private monthlyStatistics:object = {}
         private activeChart:{'date':string, nums: number}[] = []
+        private statisticsType: string = 'webHits'
 
         mounted() {
             this.getMonthlyStatistics()
@@ -64,10 +66,15 @@
 
         async getMonthlyStatistics() {
             const res = await getMonthlyStatisticsApi()
-            if (res.status && res.data) {
+            if (res.status === 0 && res.data) {
                 this.monthlyStatistics = res.data
                 this.activeChart = res.data.webHits
             }
+        }
+
+        changeStatistical(type) {
+            this.activeChart = this.monthlyStatistics[type]
+            this.statisticsType = type
         }
     }
 </script>

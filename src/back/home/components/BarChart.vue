@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
     import echarts from 'echarts'
     require('echarts/theme/macarons') // echarts theme
     require('echarts/lib/chart/bar')
@@ -15,23 +15,35 @@
         name: 'BarChart'
     })
     export default class BarChart extends Vue {
+
+        @Prop({default: () => []}) private activeChart!:{'date':string, nums: number}[]
+        @Prop({default: 'webHits'}) private type!:string
+
         private chart:any = null
         private list: {date:string,value:number}[] = []
 
-        created() {
-            for (let i = 0; i < 30; i++) {
-                let item = {
-                    date: `2020-06-${i.toString().padStart(2, '0')}`,
-                    value: Math.floor(50 * Math.random())
-                }
-                this.list.push(item)
+        get chartType() {
+            switch (this.type) {
+                case 'webHits':
+                    return '网站访问量'
+                case 'likes':
+                    return '点赞数'
+                case 'comments':
+                    return '评论数'
+                case 'articleHits':
+                    return '文章点击数'
+                default:
+                    return ''
             }
         }
-        mounted() {
-            this.$nextTick(() => {
+
+        @Watch('activeChart', {deep: true})
+        reloadChart(newValue:object[]) {
+            if (newValue.length > 0) {
                 this.initChart()
-            })
+            }
         }
+
         beforeDestroy() {
             if (!this.chart) {
                 return
@@ -42,6 +54,9 @@
         initChart():void {
             this.chart = echarts.init(this.$el, 'macarons')
             this.chart.setOption({
+                title: {
+                    text: this.chartType
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -49,7 +64,7 @@
                     }
                 },
                 grid: {
-                    top: 10,
+                    top: 50,
                     left: '2%',
                     right: '2%',
                     bottom: '3%',
@@ -57,7 +72,7 @@
                 },
                 xAxis: [{
                     type: 'category',
-                    data: this.list.map(item => item.date),
+                    data: this.activeChart.map(item => item.date),
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -73,7 +88,7 @@
                     type: 'bar',
                     stack: 'vistors',
                     barWidth: '60%',
-                    data: this.list.map(item => item.value),
+                    data: this.activeChart.map(item => item.nums),
                     animationDuration
                 }]
             })

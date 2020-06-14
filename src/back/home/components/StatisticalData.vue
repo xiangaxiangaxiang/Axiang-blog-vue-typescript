@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-06-06 18:03:55
- * @LastEditTime: 2020-06-13 15:12:50
+ * @LastEditTime: 2020-06-14 12:49:44
  * @LastEditors: Please set LastEditors
  * @Description: 统计数据
  * @FilePath: \axiang-blog-vue-typescript\src\back\home\components\StatisticalData.vue
@@ -19,7 +19,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('webHits')"
+                @click="changeStatistical('webHits')"
             >
                 <div class="card-panel-icon-wrapper icon-people">
                     <font-awesome-icon
@@ -48,7 +48,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('likes')"
+                @click="changeStatistical('likes')"
             >
                 <div class="card-panel-icon-wrapper icon-message">
                     <font-awesome-icon
@@ -77,7 +77,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('comments')"
+                @click="changeStatistical('comments')"
             >
                 <div class="card-panel-icon-wrapper icon-money">
                     <font-awesome-icon
@@ -106,7 +106,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('articleHits')"
+                @click="changeStatistical('articleHits')"
             >
                 <div class="card-panel-icon-wrapper icon-shopping">
                     <font-awesome-icon
@@ -160,8 +160,8 @@
             }
         }
 
-        getWeekData(type): void {
-            this.$emit('getWeekData', type)
+        changeStatistical(type): void {
+            this.$emit('changeStatistical', type)
         }
     }
 </script>
