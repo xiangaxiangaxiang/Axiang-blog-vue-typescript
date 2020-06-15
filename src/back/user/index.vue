@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-06-14 13:24:48
- * @LastEditTime: 2020-06-14 16:59:12
+ * @LastEditTime: 2020-06-15 20:51:02
  * @LastEditors: Please set LastEditors
  * @FilePath: \axiang-blog-vue-typescript\src\back\user\index.vue
 -->
@@ -61,7 +61,7 @@
         private loading:boolean = false
         // 分页参数
         private currentPage:number = 1
-        private pageSize:number = 5
+        private pageSize:number = 20
         private total:number = 0
 
         beforeMount() {
@@ -76,7 +76,7 @@
             }
             const res = await getUserListApi(params)
             this.loading = false
-            if (res.status === 0) {
+            if (res && res.status === 0) {
                 this.userList = res.data.userList
                 this.total = res.data.total
             }
