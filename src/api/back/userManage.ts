@@ -7,11 +7,9 @@
  */
 import service from '../index'
 
-service.defaults.baseURL = '/back/user'
-
 export function adminRegisterApi(data) {
     return service({
-        url: '/admin_register',
+        url: '/back/user/admin_register',
         method: 'post',
         data
     })
@@ -19,7 +17,31 @@ export function adminRegisterApi(data) {
 
 export function adminLogin(data) {
     return service({
-        url: '/admin_login',
+        url: '/back/user/admin_login',
+        method: 'post',
+        data
+    })
+}
+
+export function getUserListApi(params) {
+    return service({
+        url: '/back/user/',
+        method: 'get',
+        params
+    })
+}
+
+export function disableUserApi(data) {
+    return service({
+        url: '/back/user/disable',
+        method: 'post',
+        data
+    })
+}
+
+export function enableUserApi(data) {
+    return service({
+        url: '/back/user/enable',
         method: 'post',
         data
     })

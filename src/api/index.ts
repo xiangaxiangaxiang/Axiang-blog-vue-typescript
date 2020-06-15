@@ -2,6 +2,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import qs from 'qs'
 import { Message } from 'element-ui'
+import { Base64 } from 'js-base64';
 
 export interface ResponseData {
     code: number;
@@ -16,6 +17,12 @@ const service: AxiosInstance = axios.create({
     }
 })
 
+function _encode(token) {
+    const result = Base64.encode(token + ':')
+    // 格式：Authorization: Basic $(base64_encode({username}:{password}))
+    return 'Basic ' + result
+}
+
 // Request interceptors
 service.interceptors.request.use(
     (config:AxiosRequestConfig) => {
@@ -23,6 +30,10 @@ service.interceptors.request.use(
         // if (UserModule.token) {
         //     config.headers['X-Access-Token'] = UserModule.token
         // }
+        const token = sessionStorage.getItem('token')
+        if (token) {
+            config.headers['Authorization'] = _encode(token)
+        }
         config.data = qs.stringify(config.data)
         return config
     },

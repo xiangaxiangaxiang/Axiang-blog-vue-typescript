@@ -1,7 +1,7 @@
 /*
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:40:44
- * @LastEditTime: 2020-06-02 21:43:32
+ * @LastEditTime: 2020-06-14 13:25:40
  * @Description: 后台管理路由
  * @FilePath: \axiang-blog-vue-typescript\src\router\back.ts
  */
@@ -11,7 +11,7 @@ import Layout from 'components/BackLayout/index.vue'
 
 const backRouter: RouteConfig[] = [{
     path: '/adminLogin',
-    component: () => import('back/BackLogin/index.vue'),
+    component: () => import('back/back-login/index.vue'),
     name: 'AdminLogin',
     meta: {
         title: '后台管理登陆'
@@ -29,7 +29,7 @@ const backRouter: RouteConfig[] = [{
     children: [{
         path: '/admin/home',
         name: 'AdminHome',
-        component: () => import('back/Home/index.vue'),
+        component: () => import('back/home/index.vue'),
         meta: {
             title: '首页',
             icon: 'home'
@@ -60,6 +60,25 @@ const backRouter: RouteConfig[] = [{
         meta: {
             title: '编辑文章',
             icon: 'edit'
+        }
+    }]
+}, {
+    path: '/admin/user-management',
+    component: Layout,
+    redirect: {
+        name: 'UserManagement'
+    },
+    meta: {
+        title: '用户管理',
+        icon: 'users'
+    },
+    children: [{
+        path: '/admin/user-management',
+        name: 'UserManagement',
+        component: () => import('back/user/index.vue'),
+        meta: {
+            title: '用户管理',
+            icon: 'users'
         }
     }]
 }]

@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-06-06 18:03:55
- * @LastEditTime: 2020-06-06 18:03:55
+ * @LastEditTime: 2020-06-14 12:49:44
  * @LastEditors: Please set LastEditors
  * @Description: 统计数据
  * @FilePath: \axiang-blog-vue-typescript\src\back\home\components\StatisticalData.vue
@@ -19,7 +19,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('webHits')"
+                @click="changeStatistical('webHits')"
             >
                 <div class="card-panel-icon-wrapper icon-people">
                     <font-awesome-icon
@@ -48,7 +48,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('likes')"
+                @click="changeStatistical('likes')"
             >
                 <div class="card-panel-icon-wrapper icon-message">
                     <font-awesome-icon
@@ -77,7 +77,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('comments')"
+                @click="changeStatistical('comments')"
             >
                 <div class="card-panel-icon-wrapper icon-money">
                     <font-awesome-icon
@@ -106,7 +106,7 @@
         >
             <div
                 class="card-panel"
-                @click="getWeekData('articleHits')"
+                @click="changeStatistical('articleHits')"
             >
                 <div class="card-panel-icon-wrapper icon-shopping">
                     <font-awesome-icon
@@ -133,6 +133,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
     import CountTo from 'vue-count-to'
+    import { getTotalApi } from '../../../api/back/statistics'
     @Component({
         name: 'StatisticalData',
         components: {
@@ -145,8 +146,22 @@
         private comments:number = 0
         private articleHits:number = 0
 
-        getWeekData(type): void {
-            this.$emit('getWeekData', type)
+        mounted() {
+            this.getTotal()
+        }
+
+        async getTotal() {
+            const res = await getTotalApi()
+            if (res.status === 0 && res.data) {
+                this.webHits = res.data.webHitsTotal
+                this.likes = res.data.likesTotal
+                this.comments = res.data.commentsTotal
+                this.articleHits = res.data.articleHitsTotal
+            }
+        }
+
+        changeStatistical(type): void {
+            this.$emit('changeStatistical', type)
         }
     }
 </script>
