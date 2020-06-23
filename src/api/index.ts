@@ -30,7 +30,6 @@ service.interceptors.request.use(
         // if (UserModule.token) {
         //     config.headers['X-Access-Token'] = UserModule.token
         // }
-        console.log(config)
         const token = sessionStorage.getItem('token')
         if (token) {
             config.headers['Authorization'] = _encode(token)

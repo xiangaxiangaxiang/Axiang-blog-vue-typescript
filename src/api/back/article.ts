@@ -1,8 +1,9 @@
 import service from '../index'
 
-export function getArticleListApi() {
+export function getArticleListApi(params) {
     return service({
-        url: '/back/statistics/get_total',
-        method: 'get'
+        url: '/back/article/',
+        method: 'get',
+        params
     })
 }
