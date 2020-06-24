@@ -7,3 +7,19 @@ export function getArticleListApi(params) {
         params
     })
 }
+
+export function changePublishStatusApi(data) {
+    return service({
+        url: '/back/article/publish',
+        method: 'post',
+        data
+    })
+}
+
+export function deleteArticleApi(data) {
+    return service({
+        url: '/back/article/delete',
+        method: 'post',
+        data
+    })
+}

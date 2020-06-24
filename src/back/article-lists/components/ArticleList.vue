@@ -64,6 +64,7 @@
                 <el-button
                     :type="row.publish === 1 ? 'danger' : 'success'"
                     size="mini"
+                    @click="changePublishStatus(row)"
                 >
                     {{ row.publish === 1 ? '下架' : '发布' }}
                 </el-button>
@@ -76,6 +77,7 @@
                 <el-button
                     type="danger"
                     size="mini"
+                    @click="deleteArticle(row)"
                 >
                     删除
                 </el-button>
@@ -85,18 +87,13 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop } from 'vue-property-decorator';
+    import { Component, Vue, Prop } from 'vue-property-decorator'
+    import { changePublishStatusApi, deleteArticleApi } from '@/api/back/article'
     @Component({
         name: 'ArticleList'
     })
     export default class ArticleList extends Vue {
-        @Prop({default: () => [{
-            title: '德玛西亚万岁',
-            articleType: 300,
-            labels: ['盖伦', '德邦总管'],
-            publish: 1,
-            likeNums: 1000
-        }]}) articles!:object[]
+        @Prop({default: () => []}) articles!:object[]
 
         getArticleType(type) {
             if (type === 100) {
@@ -121,6 +118,41 @@
 
         sortChange(column) {
             this.$emit('sort-change', column.prop, column.order)
+        }
+
+        // 改变文章发布状态
+        async changePublishStatus(row) {
+            const data = {
+                id: row.id,
+                publish: row.publish ? 0 : 1
+            }
+            const res = await changePublishStatusApi(data)
+            if (res && res.status === 0) {
+                if (data.publish) {
+                    this.$message.success('文章已发布')
+                } else {
+                    this.$message.success('文章已下架')
+                }
+                this.$emit('reloadData')
+            }
+        }
+
+        // 删除文章
+        async deleteArticle(row) {
+            this.$confirm('确定要删除该文章吗，删除后将无法恢复?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                const data = {
+                    id: row.id
+                }
+                const res = await deleteArticleApi(data)
+                if (res.status === 0) {
+                    this.$message.success('删除成功')
+                    this.$emit('reloadData')
+                }
+            })
         }
     }
 </script>

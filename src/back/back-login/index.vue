@@ -250,7 +250,7 @@
             })
             const res = await adminRegisterApi(registerData)
             try {
-                if (res.errorCode === 0) {
+                if (res.status === 0) {
                     this.$message.success('注册成功')
                 } else {
                     this.$message.error(res.msg)
@@ -366,7 +366,7 @@
                     &.focus
                         &::before
                             font-size $fs-m
-                            top -20%
+                            top -27%
                     &::before
                         content attr(placeholder)
                         position absolute

@@ -29,13 +29,14 @@
                 v-model="searchText"
                 class="input-with-select"
                 size="small"
-                @click="searchSubmit"
+                @keyup.native.enter="searchSubmit"
                 clearable
                 @clear="searchSubmit"
             >
                 <el-button
                     slot="append"
                     icon="el-icon-search"
+                    @click="searchSubmit"
                 />
             </el-input>
             <el-select
@@ -55,6 +56,7 @@
         <article-list
             :articles="articles"
             @sort-change="sortChange"
+            @reloadData="getArticles"
         />
         <el-pagination
             style="margin-top: 1.5rem"
