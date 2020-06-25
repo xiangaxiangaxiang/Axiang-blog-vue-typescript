@@ -84,7 +84,7 @@
                     }
                 }],
                 series: [{
-                    name: 'pageA',
+                    name: this.chartType,
                     type: 'bar',
                     stack: 'vistors',
                     barWidth: '60%',

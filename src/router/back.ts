@@ -1,7 +1,7 @@
 /*
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:40:44
- * @LastEditTime: 2020-06-19 21:47:54
+ * @LastEditTime: 2020-06-25 16:46:17
  * @Description: 后台管理路由
  * @FilePath: \axiang-blog-vue-typescript\src\router\back.ts
  */
@@ -52,14 +52,6 @@ const backRouter: RouteConfig[] = [{
         meta: {
             title: '文章列表',
             icon: 'list-ul'
-        }
-    }, {
-        path: '/admin/article/edit',
-        name: 'EditArticle',
-        component: () => import('back/article-lists/index.vue'),
-        meta: {
-            title: '编辑文章',
-            icon: 'edit'
         }
     }]
 }, {
