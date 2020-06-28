@@ -6,9 +6,16 @@ import router from './router'
 import './plugins/element.js'
 import './plugins/fontawesome'
 import './plugins/md.js'
-
+import { Component } from 'vue-property-decorator'
 
 Vue.config.productionTip = false
+
+Component.registerHooks([
+    'beforeRouteEnter',
+    'beforeRouteLeave',
+    'beforeRouteUpdate'
+])
+
 
 new Vue({
     router,

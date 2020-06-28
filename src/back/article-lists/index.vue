@@ -13,6 +13,7 @@
                 type="success"
                 size="small"
                 icon="el-icon-edit"
+                @click="$router.push('/edit-article')"
             >
                 新建文章
             </el-button>

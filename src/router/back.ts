@@ -17,6 +17,13 @@ const backRouter: RouteConfig[] = [{
         title: '后台管理登陆'
     }
 }, {
+    path: '/edit-article',
+    component: () => import('back/edit-article/index.vue'),
+    name: 'EditArticle',
+    meta: {
+        title: '编辑文章'
+    }
+}, {
     path: '/admin/home',
     component: Layout,
     redirect: {
