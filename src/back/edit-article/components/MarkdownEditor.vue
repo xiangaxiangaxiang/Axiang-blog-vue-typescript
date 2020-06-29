@@ -63,6 +63,14 @@
                 </el-row>
             </el-row>
         </el-form>
+        <div class="markdown-wrapper">
+            <mavon-editor
+                v-model="markdown"
+                style="height: 100%;"
+                font-size="2rem"
+                :tab-size="4"
+            />
+        </div>
     </div>
 </template>
 
@@ -73,9 +81,11 @@
     })
     export default class MarkdownEditor extends Vue {
         private title:string = ''
-        private articleType:number = null
+        private articleType:number | null = null
         private selectLabels:string[] = []
         private oldLabels:object[] = []
+
+        private markdown: string = ''
     }
 </script>
 
@@ -84,4 +94,7 @@
         margin-bottom 1.5rem !important
     .edit-container
         padding 2rem 3rem
+        .markdown-wrapper
+            width 100%
+            height calc(100vh - 14rem)
 </style>

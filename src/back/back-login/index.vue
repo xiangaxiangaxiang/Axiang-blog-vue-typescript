@@ -234,6 +234,7 @@
             if (res && res.status === 0) {
                 this.$message.success('登录成功')
                 sessionStorage.setItem('token', res.data.token)
+                this.$router.push('/admin/home')
             }
         }
 
