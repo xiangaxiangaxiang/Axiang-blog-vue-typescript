@@ -80,6 +80,25 @@ const backRouter: RouteConfig[] = [{
             icon: 'users'
         }
     }]
+}, {
+    path: '/admin/comment-management',
+    component: Layout,
+    redirect: {
+        name: 'CommentManagement'
+    },
+    meta: {
+        title: '评论管理',
+        icon: 'comment'
+    },
+    children: [{
+        path: '/admin/comment-management',
+        name: 'CommentManagement',
+        component: () => import('back/comments/index.vue'),
+        meta: {
+            title: '评论管理',
+            icon: 'comment'
+        }
+    }]
 }]
 
 export default backRouter

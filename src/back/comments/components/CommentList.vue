@@ -6,9 +6,9 @@
  * @FilePath: \axiang-blog-vue-typescript\src\back\user\components\UserList.vue
 -->
 <template>
-    <div class="user-list">
+    <div>
         <el-table
-            :data="userList"
+            :data="commentList"
             border
             style="width: 100%"
             v-loading="loading"
@@ -26,27 +26,16 @@
                 </template>
             </el-table-column>
             <el-table-column
-                label="账号"
-                prop="account"
+                label="评论内容"
+                prop="content"
                 class-name="text-bold"
             />
             <el-table-column
-                label="用户名"
-            >
-                <template slot-scope="{row}">
-                    <el-avatar
-                        shape="square"
-                        :size="32"
-                        :src="row.avatar"
-                        class="avatar"
-                    />
-                    <span>
-                        {{ row.nickname }}
-                    </span>
-                </template>
-            </el-table-column>
+                label="来自文章"
+                prop="target"
+            />
             <el-table-column
-                label="用户类型"
+                label="评论用户"
             >
                 <template slot-scope="{row}">
                     <span
@@ -58,16 +47,11 @@
                 </template>
             </el-table-column>
             <el-table-column
-                label="状态"
-                width="80"
+                label="点赞数量"
+                width="100"
                 align="center"
-            >
-                <template slot-scope="{row}">
-                    <span :class="row.enable === 1 ? 'color-green' : 'color-red'">
-                        {{ row.enable === 1 ? '启用' : '停用' }}
-                    </span>
-                </template>
-            </el-table-column>
+                prop="likeNums"
+            />
             <el-table-column
                 label="操作"
                 width="100"
@@ -76,10 +60,10 @@
                 <template slot-scope="{row}">
                     <el-button
                         size="mini"
-                        :type="row.enable === 1 ? 'danger' : 'success'"
-                        @click="changeEnable(row)"
+                        type="danger"
+                        @click="deleteComment(row)"
                     >
-                        {{ row.enable === 1 ? '停用' : '启用' }}
+                        删除
                     </el-button>
                 </template>
             </el-table-column>
@@ -89,42 +73,20 @@
 
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator'
-    import { disableUserApi, enableUserApi } from '@/api/back/userManage'
+    import { deleteCommentApi } from '@/api/back/commentManage'
     @Component({
         name: 'UserList'
     })
     export default class UserList extends Vue {
-        @Prop({default: () => []}) userList !:object[]
+        @Prop({default: () => []}) commentList !:object[]
         @Prop({default: false}) loading !:boolean
 
-        getUserType(type) {
-            if (type === 200) {
-                return '管理员'
-            } else if (type === 100) {
-                return '普通用户'
-            }
-            return '游客'
-        }
 
-        getUserTypeClass(type) {
-            if (type === 200) {
-                return 'color-orange'
-            } else if (type === 100) {
-                return 'color-blue'
-            }
-            return ''
-        }
-
-        async changeEnable(row) {
+        async deleteComment(row) {
             const data = {
                 id: row.id
             }
-            let res
-            if (row.enable === 1) {
-                res = await disableUserApi(data)
-            } else {
-                res = await enableUserApi(data)
-            }
+            let res = await deleteCommentApi(data)
             if (res.status === 0) {
                 this.$emit('reload-data')
             }

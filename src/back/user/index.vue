@@ -21,10 +21,14 @@
                 v-model="searchText"
                 size="small"
                 class="bar-item input"
+                clearable
+                @clear="searchSubmit"
+                @keyup.native.enter="searchSubmit"
             >
                 <el-button
                     slot="append"
                     icon="el-icon-search"
+                    @click="searchSubmit"
                 />
             </el-input>
         </div>
@@ -80,6 +84,11 @@
                 this.userList = res.data.userList
                 this.total = res.data.total
             }
+        }
+
+        searchSubmit() {
+            this.currentPage = 1
+            this.getUserList()
         }
     }
 </script>

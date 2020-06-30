@@ -47,9 +47,11 @@
                                 v-model="selectLabels"
                                 multiple
                                 filterable
+                                :multiple-limit="3"
                                 allow-create
                                 default-first-option
                                 placeholder="请选择文章标签"
+                                style="width: 30rem;"
                             >
                                 <el-option
                                     v-for="item in oldLabels"

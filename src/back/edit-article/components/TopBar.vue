@@ -7,6 +7,7 @@
             <el-button
                 type="primary"
                 size="small"
+                @click="quitEditing"
             >
                 退出
             </el-button>
@@ -31,7 +32,17 @@
     @Component({
         name: 'TopBar'
     })
-    export default class TopBar extends Vue {}
+    export default class TopBar extends Vue {
+        quitEditing() {
+            this.$confirm('本页面数据将会清空，请确认是否已保存?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$router.push('/admin/article/manage')
+            })
+        }
+    }
 </script>
 
 <style lang="stylus" scoped>
