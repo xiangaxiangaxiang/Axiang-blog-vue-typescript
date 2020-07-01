@@ -31,18 +31,15 @@
                 class-name="text-bold"
             />
             <el-table-column
-                label="来自文章"
-                prop="target"
+                label="来自文章/动态"
+                prop="targetTitle"
             />
             <el-table-column
                 label="评论用户"
             >
                 <template slot-scope="{row}">
-                    <span
-                        class="text-bold"
-                        :class="getUserTypeClass(row.userType)"
-                    >
-                        {{ getUserType(row.userType) }}
+                    <span class="text-bold">
+                        {{ row.userInfo }}
                     </span>
                 </template>
             </el-table-column>

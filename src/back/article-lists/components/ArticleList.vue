@@ -16,9 +16,16 @@
         @sort-change="sortChange"
     >
         <el-table-column
-            type="index"
             width="50"
-        />
+            label="#"
+            align="center"
+        >
+            <template slot-scope="{$index}">
+                <span>
+                    {{ $index + 1 }}
+                </span>
+            </template>
+        </el-table-column>
         <el-table-column
             prop="title"
             label="文章标题"

@@ -94,7 +94,7 @@
             .bar-item
                 margin-right 1rem
             .input
-                width 20rem
+                width 25rem
         .comment-list
             margin-bottom 1.5rem
 </style>
