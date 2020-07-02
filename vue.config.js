@@ -24,7 +24,7 @@ module.exports = {
             .set('components', resolve('src/components'))
             .set('common', resolve('src/common'))
             .set('front', resolve('src/front'))
-            .set('back', resolve('src/back'))
+            .set('backViews', resolve('src/backViews'))
             .set('router', resolve('src/router'))
             .set('store', resolve('src/store'));
     },

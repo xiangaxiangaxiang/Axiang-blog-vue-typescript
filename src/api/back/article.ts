@@ -23,3 +23,12 @@ export function deleteArticleApi(data) {
         data
     })
 }
+
+export function uploadImgApi(formdata) {
+    return service({
+        url: '/back/article/image_upload',
+        method: 'post',
+        data: formdata,
+        headers: { 'Content-Type': 'multipart/form-data' }
+    })
+}

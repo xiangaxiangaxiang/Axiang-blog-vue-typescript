@@ -11,14 +11,14 @@ import Layout from 'components/BackLayout/index.vue'
 
 const backRouter: RouteConfig[] = [{
     path: '/adminLogin',
-    component: () => import('back/back-login/index.vue'),
+    component: () => import('backViews/back-login/index.vue'),
     name: 'AdminLogin',
     meta: {
         title: '后台管理登陆'
     }
 }, {
     path: '/edit-article',
-    component: () => import('back/edit-article/index.vue'),
+    component: () => import('backViews/edit-article/index.vue'),
     name: 'EditArticle',
     meta: {
         title: '编辑文章'
@@ -36,7 +36,7 @@ const backRouter: RouteConfig[] = [{
     children: [{
         path: '/admin/home',
         name: 'AdminHome',
-        component: () => import('back/home/index.vue'),
+        component: () => import('backViews/home/index.vue'),
         meta: {
             title: '首页',
             icon: 'home'
@@ -55,7 +55,7 @@ const backRouter: RouteConfig[] = [{
     children: [{
         path: '/admin/article/manage',
         name: 'ArticleManagement',
-        component: () => import('back/article-lists/index.vue'),
+        component: () => import('backViews/article-lists/index.vue'),
         meta: {
             title: '文章列表',
             icon: 'list-ul'
@@ -74,7 +74,7 @@ const backRouter: RouteConfig[] = [{
     children: [{
         path: '/admin/user-management',
         name: 'UserManagement',
-        component: () => import('back/user/index.vue'),
+        component: () => import('backViews/user/index.vue'),
         meta: {
             title: '用户管理',
             icon: 'users'
@@ -93,7 +93,7 @@ const backRouter: RouteConfig[] = [{
     children: [{
         path: '/admin/comment-management',
         name: 'CommentManagement',
-        component: () => import('back/comments/index.vue'),
+        component: () => import('backViews/comments/index.vue'),
         meta: {
             title: '评论管理',
             icon: 'comment'
