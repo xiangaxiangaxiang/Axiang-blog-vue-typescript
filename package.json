@@ -50,7 +50,8 @@
     "vue-cli-plugin-element": "^1.0.1",
     "vue-cli-plugin-fontawesome": "^0.2.0",
     "vue-count-to": "^1.0.13",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vuex-module-decorators": "^0.17.0"
   },
   "eslintConfig": {
     "root": true,

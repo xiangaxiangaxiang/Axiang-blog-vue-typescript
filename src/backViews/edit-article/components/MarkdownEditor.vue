@@ -81,10 +81,13 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
+    import { uploadImgApi } from '@/api/back/article'
     @Component({
         name: 'MarkdownEditor'
     })
     export default class MarkdownEditor extends Vue {
+        $refs!: {md: HTMLFormElement}
+
         private title:string = ''
         private articleType:number | null = null
         private selectLabels:string[] = []
@@ -100,6 +103,20 @@
 
         $imgDel(pos){
             delete this.img_file[pos]
+        }
+
+        async uploadImage() {
+            let formdata = new FormData();
+            for (var _img in this.img_file) {
+                formdata.append(_img, this.img_file[_img]);
+            }
+            const res = await uploadImgApi(formdata)
+            if (res.status === 0) {
+                for (let img in res) {
+                    // $vm.$img2Url 详情见本页末尾
+                    this.$refs.md.$img2Url(img[0], img[1]);
+                }
+            }
         }
     }
 </script>

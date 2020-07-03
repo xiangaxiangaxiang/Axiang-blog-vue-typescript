@@ -7,6 +7,7 @@ import './plugins/element.js'
 import './plugins/fontawesome'
 import './plugins/md.js'
 import { Component } from 'vue-property-decorator'
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -19,5 +20,6 @@ Component.registerHooks([
 
 new Vue({
     router,
+    store,
     render: h => h(App)
 }).$mount('#app')

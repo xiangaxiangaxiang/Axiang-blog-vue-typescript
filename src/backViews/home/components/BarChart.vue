@@ -38,10 +38,9 @@
         }
 
         @Watch('activeChart', {deep: true})
-        reloadChart(newValue:object[]) {
-            if (newValue.length > 0) {
-                this.initChart()
-            }
+        reloadChart() {
+            this.initChart()
+            // if (newValue.length > 0) {}
         }
 
         beforeDestroy() {
