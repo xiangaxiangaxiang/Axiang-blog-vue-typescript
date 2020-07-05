@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-21 18:43:33
- * @LastEditTime: 2020-06-21 21:35:08
+ * @LastEditTime: 2020-07-05 22:01:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \axiang-blog-vue-typescript\src\back\article-lists\components\ArticleList.vue
@@ -44,7 +44,7 @@
         <el-table-column label="标签">
             <template slot-scope="{row}">
                 <span>
-                    {{ row.labels instanceof Array ? row.labels.join(', ') : '' }}
+                    {{ getArticleLabels(row.labels) }}
                 </span>
             </template>
         </el-table-column>
@@ -160,6 +160,16 @@
                     this.$emit('reloadData')
                 }
             })
+        }
+
+        getArticleLabels(labels) {
+            try {
+                const arr = JSON.parse(labels)
+                return arr.join('、 ')
+            } catch (error) {
+                console.log(error)
+                return '解析出错'
+            }
         }
     }
 </script>

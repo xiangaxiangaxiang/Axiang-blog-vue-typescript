@@ -32,3 +32,11 @@ export function uploadImgApi(formdata) {
         headers: { 'Content-Type': 'multipart/form-data' }
     })
 }
+
+export function addArticleApi(data) {
+    return service({
+        url: '/back/article/add',
+        method: 'post',
+        data
+    })
+}

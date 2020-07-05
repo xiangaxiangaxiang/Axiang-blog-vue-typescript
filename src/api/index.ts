@@ -34,7 +34,9 @@ service.interceptors.request.use(
         if (token) {
             config.headers['Authorization'] = _encode(token)
         }
-        config.data = qs.stringify(config.data)
+        if (config.headers['Content-Type'] !== 'multipart/form-data') {
+            config.data = qs.stringify(config.data)
+        }
         return config
     },
     (error) => {

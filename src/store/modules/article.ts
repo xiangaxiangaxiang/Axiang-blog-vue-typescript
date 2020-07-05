@@ -7,7 +7,7 @@ export interface IArticleState {
 
 @Module({ dynamic: true, store, name: 'article' })
 class Article extends VuexModule implements IArticleState {
-    public uploadImage  = false
+    public uploadImage = false
 
     @Mutation
     private TOGGLE_UPLOADIMAGE() {
@@ -20,4 +20,4 @@ class Article extends VuexModule implements IArticleState {
     }
 }
 
-export const AppModule = getModule(Article)
+export const ArticleModule = getModule(Article)
