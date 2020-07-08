@@ -33,9 +33,9 @@ export function uploadImgApi(formdata) {
     })
 }
 
-export function addArticleApi(data) {
+export function upsertArticleApi(data) {
     return service({
-        url: '/back/article/add',
+        url: '/back/article/upsert',
         method: 'post',
         data
     })

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-21 18:43:33
- * @LastEditTime: 2020-07-05 22:01:01
+ * @LastEditTime: 2020-07-08 22:04:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \axiang-blog-vue-typescript\src\back\article-lists\components\ArticleList.vue
@@ -34,6 +34,8 @@
             label="文章类型"
             sortable="custom"
             prop="articleType"
+            width="120"
+            align="center"
         >
             <template slot-scope="{row}">
                 <span :class="getArticleTypeClass(row.articleType)">
@@ -51,15 +53,41 @@
         <el-table-column
             prop="likeNums"
             label="点赞数"
+            width="120"
+            align="center"
         />
         <el-table-column
             label="发布状态"
             sortable="custom"
             prop="publish"
+            width="120"
+            align="center"
         >
             <template slot-scope="{row}">
                 <span :class="row.publish === 1 ? 'color-green' : 'color-red'">
                     {{ row.publish === 1 ? '已发布' : '未发布' }}
+                </span>
+            </template>
+        </el-table-column>
+        <el-table-column
+            label="创建时间时间"
+            width="160"
+            align="center"
+        >
+            <template slot-scope="{row}">
+                <span>
+                    {{ _formatTime(row.created_at) }}
+                </span>
+            </template>
+        </el-table-column>
+        <el-table-column
+            label="更新时间"
+            width="160"
+            align="center"
+        >
+            <template slot-scope="{row}">
+                <span>
+                    {{ _formatTime(row.updated_at) }}
                 </span>
             </template>
         </el-table-column>
@@ -78,6 +106,7 @@
                 <el-button
                     type="primary"
                     size="mini"
+                    @click="editArticle(row)"
                 >
                     编辑
                 </el-button>
@@ -96,6 +125,7 @@
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator'
     import { changePublishStatusApi, deleteArticleApi } from '@/api/back/article'
+    import { formatTime } from '@/common/js/util'
     @Component({
         name: 'ArticleList'
     })
@@ -125,6 +155,10 @@
 
         sortChange(column) {
             this.$emit('sort-change', column.prop, column.order)
+        }
+
+        _formatTime(time) {
+            return formatTime(time)
         }
 
         // 改变文章发布状态
@@ -170,6 +204,12 @@
                 console.log(error)
                 return '解析出错'
             }
+        }
+
+        // 修改文章
+        editArticle(row) {
+            sessionStorage.setItem('article', JSON.stringify(row))
+            this.$router.push('/edit-article')
         }
     }
 </script>

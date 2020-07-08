@@ -86,7 +86,7 @@
 
 <script lang="ts">
     import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-    import { uploadImgApi, addArticleApi } from '@/api/back/article'
+    import { uploadImgApi, upsertArticleApi } from '@/api/back/article'
     @Component({
         name: 'MarkdownEditor'
     })
@@ -94,7 +94,7 @@
         $refs!: {md: HTMLFormElement}
 
         @Prop({default: false}) toggleUpload !:boolean
-        @Prop({default: ''}) uploadType !:boolean
+        @Prop({default: false}) togglePublish !:boolean
 
         private articleForm:{title: string, articleType: number | null, selectLabels: string[]} = {
             title: '',
@@ -115,6 +115,8 @@
             ]
         }
 
+        private id:number | null = null
+        private publish:number = 0
         private html: string = ''
         private markdown: string = ''
         private imgFile:object = {}
@@ -122,6 +124,30 @@
         @Watch('toggleUpload')
         toggleUploadArticle() {
             this.uploadImage()
+        }
+
+        @Watch('togglePublish')
+        togglePublishArticle() {
+            this.publish = 1
+            this.uploadImage()
+        }
+
+        created() {
+            let article = sessionStorage.getItem('article')
+            if (article) {
+                const articleObj = JSON.parse(article)
+                this.articleForm.articleType = articleObj.articleType
+                this.articleForm.title = articleObj.title
+                this.articleForm.selectLabels = JSON.parse(articleObj.labels)
+                this.html = articleObj.html
+                this.markdown = articleObj.markdown
+                this.id = articleObj.id
+                this.publish = articleObj.publish
+            }
+        }
+
+        beforeDestroy() {
+            sessionStorage.removeItem('article')
         }
 
         $imgAdd(pos, $file){
@@ -134,7 +160,6 @@
         }
 
         markdownChange(value, render) {
-            console.log()
             this.html = render
         }
 
@@ -169,11 +194,12 @@
                         html: this.html,
                         markdown: this.markdown,
                         content: this.getContent(),
-                        publish: 0
+                        publish: this.publish,
+                        id: this.id
                     }
-                    const res = await addArticleApi(data)
+                    const res = await upsertArticleApi(data)
                     if (res.status === 0) {
-                        this.$message.success('保存成功')
+                        this.$message.success(this.publish ? '发布成功' : '保存成功')
                     }
                 } else {
                     return false;

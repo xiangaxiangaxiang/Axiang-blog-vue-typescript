@@ -15,20 +15,21 @@
                 <el-button
                     type="primary"
                     size="small"
-                    @click="saveArticle"
+                    @click="toggleUpload = !toggleUpload"
                 >
                     保存
                 </el-button>
                 <el-button
                     type="success"
                     size="small"
+                    @click="togglePublish = !togglePublish"
                 >
                     发布
                 </el-button>
             </div>
         </div>
         <markdown-editor
-            :upload-type="type"
+            :toggle-publish="togglePublish"
             :toggle-upload="toggleUpload"
         />
     </div>
@@ -44,8 +45,8 @@
         }
     })
     export default class EditArticle extends Vue {
-        private type:string = ''
         private toggleUpload:boolean = false
+        private togglePublish:boolean = false
 
         beforeRouteEnter (to, from, next) {
             if (from.name === 'ArticleManagement' || from.path === '/') {
@@ -65,11 +66,6 @@
             }).then(() => {
                 this.$router.push('/admin/article/manage')
             })
-        }
-
-        saveArticle () {
-            this.type = 'save'
-            this.toggleUpload = !this.toggleUpload
         }
     }
 </script>
