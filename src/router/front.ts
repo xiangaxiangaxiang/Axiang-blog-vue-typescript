@@ -11,7 +11,7 @@ import { RouteConfig } from 'vue-router'
 
 const frontRouter: Array<RouteConfig> = [{
     path: '/home',
-    component: () => import('front/home/index.vue'),
+    component: () => import('frontViews/home/index.vue'),
     name: 'Home',
     meta: {
         title: '主页'

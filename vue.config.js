@@ -23,7 +23,7 @@ module.exports = {
             .set('api', resolve('src/api'))
             .set('components', resolve('src/components'))
             .set('common', resolve('src/common'))
-            .set('front', resolve('src/front'))
+            .set('frontViews', resolve('src/frontViews'))
             .set('backViews', resolve('src/backViews'))
             .set('router', resolve('src/router'))
             .set('store', resolve('src/store'));

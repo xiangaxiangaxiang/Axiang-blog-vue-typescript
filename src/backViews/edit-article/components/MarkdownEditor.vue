@@ -86,6 +86,7 @@
 
 <script lang="ts">
     import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+    import { match, isImage } from 'commonmark-helpers'
     import { uploadImgApi, upsertArticleApi } from '@/api/back/article'
     @Component({
         name: 'MarkdownEditor'
@@ -195,16 +196,28 @@
                         markdown: this.markdown,
                         content: this.getContent(),
                         publish: this.publish,
-                        id: this.id
+                        id: this.id,
+                        firstImage: this.getFirstImage()
                     }
                     const res = await upsertArticleApi(data)
-                    if (res.status === 0) {
+                    if (res && res.status === 0) {
                         this.$message.success(this.publish ? '发布成功' : '保存成功')
+                        if (!this.id) {
+                            this.$router.push('/admin/article/manage')
+                        }
                     }
                 } else {
                     return false;
                 }
             })
+        }
+
+        getFirstImage() {
+            const node = match(this.markdown, isImage)
+            if (node) {
+                return node.destination
+            }
+            return ''
         }
 
         getContent() {
