@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 const routes = [{
     path: '/',
     redirect: {
-        name: 'AdminHome'
+        name: 'Home'
     }
 }, ...frontRouter, ...backRouter]
 
