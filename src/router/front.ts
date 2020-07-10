@@ -8,6 +8,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 import { RouteConfig } from 'vue-router'
+import Layout from 'components/FrontLayout/index.vue'
 
 const frontRouter: Array<RouteConfig> = [{
     path: '/home',
@@ -16,6 +17,20 @@ const frontRouter: Array<RouteConfig> = [{
     meta: {
         title: '主页'
     }
+}, {
+    path: '/article/:type',
+    component: Layout,
+    redirect: {
+        name: 'Article'
+    },
+    children: [{
+        path: '/article/:type',
+        name: 'Article',
+        component: () => import('frontViews/article/index.vue'),
+        meta: {
+            title: '文章'
+        }
+    }]
 }]
 
 export default frontRouter

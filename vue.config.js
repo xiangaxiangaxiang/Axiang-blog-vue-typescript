@@ -45,6 +45,11 @@ module.exports = {
                 target: 'http://localhost:8081',
                 ws: true,
                 changeOrigin: true
+            },
+            '/static': {
+                target: 'http://localhost:8012',
+                ws: true,
+                changeOrigin: true
             }
         },
         // eslint-disable-next-line no-dupe-keys

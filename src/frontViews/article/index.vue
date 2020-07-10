@@ -1,10 +1,3 @@
-<!--
- * @Author: 翔阿翔阿翔
- * @Date: 2020-05-13 22:28:47
- * @LastEditTime: 2020-07-09 21:33:33
- * @Description: 博客主页
- * @FilePath: \axiang-blog-vue-typescript\src\front\home\index.vue
- -->
 <template>
     <div class="home-container">
         <sakura class="sakura" />
@@ -27,10 +20,11 @@
             Sakura
         }
     })
-    export default class Home extends Vue {
-        private imgSrc = '/static/img/map2.png'
+    export default class FrontLayout extends Vue {
+        private imgSrc = ''
     }
 </script>
+
 <style lang="stylus" scoped>
     .home-container
         width 100vw
@@ -44,5 +38,3 @@
             right 0
             z-index -1000
 </style>
-
-
