@@ -2,7 +2,7 @@
     <el-row class="nav-container">
         <el-col :span="5">
             <div class="logo">
-                翔阿翔阿翔
+                Hi, 我是翔阿翔阿翔
             </div>
         </el-col>
         <el-col :span="14">
@@ -11,6 +11,8 @@
                     class="nav-item"
                     v-for="item in navList"
                     :key="item.path"
+                    @click="pageJump(item.path)"
+                    :class="item.name === '技术' ? 'actice': ''"
                 >
                     {{ item.name }}
                 </li>
@@ -47,11 +49,19 @@
             path: '/post'
         }, {
             name: 'Github',
-            path: '/home'
+            path: 'https://github.com/xiangaxiangaxiang'
         }, {
             name: '其他',
-            path: '/home'
+            path: '/other'
         }]
+
+        pageJump(path) {
+            if (path.startsWith('http')) {
+                window.open(path,'_blank')
+            } else {
+                this.$router.push(path)
+            }
+        }
     }
 </script>
 
@@ -59,7 +69,16 @@
     .nav-container
         width 100%
         height 5rem
-        background rgba(255, 255, 255, 0.7)
+        background rgba(255, 255, 255, 0.8)
+        box-shadow 0 1px 4px rgba(0,21,41,.08) inset
+        color $blue
+        .logo
+            width 100%
+            height 100%
+            line-height 5rem
+            text-align center
+            font-size $fs-mx
+            font-weight 500
         .nav-list
             width 80%
             margin 0 auto
@@ -69,6 +88,10 @@
                 height 100%
                 line-height 5rem
                 font-size $fs-s
-                color $blue
                 text-align center
+                cursor pointer
+                &:hover
+                    color $light-purple
+                &.actice
+                    color $orange
 </style>
