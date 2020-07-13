@@ -18,18 +18,23 @@
                 </li>
             </ul>
         </el-col>
-        <el-col :span="5">
-            <span>
-                登出
-            </span>
+        <el-col
+            :span="5"
+            style="height: 100%;"
+        >
+            <account-dropdown class="notice" />
         </el-col>
     </el-row>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
+    import AccountDropdown from '@/components/AccountDropdown/index.vue'
     @Component({
-        name: 'TopNav'
+        name: 'TopNav',
+        components: {
+            AccountDropdown
+        }
     })
     export default class TopNav extends Vue {
         private navList = [{
@@ -94,4 +99,11 @@
                     color $light-purple
                 &.actice
                     color $orange
+        .notice
+            width 13rem
+            height 100%
+            float right
+            display flex
+            align-items center
+            justify-content center
 </style>
