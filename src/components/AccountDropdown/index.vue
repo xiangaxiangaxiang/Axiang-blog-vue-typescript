@@ -152,7 +152,7 @@
     export default class TopNav extends Vue {
         $refs!: {avatarInput: HTMLFormElement}
         // 基本信息
-        private id:number | string = 7
+        private uid:number | string = 7
         private nickname:string = ''
         private avatar:string = 'https://upload.jianshu.io/users/upload_avatars/15469903/fa209adb-0bda-44e5-b61f-cc2b7c0ee202.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120'
         // 更新信息
@@ -203,7 +203,7 @@
                         this.$message.error('两次输入的密码不正确')
                     }
                     const data = {
-                        id: this.id,
+                        uid: this.uid,
                         oldPassword: md5(this.updatePasswordForm.oldPassword),
                         password1: md5(this.updatePasswordForm.password1),
                         password2: md5(this.updatePasswordForm.password2)
@@ -223,7 +223,7 @@
             }
             const formdata = new FormData()
             formdata.append('nickname', this.updateForm.nickname)
-            formdata.append('id', this.id as string)
+            formdata.append('uid', this.uid as string)
             const res = await updateAccountApi(formdata)
             if (res && res.status === 0) {
                 this.$message.success('修改成功')
@@ -239,7 +239,7 @@
             }
             const formdata = new FormData()
             formdata.append('file', avatar)
-            formdata.append('id', this.id as string)
+            formdata.append('uid', this.uid as string)
             const res = await updateAccountApi(formdata)
             if (res && res.status === 0) {
                 this.$message.success('修改成功')

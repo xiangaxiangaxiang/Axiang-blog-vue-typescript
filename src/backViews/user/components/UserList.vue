@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-06-14 14:13:00
- * @LastEditTime: 2020-06-14 16:53:16
+ * @LastEditTime: 2020-07-17 22:00:44
  * @Description: 用户列表
  * @FilePath: \axiang-blog-vue-typescript\src\back\user\components\UserList.vue
 -->
@@ -117,7 +117,7 @@
 
         async changeEnable(row) {
             const data = {
-                id: row.id
+                uid: row.uid
             }
             let res
             if (row.enable === 1) {

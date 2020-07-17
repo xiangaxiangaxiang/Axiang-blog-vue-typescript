@@ -116,7 +116,7 @@
             ]
         }
 
-        private id:number | null = null
+        private articleId:string | null = null
         private publish:number = 0
         private html: string = ''
         private markdown: string = ''
@@ -142,7 +142,7 @@
                 this.articleForm.selectLabels = JSON.parse(articleObj.labels)
                 this.html = articleObj.html
                 this.markdown = articleObj.markdown
-                this.id = articleObj.id
+                this.articleId = articleObj.articleId
                 this.publish = articleObj.publish
             }
         }
@@ -196,13 +196,13 @@
                         markdown: this.markdown,
                         content: this.getContent(),
                         publish: this.publish,
-                        id: this.id,
+                        articleId: this.articleId,
                         firstImage: this.getFirstImage()
                     }
                     const res = await upsertArticleApi(data)
                     if (res && res.status === 0) {
                         this.$message.success(this.publish ? '发布成功' : '保存成功')
-                        if (!this.id) {
+                        if (!this.articleId) {
                             this.$router.push('/admin/article/manage')
                         }
                     }

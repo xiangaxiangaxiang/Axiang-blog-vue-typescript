@@ -164,7 +164,7 @@
         // 改变文章发布状态
         async changePublishStatus(row) {
             const data = {
-                id: row.id,
+                articleId: row.articleId,
                 publish: row.publish ? 0 : 1
             }
             const res = await changePublishStatusApi(data)
@@ -186,7 +186,7 @@
                 type: 'warning'
             }).then(async () => {
                 const data = {
-                    id: row.id
+                    articleId: row.articleId
                 }
                 const res = await deleteArticleApi(data)
                 if (res.status === 0) {
