@@ -22,7 +22,22 @@
             :span="5"
             style="height: 100%;"
         >
-            <account-dropdown class="notice" />
+            <account-dropdown
+                class="account-menu"
+                v-if="isLogin"
+            />
+            <div
+                v-else
+                class="login-register"
+            >
+                <span>
+                    登陆
+                </span>
+                ·
+                <span>
+                    注册
+                </span>
+            </div>
         </el-col>
     </el-row>
 </template>
@@ -30,6 +45,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
     import AccountDropdown from '@/components/AccountDropdown/index.vue'
+    import Cookies from 'js-cookie'
     @Component({
         name: 'TopNav',
         components: {
@@ -59,6 +75,15 @@
             name: '其他',
             path: '/other'
         }]
+
+        private isLogin:boolean = false
+
+        created() {
+            const auth = Cookies.get('auth')
+            if (auth) {
+                this.isLogin = true
+            }
+        }
 
         pageJump(path) {
             if (path.startsWith('http')) {
@@ -99,11 +124,19 @@
                     color $light-purple
                 &.actice
                     color $orange
-        .notice
+        .account-menu
             width 13rem
             height 100%
             float right
             display flex
             align-items center
             justify-content center
+        .login-register
+            width 13rem
+            height 100%
+            float right
+            line-height 5rem
+            font-size $fs-ss
+            span
+                cursor pointer
 </style>
