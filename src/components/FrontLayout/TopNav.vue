@@ -30,14 +30,18 @@
                 v-else
                 class="login-register"
             >
-                <span>
+                <span @click="showLoginRegisterForm('login')">
                     登陆
                 </span>
                 ·
-                <span>
+                <span @click="showLoginRegisterForm('register')">
                     注册
                 </span>
             </div>
+            <login-register-form
+                :dialog-visable="showDialog"
+                :type="showType"
+            />
         </el-col>
     </el-row>
 </template>
@@ -45,11 +49,14 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
     import AccountDropdown from '@/components/AccountDropdown/index.vue'
+    import LoginRegisterForm from './LoginRegisterForm.vue'
+    import { UserModule } from '@/store/modules/user'
     import Cookies from 'js-cookie'
     @Component({
         name: 'TopNav',
         components: {
-            AccountDropdown
+            AccountDropdown,
+            LoginRegisterForm
         }
     })
     export default class TopNav extends Vue {
@@ -78,6 +85,14 @@
 
         private isLogin:boolean = false
 
+        get showDialog() {
+            return UserModule.showLoginRegisterForm
+        }
+
+        get showType() {
+            return UserModule.showLoginRegisterType
+        }
+
         created() {
             const auth = Cookies.get('auth')
             if (auth) {
@@ -91,6 +106,10 @@
             } else {
                 this.$router.push(path)
             }
+        }
+
+        showLoginRegisterForm(type) {
+            UserModule.toggleDialog(type)
         }
     }
 </script>

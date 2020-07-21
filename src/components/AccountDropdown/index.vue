@@ -146,6 +146,7 @@
     import { resetRouter } from '@/router/index'
     import { updateAccountApi, updatePasswordApi } from '@/api/front/user'
     import md5 from 'md5'
+    import Cookies from 'js-cookie'
     @Component({
         name: 'AccountDropdown'
     })
@@ -184,6 +185,7 @@
         handleCommand(command) {
             if (command === 'logout') {
                 sessionStorage.clear()
+                Cookies.remove('auth')
                 resetRouter()
             } else if (command === 'updateAccount') {
                 this.updateAccountDialog = true

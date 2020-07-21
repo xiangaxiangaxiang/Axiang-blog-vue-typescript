@@ -9,23 +9,26 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators'
 import store from '@/store'
 
-export interface IArticleState {
-    logout: boolean
+export interface IUserState {
+    showLoginRegisterForm: boolean,
+    showLoginRegisterType: string
 }
 
-@Module({ dynamic: true, store, name: 'article' })
-class User extends VuexModule implements IArticleState {
-    public logout = false
+@Module({ dynamic: true, store, name: 'user' })
+class User extends VuexModule implements IUserState {
+    public showLoginRegisterForm = false
+    public showLoginRegisterType = ''
 
     @Mutation
-    private TOGGLE_UPLOADIMAGE() {
-        this.logout = !this.logout
+    private TOGGLE_DIALOG(type:string) {
+        this.showLoginRegisterForm = !this.showLoginRegisterForm
+        this.showLoginRegisterType = type
     }
 
     @Action
-    public toggleUploadImage() {
-        this.TOGGLE_UPLOADIMAGE()
+    public toggleDialog(type='') {
+        this.TOGGLE_DIALOG(type)
     }
 }
 
-export const ArticleModule = getModule(User)
+export const UserModule = getModule(User)
