@@ -26,3 +26,19 @@ export function updatePasswordApi(data) {
         data
     })
 }
+
+export function userLoginApi(data) {
+    return service({
+        url: '/front/user/login',
+        method: 'post',
+        data
+    })
+}
+
+export function userRegisterApi(data) {
+    return service({
+        url: '/front/user/register',
+        method: 'post',
+        data
+    })
+}

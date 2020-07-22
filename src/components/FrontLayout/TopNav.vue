@@ -93,9 +93,9 @@
             return UserModule.showLoginRegisterType
         }
 
-        created() {
-            const auth = Cookies.get('auth')
-            if (auth) {
+        mounted() {
+            const isLogin = sessionStorage.getItem('isLogin')
+            if (isLogin) {
                 this.isLogin = true
             }
         }

@@ -9,7 +9,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item disabled>
-                    翔阿翔阿翔
+                    {{ nickname }}
                 </el-dropdown-item>
                 <el-dropdown-item
                     divided
@@ -143,19 +143,31 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import { resetRouter } from '@/router/index'
     import { updateAccountApi, updatePasswordApi } from '@/api/front/user'
     import md5 from 'md5'
     import Cookies from 'js-cookie'
+
+    interface updatePasswordFormType {
+        oldPassword:string
+        password1:string
+        password2:string
+    }
+
+    interface rulesType {
+        oldPassword: object[]
+        password1: object[]
+        password2: object[]
+    }
+
     @Component({
         name: 'AccountDropdown'
     })
     export default class TopNav extends Vue {
         $refs!: {avatarInput: HTMLFormElement}
         // 基本信息
-        private uid:number | string = 7
-        private nickname:string = ''
-        private avatar:string = 'https://upload.jianshu.io/users/upload_avatars/15469903/fa209adb-0bda-44e5-b61f-cc2b7c0ee202.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120'
+        private uid:string = sessionStorage.getItem('uid') || ''
+        private nickname:string = sessionStorage.getItem('nickname') || ''
+        private avatar:string = sessionStorage.getItem('avatar') || ''
         // 更新信息
         private updateAccountDialog:boolean = false
         private updateForm:{nickname:string} = {
@@ -164,13 +176,13 @@
         private imageUrl:string = ''
         // 更新密码
         private updatePasswordDialog:boolean = false
-        private updatePasswordForm: {oldPassword:string, password1:string, password2:string} = {
+        private updatePasswordForm: updatePasswordFormType = {
             oldPassword: '',
             password1: '',
             password2: ''
         }
 
-        private rules:{oldPassword: object[], password1: object[], password2: object[]} = {
+        private rules:rulesType = {
             oldPassword: [
                 { required: true, message: '请输入旧密码', trigger: 'blur' }
             ],
@@ -186,7 +198,7 @@
             if (command === 'logout') {
                 sessionStorage.clear()
                 Cookies.remove('auth')
-                resetRouter()
+                this.$router.go(0)
             } else if (command === 'updateAccount') {
                 this.updateAccountDialog = true
             } else if (command === 'updatePassword') {

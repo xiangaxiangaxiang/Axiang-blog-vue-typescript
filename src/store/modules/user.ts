@@ -10,7 +10,7 @@ import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-dec
 import store from '@/store'
 
 export interface IUserState {
-    showLoginRegisterForm: boolean,
+    showLoginRegisterForm: boolean
     showLoginRegisterType: string
 }
 

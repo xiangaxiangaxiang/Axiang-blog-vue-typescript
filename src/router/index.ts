@@ -43,4 +43,4 @@ export function resetRouter() {
     (router as any).matcher = (newRouter as any).matcher // reset router
 }
 
-export default router;
+export default router

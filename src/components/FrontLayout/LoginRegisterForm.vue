@@ -13,10 +13,11 @@
         </h1>
         <el-form
             size="small"
-            v-model="loginForm"
+            :model="loginForm"
             v-if="showType === 'login'"
             :rules="loginRules"
             ref="loginForm"
+            :key="loginFormKey"
         >
             <el-form-item prop="account">
                 <el-input
@@ -28,6 +29,7 @@
                 <el-input
                     v-model="loginForm.password"
                     placeholder="请输入密码"
+                    type="password"
                 />
             </el-form-item>
             <el-form-item>
@@ -42,10 +44,11 @@
         </el-form>
         <el-form
             size="small"
-            v-model="registerForm"
+            :model="registerForm"
             v-else
             :rules="registerRules"
             ref="registerForm"
+            :key="registerFormKey"
         >
             <el-form-item prop="nickname">
                 <el-input
@@ -53,7 +56,7 @@
                     placeholder="请输入用户昵称"
                 />
             </el-form-item>
-            <el-form-item prop="account">
+            <el-form-item prop="newAccount">
                 <el-input
                     v-model="registerForm.account"
                     placeholder="请输入用户名"
@@ -62,12 +65,14 @@
             <el-form-item prop="password1">
                 <el-input
                     v-model="registerForm.password1"
+                    type="password"
                     placeholder="请输入密码"
                 />
             </el-form-item>
             <el-form-item prop="password2">
                 <el-input
                     v-model="registerForm.password2"
+                    type="password"
                     placeholder="请再次输入密码"
                 />
             </el-form-item>
@@ -95,53 +100,110 @@
 <script lang="ts">
     import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
     import { UserModule } from '@/store/modules/user'
+    import { userLoginApi, userRegisterApi } from '@/api/front/user'
+    import { resetRouter } from '@/router/index'
+    import md5 from 'md5'
+
+    interface loginRulesType {
+        account: object[]
+        password: object[]
+    }
+    interface loginFormType {
+        account: string
+        password:string
+    }
+    interface registerFormType {
+        account: string
+        password1: string
+        password2: string
+        nickname: string
+    }
+    interface registerRulesType {
+        newAccount: object[]
+        password1: object[]
+        password2: object[]
+        nickname: object[]
+    }
+
     @Component({
         name: 'LoginRegisterForm'
     })
     export default class LoginRegisterForm extends Vue {
+        $refs!: {md: HTMLFormElement}
+
         @Prop({default: false}) dialogVisable!:boolean
         @Prop({default: ''}) type!:string
 
         private showType: string = 'login'
-
-        private loginForm: {account: string, password:string} = {
+        private loginForm:loginFormType = {
             account: '',
             password: ''
         }
-        private registerForm: {account: string, password1: string, password2: string, nickname: string} = {
+        private registerForm:registerFormType = {
             account: '',
             password1: '',
             password2: '',
             nickname: ''
         }
-        private loginRules:{account: object[], password: object[]} = {
+        private validatePass2 = (rule, value, callback) => {
+            if (value === '') {
+                // eslint-disable-next-line
+                callback(new Error('请再次输入密码'))
+                // eslint-disable-next-line
+            } else if (value !== this.registerForm.password1) {
+                // eslint-disable-next-line
+                callback(new Error('两次输入密码不一致!'))
+            } else {
+                // eslint-disable-next-line
+                callback()
+            }
+        }
+        private validatePass = (rule, value, callback) => {
+            if (value === '') {
+                // eslint-disable-next-line
+                callback(new Error('请输入密码'));
+            } else {
+                // eslint-disable-next-line
+                if (this.registerForm.password1 !== '') {
+                    // eslint-disable-next-line
+                    this.$refs['registerForm'].validateField('password1')
+                }
+                // eslint-disable-next-line
+                callback()
+            }
+        }
+        private loginRules:loginRulesType = {
             account: [
-                { required: true, message: '请输入账号', trigger: 'blur' },
+                { required: true, message: '请输入用户名', trigger: 'blur' },
                 { min: 6, max: 16, message: '长度在6~16个字符', trigger: 'blur' }
             ],
             password: [
-                { required: true, message: '请输入密码', trigger: 'change' },
+                { required: true, message: '请输入密码', trigger: 'blur' },
                 { min: 6, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
             ]
         }
-        private registerRules:{account: object[], password1: object[], password2: object[], nickname: object[]} = {
-            account: [
-                { required: true, message: '请输入账号', trigger: 'blur' },
+        private registerRules:registerRulesType = {
+            newAccount: [
+                { required: true, message: '请输入用户名', trigger: 'blur' },
                 { min: 6, max: 16, message: '长度在6~16个字符', trigger: 'blur' }
             ],
             password1: [
-                { required: true, message: '请输入密码', trigger: 'change' },
+                // eslint-disable-next-line
+                { validator: this.validatePass, trigger: 'blur' },
                 { min: 6, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
             ],
             password2: [
-                { required: true, message: '请输入密码', trigger: 'change' },
+                // eslint-disable-next-line
+                { validator: this.validatePass2, trigger: 'blur' },
                 { min: 6, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
             ],
             nickname: [
-                { required: true, message: '请输入密码', trigger: 'change' },
-                { min: 6, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
+                { required: true, message: '请输入用户昵称', trigger: 'blur' },
+                { min: 2, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
             ]
         }
+        private loginFormKey:number = Date.now()
+        private registerFormKey:number = Date.now()
 
         @Watch('type')
         changeType() {
@@ -152,11 +214,63 @@
             UserModule.toggleDialog(this.showType)
         }
 
-        loginSubmit() {}
+        loginSubmit() {
+            this.$refs['loginForm'].validate(async (valid) => {
+                if (valid) {
+                    const data = {
+                        account: this.loginForm.account,
+                        password: md5(this.loginForm.password)
+                    }
+                    let res = await userLoginApi(data)
+                    if (res && res.status === 0) {
+                        this.$message.success('登录成功')
+                        sessionStorage.setItem('uid', res.data.uid)
+                        sessionStorage.setItem('nickname', res.data.nickname)
+                        sessionStorage.setItem('avatar', res.data.avatar)
+                        sessionStorage.setItem('isLogin', 'true')
+                        this.$router.go(0)
+                    }
+                } else {
+                    return false
+                }
+            })
+        }
 
-        registerSubmit() {}
+        registerSubmit() {
+            this.$refs['registerForm'].validate(async (valid) => {
+                if (valid) {
+                    const data = {
+                        account: this.registerForm.account,
+                        password1: md5(this.registerForm.password1),
+                        password2: md5(this.registerForm.password2),
+                        nickname: this.registerForm.nickname
+                    }
+                    let res = await userRegisterApi(data)
+                    if (res && res.status === 0) {
+                        this.$message.success('注册成功')
+                        this.changeForm()
+                    }
+                } else {
+                    return false
+                }
+            })
+        }
 
         changeForm() {
+            // 在这里报错
+            // this.registerForm = this.$option.data().registerForm
+            // this.loginForm = this.$option.data().loginForm
+            this.loginForm = {
+                account: '',
+                password: ''
+            }
+            this.registerForm = {
+                account: '',
+                password1: '',
+                password2: '',
+                nickname: ''
+            }
+            this[`${this.showType}FormKey`] = Date.now()
             this.showType = this.showType === 'login' ? 'register' : 'login'
         }
     }
@@ -180,6 +294,7 @@
         span
             cursor pointer
             color $blue
+            user-select none
     /deep/.el-dialog__body
         padding 2rem 2rem
 </style>
