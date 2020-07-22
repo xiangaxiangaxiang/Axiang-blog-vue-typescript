@@ -16,7 +16,7 @@
             :model="loginForm"
             v-if="showType === 'login'"
             :rules="loginRules"
-            ref="loginForm"
+            ref="loginFormComponent"
             :key="loginFormKey"
         >
             <el-form-item prop="account">
@@ -47,7 +47,7 @@
             :model="registerForm"
             v-else
             :rules="registerRules"
-            ref="registerForm"
+            ref="registerFormComponent"
             :key="registerFormKey"
         >
             <el-form-item prop="nickname">
@@ -56,7 +56,7 @@
                     placeholder="请输入用户昵称"
                 />
             </el-form-item>
-            <el-form-item prop="newAccount">
+            <el-form-item prop="account">
                 <el-input
                     v-model="registerForm.account"
                     placeholder="请输入用户名"
@@ -119,7 +119,7 @@
         nickname: string
     }
     interface registerRulesType {
-        newAccount: object[]
+        account: object[]
         password1: object[]
         password2: object[]
         nickname: object[]
@@ -145,7 +145,7 @@
             password2: '',
             nickname: ''
         }
-        private validatePass2 = (rule, value, callback) => {
+        public validatePass2 = (rule, value, callback) => {
             if (value === '') {
                 // eslint-disable-next-line
                 callback(new Error('请再次输入密码'))
@@ -154,20 +154,6 @@
                 // eslint-disable-next-line
                 callback(new Error('两次输入密码不一致!'))
             } else {
-                // eslint-disable-next-line
-                callback()
-            }
-        }
-        private validatePass = (rule, value, callback) => {
-            if (value === '') {
-                // eslint-disable-next-line
-                callback(new Error('请输入密码'));
-            } else {
-                // eslint-disable-next-line
-                if (this.registerForm.password1 !== '') {
-                    // eslint-disable-next-line
-                    this.$refs['registerForm'].validateField('password1')
-                }
                 // eslint-disable-next-line
                 callback()
             }
@@ -183,13 +169,12 @@
             ]
         }
         private registerRules:registerRulesType = {
-            newAccount: [
+            account: [
                 { required: true, message: '请输入用户名', trigger: 'blur' },
                 { min: 6, max: 16, message: '长度在6~16个字符', trigger: 'blur' }
             ],
             password1: [
-                // eslint-disable-next-line
-                { validator: this.validatePass, trigger: 'blur' },
+                { required: true, message: '请输入密码', trigger: 'blur' },
                 { min: 6, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
             ],
             password2: [
@@ -215,7 +200,7 @@
         }
 
         loginSubmit() {
-            this.$refs['loginForm'].validate(async (valid) => {
+            this.$refs['loginFormComponent'].validate(async (valid) => {
                 if (valid) {
                     const data = {
                         account: this.loginForm.account,
@@ -237,7 +222,7 @@
         }
 
         registerSubmit() {
-            this.$refs['registerForm'].validate(async (valid) => {
+            this.$refs['registerFormComponent'].validate(async (valid) => {
                 if (valid) {
                     const data = {
                         account: this.registerForm.account,
@@ -270,8 +255,9 @@
                 password2: '',
                 nickname: ''
             }
-            this[`${this.showType}FormKey`] = Date.now()
             this.showType = this.showType === 'login' ? 'register' : 'login'
+            this.loginFormKey = Date.now()
+            this.registerFormKey = Date.now()
         }
     }
 </script>
