@@ -23,6 +23,7 @@
                 <el-input
                     v-model="loginForm.account"
                     placeholder="请输入账号"
+                    @keyup.enter.native="loginSubmit"
                 />
             </el-form-item>
             <el-form-item prop="password">
@@ -30,6 +31,7 @@
                     v-model="loginForm.password"
                     placeholder="请输入密码"
                     type="password"
+                    @keyup.enter.native="loginSubmit"
                 />
             </el-form-item>
             <el-form-item>
@@ -54,12 +56,14 @@
                 <el-input
                     v-model="registerForm.nickname"
                     placeholder="请输入用户昵称"
+                    @keyup.enter.native="registerSubmit"
                 />
             </el-form-item>
             <el-form-item prop="account">
                 <el-input
                     v-model="registerForm.account"
                     placeholder="请输入用户名"
+                    @keyup.enter.native="registerSubmit"
                 />
             </el-form-item>
             <el-form-item prop="password1">
@@ -67,6 +71,7 @@
                     v-model="registerForm.password1"
                     type="password"
                     placeholder="请输入密码"
+                    @keyup.enter.native="registerSubmit"
                 />
             </el-form-item>
             <el-form-item prop="password2">
@@ -74,6 +79,7 @@
                     v-model="registerForm.password2"
                     type="password"
                     placeholder="请再次输入密码"
+                    @keyup.enter.native="registerSubmit"
                 />
             </el-form-item>
             <el-form-item>
