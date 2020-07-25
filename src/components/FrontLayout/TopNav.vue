@@ -22,10 +22,15 @@
             :span="5"
             style="height: 100%;"
         >
-            <account-dropdown
-                class="account-menu"
+            <div
+                class="menu clearfix"
                 v-if="isLogin"
-            />
+            >
+                <account-dropdown class="account-menu" />
+                <div class="notice">
+                    <notice title="消息通知" />
+                </div>
+            </div>
             <div
                 v-else
                 class="login-register"
@@ -48,15 +53,17 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import AccountDropdown from '@/components/AccountDropdown/index.vue'
+    import AccountDropdown from '../AccountDropdown/index.vue'
     import LoginRegisterForm from './LoginRegisterForm.vue'
+    import Notice from '../Notice/index.vue'
     import { UserModule } from '@/store/modules/user'
     import Cookies from 'js-cookie'
     @Component({
         name: 'TopNav',
         components: {
             AccountDropdown,
-            LoginRegisterForm
+            LoginRegisterForm,
+            Notice
         }
     })
     export default class TopNav extends Vue {
@@ -143,13 +150,25 @@
                     color $light-purple
                 &.actice
                     color $orange
-        .account-menu
-            width 13rem
+        .menu
             height 100%
-            float right
-            display flex
-            align-items center
-            justify-content center
+            margin-right 3rem
+            .notice
+                width 3rem
+                height 100%
+                float right
+                display flex
+                align-items center
+                justify-content center
+                font-size $fs-m
+                cursor pointer
+            .account-menu
+                width 10rem
+                height 100%
+                float right
+                display flex
+                align-items center
+                justify-content center
         .login-register
             width 13rem
             height 100%

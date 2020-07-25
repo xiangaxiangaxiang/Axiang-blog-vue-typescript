@@ -218,6 +218,7 @@
                         sessionStorage.setItem('uid', res.data.uid)
                         sessionStorage.setItem('nickname', res.data.nickname)
                         sessionStorage.setItem('avatar', res.data.avatar)
+                        sessionStorage.setItem('token', res.data.token)
                         sessionStorage.setItem('isLogin', 'true')
                         this.$router.go(0)
                     }

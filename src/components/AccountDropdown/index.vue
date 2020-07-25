@@ -171,7 +171,7 @@
         // 更新信息
         private updateAccountDialog:boolean = false
         private updateForm:{nickname:string} = {
-            nickname: ''
+            nickname: sessionStorage.getItem('nickname') || ''
         }
         private imageUrl:string = ''
         // 更新密码
@@ -255,6 +255,7 @@
             formdata.append('file', avatar)
             formdata.append('uid', this.uid as string)
             const res = await updateAccountApi(formdata)
+            this.$refs.avatarInput.value = null
             if (res && res.status === 0) {
                 this.$message.success('修改成功')
                 sessionStorage.setItem('avatar', res.data.avatar)
