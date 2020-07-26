@@ -27,9 +27,41 @@
                     />
                 </div>
             </div>
-            <div class="content">
-                hi
-            </div>
+            <el-scrollbar style="height:100%;background:white;">
+                <template v-if="activeType === 'like'">
+                    <div
+                        class="notice-item"
+                        v-for="(item, index) in likes"
+                        :key="index"
+                    >
+                        <span>
+                            {{ item.nickname }}
+                        </span>
+                        &nbsp;
+                        点赞了你的 {{ getNoticeType(item.type) }}
+                        <span>
+                            {{ item.targetName }}
+                        </span>
+                    </div>
+                </template>
+                <template v-else>
+                    <div
+                        class="notice-item"
+                        v-for="(item, index) in comments"
+                        :key="index"
+                    >
+                        <span>
+                            {{ item.nickname }}
+                        </span>
+                        &nbsp;
+                        评论了你
+                        &nbsp;
+                        <span>
+                            {{ item.targetName }}
+                        </span>
+                    </div>
+                </template>
+            </el-scrollbar>
         </div>
         <span
             slot="reference"
@@ -41,14 +73,32 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
+    enum likeType {
+        ARTICLE = 100,
+        COMMENT = 300,
+        POST = 200
+    }
     @Component({
         name: 'Notice'
     })
     export default class Notice extends Vue {
         private activeType:string = 'like'
+        private comments:object[] = []
+        private likes:object[] = []
 
         changeNoticeType(type:string) {
             this.activeType = type
+        }
+
+        getNoticeType(type):string {
+            if (type === likeType.ARTICLE) {
+                return '文章'
+            } else if (type === likeType.COMMENT) {
+                return '评论'
+            } else if (type === likeType.POST) {
+                return '动态'
+            }
+            return ''
         }
     }
 </script>
