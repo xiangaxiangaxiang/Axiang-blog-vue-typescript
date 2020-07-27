@@ -35,7 +35,7 @@
                         :key="index"
                     >
                         <span>
-                            {{ item.nickname }}
+                            {{ item.operationUser }}
                         </span>
                         &nbsp;
                         点赞了你的 {{ getNoticeType(item.type) }}
@@ -51,7 +51,7 @@
                         :key="index"
                     >
                         <span>
-                            {{ item.nickname }}
+                            {{ item.operationUser }}
                         </span>
                         &nbsp;
                         评论了你
@@ -72,12 +72,20 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Watch } from 'vue-property-decorator'
+    import { getNoticeApi } from '@/api/notice'
+
     enum likeType {
         ARTICLE = 100,
         COMMENT = 300,
         POST = 200
     }
+
+    enum noticeType {
+        COMMENT = 100,
+        LIKE = 200
+    }
+
     @Component({
         name: 'Notice'
     })
@@ -85,6 +93,28 @@
         private activeType:string = 'like'
         private comments:object[] = []
         private likes:object[] = []
+        private timer
+
+        @Watch('activeType')
+        changeActiveType() {
+            this.getNotice()
+        }
+
+        async getNotice() {
+            const params = {
+                offset: 0,
+                limit: 10,
+                type: this.activeType === 'like' ? noticeType.LIKE : noticeType.COMMENT
+            }
+            const res = await getNoticeApi(params)
+            if (res && res.status === 0) {
+                if (this.activeType === 'like') {
+                    this.likes = res.data
+                } else {
+                    this.comments = res.data
+                }
+            }
+        }
 
         changeNoticeType(type:string) {
             this.activeType = type
