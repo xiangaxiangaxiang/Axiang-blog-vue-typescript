@@ -28,20 +28,19 @@
                     />
                 </div>
             </div>
-            <el-scrollbar style="height:100%;background:white;">
+            <el-scrollbar class="scrollbar">
                 <template v-if="activeType === 'like'">
                     <div
                         class="notice-item"
                         v-for="(item, index) in likes"
                         :key="index"
                     >
-                        <span>
-                            {{ item.operationUser }}
+                        <span class="color-blue">
+                            {{ `${item.operationUser}      ` }}
                         </span>
-                        &nbsp;
-                        点赞了你的 {{ getNoticeType(item.type) }}
-                        <span>
-                            {{ item.targetName }}
+                        点赞了你的{{ getNoticeType(item.targetType) }}
+                        <span class="color-blue">
+                            {{ `      ${item.targetName}` }}
                         </span>
                     </div>
                 </template>
@@ -51,14 +50,12 @@
                         v-for="(item, index) in comments"
                         :key="index"
                     >
-                        <span>
-                            {{ item.operationUser }}
+                        <span class="color-blue">
+                            {{ `${item.operationUser}     ` }}
                         </span>
-                        &nbsp;
                         评论了你
-                        &nbsp;
-                        <span>
-                            {{ item.targetName }}
+                        <span class="color-blue cursor-pointer">
+                            {{ `    ${item.targetName}` }}
                         </span>
                     </div>
                 </template>
@@ -75,7 +72,6 @@
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
     import { getNoticeApi, getUnreadNumsApi } from '@/api/notice'
-import { log } from 'util'
 
     enum likeType {
         ARTICLE = 100,
@@ -182,7 +178,17 @@ import { log } from 'util'
                     cursor pointer
                 &.active
                     color $blue
-        .content
+        .scrollbar
             height 36rem
             background-color white
+            /deep/.el-scrollbar__wrap
+                overflow-x hidden
+                overflow-y auto
+            .notice-item
+                margin-bottom 0.1rem
+                padding 1rem 0.5rem
+                width 100%
+                border-bottom 1px solid $greyBg
+                min-height 3rem
+                line-height 1.5
 </style>
