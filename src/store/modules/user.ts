@@ -25,9 +25,20 @@ class User extends VuexModule implements IUserState {
         this.showLoginRegisterType = type
     }
 
+    @Mutation
+    private SHOW_DIALOG() {
+        this.showLoginRegisterForm = true
+        this.showLoginRegisterType = 'login'
+    }
+
     @Action
     public toggleDialog(type='') {
         this.TOGGLE_DIALOG(type)
+    }
+
+    @Action
+    public showDialog() {
+        this.SHOW_DIALOG()
     }
 }
 

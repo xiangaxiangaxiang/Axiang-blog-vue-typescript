@@ -3,6 +3,7 @@
         placement="bottom-start"
         width="350"
         trigger="click"
+        @show="getNotice"
     >
         <div class="notice-content">
             <div class="header">
@@ -73,7 +74,8 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
-    import { getNoticeApi } from '@/api/notice'
+    import { getNoticeApi, getUnreadNumsApi } from '@/api/notice'
+import { log } from 'util'
 
     enum likeType {
         ARTICLE = 100,
@@ -93,11 +95,33 @@
         private activeType:string = 'like'
         private comments:object[] = []
         private likes:object[] = []
+        private unreadNums:number = 0
         private timer
 
         @Watch('activeType')
         changeActiveType() {
             this.getNotice()
+        }
+
+        mounted () {
+            const isLogin = sessionStorage.getItem('isLogin')
+            if (isLogin) {
+                this.timer = setInterval(() => {
+                    this.getUnreadNums()
+                }, 7000)
+                this.$once('hook:beforeDestroy', () => {
+                    clearInterval(this.timer)
+                })
+            }
+        }
+
+        async getUnreadNums() {
+            const res = await getUnreadNumsApi()
+            if (res && res.status === 0) {
+                this.unreadNums = res.data.nums
+            } else {
+                clearInterval(this.timer)
+            }
         }
 
         async getNotice() {

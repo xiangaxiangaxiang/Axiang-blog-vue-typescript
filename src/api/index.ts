@@ -2,7 +2,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import qs from 'qs'
 import { Message } from 'element-ui'
-import { Base64 } from 'js-base64';
+import { Base64 } from 'js-base64'
+import { UserModule } from '@/store/modules/user'
 
 export interface ResponseData {
     code: number;
@@ -69,6 +70,10 @@ service.interceptors.response.use(
                     message: msg,
                     type: 'error'
                 })
+            }
+            const status = error.response.status
+            if (status === 403) {
+                UserModule.showDialog()
             }
         } else {
             Message({

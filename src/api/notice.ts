@@ -7,3 +7,10 @@ export function getNoticeApi(params) {
         params
     })
 }
+
+export function getUnreadNumsApi() {
+    return service({
+        url: '/front/notification/unread_nums',
+        method: 'get'
+    })
+}
