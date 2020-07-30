@@ -1,19 +1,21 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:28:47
- * @LastEditTime: 2020-07-09 21:33:33
+ * @LastEditTime: 2020-07-30 22:51:55
  * @Description: 博客主页
  * @FilePath: \axiang-blog-vue-typescript\src\front\home\index.vue
  -->
 <template>
     <div class="home-container">
         <sakura class="sakura" />
-        <div class="nav-bar">
-            <div class="img-wrapper">
-                <img
-                    :src="imgSrc"
-                    alt="图片加载失败"
-                >
+        <div class="content">
+            <div class="nav-bar">
+                <div class="img-wrapper">
+                    <img
+                        :src="imgSrc"
+                        alt="图片加载失败"
+                    >
+                </div>
             </div>
         </div>
     </div>
@@ -28,7 +30,7 @@
         }
     })
     export default class Home extends Vue {
-        private imgSrc = '/static/avatar.jpg'
+        private imgSrc = require('@/assets/avatar.jpg')
     }
 </script>
 <style lang="stylus" scoped>
@@ -36,6 +38,7 @@
         width 100vw
         height 100vh
         position relative
+        overflow hidden
         .sakura
             width 100%
             height 100%
@@ -43,17 +46,22 @@
             top 0
             right 0
             z-index -1000
-        .nav-bar
+        .content
             width 100%
             height 100%
-            .img-wrapper
-                width 10rem
-                height 10rem
-                border-radius 50%
-                img
-                    width 100%
-                    height 100%
+            .nav-bar
+                width 100%
+                height 60rem
+                margin-top 20rem
+                .img-wrapper
+                    width 15rem
+                    height 15rem
                     border-radius 50%
+                    margin 0 auto
+                    img
+                        width 100%
+                        height 100%
+                        border-radius 50%
 </style>
 
 
