@@ -28,7 +28,7 @@
         }
     })
     export default class Home extends Vue {
-        private imgSrc = '/static/img/map2.png'
+        private imgSrc = '/static/avatar.jpg'
     }
 </script>
 <style lang="stylus" scoped>
@@ -43,6 +43,17 @@
             top 0
             right 0
             z-index -1000
+        .nav-bar
+            width 100%
+            height 100%
+            .img-wrapper
+                width 10rem
+                height 10rem
+                border-radius 50%
+                img
+                    width 100%
+                    height 100%
+                    border-radius 50%
 </style>
 
 
