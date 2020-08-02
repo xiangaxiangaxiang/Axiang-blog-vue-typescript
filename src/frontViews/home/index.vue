@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:28:47
- * @LastEditTime: 2020-07-30 22:51:55
+ * @LastEditTime: 2020-08-02 17:31:07
  * @Description: 博客主页
  * @FilePath: \axiang-blog-vue-typescript\src\front\home\index.vue
  -->
@@ -32,6 +32,10 @@
                                 {{ item.name }}
                             </li>
                         </ul>
+                        <p class="my-dream">
+                            <!-- 德玛西亚万岁！！！！！！！！！！！！！！！！！！！ -->
+                            努力只为了三件事，自由，自由，还是提莫的自由！！！
+                        </p>
                     </el-col>
                 </el-row>
             </div>
@@ -55,13 +59,13 @@
             path: '/home'
         }, {
             name: '技术',
-            path: '/ariticle/technology'
+            path: '/article/technology'
         }, {
             name: '生活',
-            path: '/ariticle/live'
+            path: '/article/live'
         }, {
             name: '梦想',
-            path: '/ariticle/dream'
+            path: '/article/dream'
         }, {
             name: '动态',
             path: '/post'
@@ -113,8 +117,8 @@
                         border-radius 50%
             .nav-list
                 width 80%
-                height 15rem
-                line-height 15rem
+                height 20rem
+                line-height 20rem
                 margin 0 auto
                 .nav-item
                     display inline-block
@@ -126,9 +130,15 @@
                     font-size $fs-l
                     color white
                     &:hover
-                        color $light-purple
+                        color $yellow
                     &.actice
                         color $orange
+            .my-dream
+                height 4rem
+                line-height 4rem
+                font-size $fs-mx
+                color $blue
+                text-align center
 </style>
 
 

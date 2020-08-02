@@ -72,13 +72,13 @@
             path: '/home'
         }, {
             name: '技术',
-            path: '/ariticle/technology'
+            path: '/article/technology'
         }, {
             name: '生活',
-            path: '/ariticle/live'
+            path: '/article/live'
         }, {
             name: '梦想',
-            path: '/ariticle/dream'
+            path: '/article/dream'
         }, {
             name: '动态',
             path: '/post'
@@ -124,14 +124,13 @@
 <style lang="stylus" scoped>
     .nav-container
         width 100%
-        height 5rem
-        background rgba(255, 255, 255, 0.8)
-        box-shadow 0 1px 4px rgba(0,21,41,.08) inset
+        height $navHeight
+        box-shadow 0 1px 4px rgba(0,21,41,.2)
         color $blue
         .logo
             width 100%
             height 100%
-            line-height 5rem
+            line-height $navHeight
             text-align center
             font-size $fs-mx
             font-weight 500
@@ -142,7 +141,7 @@
                 display inline-block
                 width 14%
                 height 100%
-                line-height 5rem
+                line-height $navHeight
                 font-size $fs-s
                 text-align center
                 cursor pointer
@@ -173,7 +172,7 @@
             width 13rem
             height 100%
             float right
-            line-height 5rem
+            line-height $navHeight
             font-size $fs-ss
             span
                 cursor pointer

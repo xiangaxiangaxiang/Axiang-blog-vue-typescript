@@ -3,6 +3,14 @@
         <sakura class="sakura" />
         <div class="wrapper">
             <top-nav />
+            <el-row>
+                <el-col
+                    :span="14"
+                    :offset="5"
+                >
+                    <router-view />
+                </el-col>
+            </el-row>
         </div>
     </div>
 </template>
@@ -38,5 +46,5 @@
             z-index -1000
         .wrapper
             z-index 1
-            background rgba(238,238,238,0.4)
+            background rgba(255, 255, 255, 0.75)
 </style>
