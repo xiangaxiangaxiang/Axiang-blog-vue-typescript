@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-08-02 21:43:05
- * @LastEditTime: 2020-08-04 23:12:52
+ * @LastEditTime: 2020-08-04 23:16:06
  * @Description: 文章列表
  * @FilePath: \axiang-blog-vue-typescript\src\frontViews\article\components\ArticleList.vue
 -->
@@ -107,6 +107,9 @@
                     display -webkit-box
                     -webkit-line-clamp 2
                     -webkit-box-orient vertical
+                    &:hover
+                        text-decoration underline
+                        cursor pointer
                 .content
                     width 100%
                     height 6rem
@@ -123,7 +126,7 @@
                     width 100%
                     height 2rem
                     line-height 2rem
-                    color $second-text
+                    color $ligth-text
                     font-size $fs-sss
                     .statistics-item
                         margin-right 1.5rem
@@ -139,4 +142,5 @@
                     left 50%
                     top 50%
                     transform translate(-50%, -50%)
+                    cursor pointer
 </style>
