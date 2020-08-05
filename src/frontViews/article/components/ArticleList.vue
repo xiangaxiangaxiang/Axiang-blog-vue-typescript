@@ -61,9 +61,7 @@
     })
     export default class ArticleList extends Vue {
         private articles:articleType[] = []
-
-        mounted() {
-            const item = {
+        private item:articleType = {
                 title: '这是一个标题',
                 content: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦阿拉拉拉啊啦啦啦啊啦啦啦啦啦啦啦德玛西亚万岁少时诵诗书所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所',
                 likeNums: 666,
@@ -71,8 +69,10 @@
                 clickNums: 777,
                 commentsNums: 888
             }
-            for (let i =0; i < 30; i++) {
-                this.articles.push(item)
+
+        mounted() {
+            for (let i =0; i < 10; i++) {
+                this.articles.push(this.item)
             }
         }
     }
@@ -81,6 +81,7 @@
     .scrollbar
         width 100%
         height 100%
+        overflow auto
         .list-item
             width 100%
             min-height 13rem
