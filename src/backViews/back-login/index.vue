@@ -26,7 +26,7 @@
                     <div
                         class="input-content"
                         placeholder="账号"
-                        :class="accountFocus ? 'focus': ''"
+                        :class="{ focus: accountFocus }"
                     >
                         <input
                             type="text"
@@ -38,7 +38,7 @@
                     <div
                         class="input-content"
                         placeholder="密码"
-                        :class="passwordFocus ? 'focus': ''"
+                        :class="{ focus: passwordFocus }"
                     >
                         <input
                             type="password"
@@ -73,7 +73,7 @@
                     <div
                         class="input-content"
                         placeholder="昵称"
-                        :class="rgNicknameFocus ? 'focus': ''"
+                        :class="{focus: rgNicknameFocus}"
                     >
                         <input
                             type="text"
@@ -85,7 +85,7 @@
                     <div
                         class="input-content"
                         placeholder="账号"
-                        :class="rgAccountFocus ? 'focus': ''"
+                        :class="{focus: rgAccountFocus}"
                     >
                         <input
                             type="text"
@@ -97,7 +97,7 @@
                     <div
                         class="input-content"
                         placeholder="密码"
-                        :class="rgPasswordFocus ? 'focus': ''"
+                        :class="{focus: rgPasswordFocus}"
                     >
                         <input
                             type="password"
@@ -110,7 +110,7 @@
                     <div
                         class="input-content"
                         placeholder="重复密码"
-                        :class="rgRepeatFocus ? 'focus': ''"
+                        :class="{focus: rgRepeatFocus}"
                     >
                         <input
                             type="password"
@@ -123,7 +123,7 @@
                     <div
                         class="input-content"
                         placeholder="密令"
-                        :class="rgSecretFocus ? 'focus': ''"
+                        :class="{focus: rgSecretFocus}"
                     >
                         <input
                             type="password"
