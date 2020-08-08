@@ -1,7 +1,7 @@
 /*
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:40:36
- * @LastEditTime: 2020-05-16 16:14:08
+ * @LastEditTime: 2020-08-08 17:45:56
  * @LastEditors: Please set LastEditors
  * @Description: 博客路由
  * @FilePath: \axiang-blog-vue-typescript\src\router\front.ts
@@ -26,6 +26,7 @@ const frontRouter: Array<RouteConfig> = [{
     children: [{
         path: '/article/:type',
         name: 'Article',
+        props: true,
         component: () => import('frontViews/article/index.vue'),
         meta: {
             title: '文章'

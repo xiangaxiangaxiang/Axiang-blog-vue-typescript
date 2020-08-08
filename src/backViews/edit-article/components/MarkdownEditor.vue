@@ -222,7 +222,7 @@
 
         getContent() {
             const content = this.markdown.replace(/#*.*#/g, '').replace(/[^a-z0-9\u4e00-\u9fa5]/, '').substring(0, 200)
-            return `${content}...`
+            return content
         }
     }
 </script>

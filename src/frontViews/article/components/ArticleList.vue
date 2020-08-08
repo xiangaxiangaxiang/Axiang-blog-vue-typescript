@@ -1,12 +1,15 @@
 <!--
  * @Author: your name
  * @Date: 2020-08-02 21:43:05
- * @LastEditTime: 2020-08-04 23:16:06
+ * @LastEditTime: 2020-08-08 21:55:45
  * @Description: 文章列表
  * @FilePath: \axiang-blog-vue-typescript\src\frontViews\article\components\ArticleList.vue
 -->
 <template>
-    <el-scrollbar class="scrollbar">
+    <el-scrollbar
+        class="scrollbar"
+        ref="scrollbar"
+    >
         <div
             v-for="(item, index) in articles"
             :key="index"
@@ -34,18 +37,30 @@
                     </span>
                 </div>
             </div>
-            <div class="img-wrapper">
+            <div
+                class="img-wrapper"
+                v-if="item.firstImage"
+            >
                 <img
                     :src="item.firstImage"
                     alt="图片加载失败"
                 >
             </div>
         </div>
+        <p
+            class="more"
+            v-show="isLoading"
+        >
+            正在加载更多文章
+            <i class="el-icon-loading" />
+        </p>
     </el-scrollbar>
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+    import { getArticlesApi } from '@/api/front/article'
+    import { debounce } from 'lodash'
 
     interface articleType {
         title: string
@@ -55,25 +70,62 @@
         clickNums: number
         firstImage: string
     }
+    enum ArticleType {
+        TECHNOLOGY = 100,
+        LIFE = 200,
+        DREAM = 300
+    }
 
     @Component({
         name: 'ArticleList'
     })
     export default class ArticleList extends Vue {
+        @Prop({default: ''}) type !:string
+
         private articles:articleType[] = []
-        private item:articleType = {
-                title: '这是一个标题',
-                content: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦阿拉拉拉啊啦啦啦啊啦啦啦啦啦啦啦德玛西亚万岁少时诵诗书所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所',
-                likeNums: 666,
-                firstImage: require('../../../assets/avatar.jpg'),
-                clickNums: 777,
-                commentsNums: 888
-            }
+        private offset:number = 0
+        private limit:number = 8
+        private total:number = 0
+
+        private isLoading:boolean = false
+
+        @Watch('type')
+        changeArticleType() {
+            this.getArticles()
+        }
 
         mounted() {
-            for (let i =0; i < 10; i++) {
-                this.articles.push(this.item)
+            this.getArticles()
+            this.$nextTick(() => {
+                const scrollbar = this.$refs.scrollbar
+                // eslint-disable-next-line
+                const wrap = ( scrollbar as HTMLFormElement ).$refs['wrap']
+                wrap.addEventListener('scroll', debounce(this.handleScroll, 300))
+            })
+        }
+
+        handleScroll(e) {
+            const isEnd = e.target.scrollHeight === e.target.clientHeight + e.target.scrollTop
+            if (isEnd) {
+                this.offset = this.articles.length
+                this.isLoading = true
+                this.getArticles()
             }
+        }
+
+        async getArticles() {
+            const params = {
+                offset: this.offset,
+                limit: this.limit,
+                articleType: ArticleType[this.type.toUpperCase()]
+            }
+            const res = await getArticlesApi(params)
+            const data = [].concat(res.data.articles)
+            data.forEach(item => {
+                this.articles.push(item)
+            })
+            this.total = res.data.total
+            this.isLoading = false
         }
     }
 </script>
@@ -82,6 +134,13 @@
         width 100%
         height 100%
         overflow auto
+        .more
+            width 100%
+            height 2rem
+            line-height 2rem
+            text-align center
+            color $ligth-text
+            font-size 1.2rem
         .list-item
             width 100%
             min-height 13rem

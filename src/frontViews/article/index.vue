@@ -5,14 +5,14 @@
                 :span="16"
                 style="height: 100%;"
             >
-                <article-list />
+                <article-list :type="type" />
             </el-col>
         </el-row>
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
     import ArticleList from './components/ArticleList.vue'
     @Component({
         name: 'FrontLayout',
@@ -21,7 +21,7 @@
         }
     })
     export default class FrontLayout extends Vue {
-        private imgSrc = ''
+        @Prop({default: ''}) type!:string
     }
 </script>
 

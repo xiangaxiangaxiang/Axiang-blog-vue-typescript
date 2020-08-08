@@ -12,7 +12,7 @@
                     v-for="item in navList"
                     :key="item.path"
                     @click="pageJump(item.path)"
-                    :class="item.name === '技术' ? 'actice': ''"
+                    :class="item.path === path ? 'actice': ''"
                 >
                     {{ item.name }}
                 </li>
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Watch } from 'vue-property-decorator'
     import AccountDropdown from '../AccountDropdown/index.vue'
     import LoginRegisterForm from './LoginRegisterForm.vue'
     import Notice from '../Notice/index.vue'
@@ -75,7 +75,7 @@
             path: '/article/technology'
         }, {
             name: '生活',
-            path: '/article/live'
+            path: '/article/life'
         }, {
             name: '梦想',
             path: '/article/dream'
@@ -90,6 +90,8 @@
             path: '/other'
         }]
 
+        private path:string = ''
+
         private isLogin:boolean = false
 
         get showDialog() {
@@ -100,7 +102,13 @@
             return UserModule.showLoginRegisterType
         }
 
+        @Watch('$route')
+        changePath() {
+            this.path = this.$route.path
+        }
+
         mounted() {
+            this.path = this.$route.path
             const isLogin = sessionStorage.getItem('isLogin')
             if (isLogin) {
                 this.isLogin = true
