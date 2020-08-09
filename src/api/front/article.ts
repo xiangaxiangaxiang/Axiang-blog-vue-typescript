@@ -7,3 +7,11 @@ export function getArticlesApi(params) {
         params
     })
 }
+
+export function getLabelsApi(params) {
+    return service({
+        url: '/front/article/label',
+        method: 'get',
+        params
+    })
+}

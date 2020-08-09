@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-06-06 18:03:55
- * @LastEditTime: 2020-06-14 12:49:44
+ * @LastEditTime: 2020-08-09 16:49:41
  * @LastEditors: Please set LastEditors
  * @Description: 统计数据
  * @FilePath: \axiang-blog-vue-typescript\src\back\home\components\StatisticalData.vue
@@ -173,7 +173,7 @@
         .card-panel
             height 11rem
             cursor pointer
-            font-size 1.2rem
+            font-size $fs-sss
             position relative
             overflow hidden
             color #666

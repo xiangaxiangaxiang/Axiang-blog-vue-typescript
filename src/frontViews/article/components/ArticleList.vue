@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-08-02 21:43:05
- * @LastEditTime: 2020-08-08 21:55:45
+ * @LastEditTime: 2020-08-09 19:55:25
  * @Description: 文章列表
  * @FilePath: \axiang-blog-vue-typescript\src\frontViews\article\components\ArticleList.vue
 -->
@@ -54,48 +54,28 @@
             正在加载更多文章
             <i class="el-icon-loading" />
         </p>
+        <p
+            class="mo-more"
+            v-show="articles.length === 0 && !isLoading"
+        >
+            -------------- 莫得文章了 --------------
+        </p>
     </el-scrollbar>
 </template>
 
 <script lang="ts">
     import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-    import { getArticlesApi } from '@/api/front/article'
     import { debounce } from 'lodash'
-
-    interface articleType {
-        title: string
-        content: string
-        likeNums: number
-        commentsNums: number
-        clickNums: number
-        firstImage: string
-    }
-    enum ArticleType {
-        TECHNOLOGY = 100,
-        LIFE = 200,
-        DREAM = 300
-    }
 
     @Component({
         name: 'ArticleList'
     })
     export default class ArticleList extends Vue {
         @Prop({default: ''}) type !:string
-
-        private articles:articleType[] = []
-        private offset:number = 0
-        private limit:number = 8
-        private total:number = 0
-
-        private isLoading:boolean = false
-
-        @Watch('type')
-        changeArticleType() {
-            this.getArticles()
-        }
+        @Prop({default: false}) isLoading !:boolean
+        @Prop({default: () => []}) articles !:[]
 
         mounted() {
-            this.getArticles()
             this.$nextTick(() => {
                 const scrollbar = this.$refs.scrollbar
                 // eslint-disable-next-line
@@ -107,25 +87,9 @@
         handleScroll(e) {
             const isEnd = e.target.scrollHeight === e.target.clientHeight + e.target.scrollTop
             if (isEnd) {
-                this.offset = this.articles.length
-                this.isLoading = true
-                this.getArticles()
+                this.$emit('changeLoading')
+                this.$emit('getArticle')
             }
-        }
-
-        async getArticles() {
-            const params = {
-                offset: this.offset,
-                limit: this.limit,
-                articleType: ArticleType[this.type.toUpperCase()]
-            }
-            const res = await getArticlesApi(params)
-            const data = [].concat(res.data.articles)
-            data.forEach(item => {
-                this.articles.push(item)
-            })
-            this.total = res.data.total
-            this.isLoading = false
         }
     }
 </script>
@@ -134,13 +98,20 @@
         width 100%
         height 100%
         overflow auto
+        .mo-more
+            width 100%
+            height 3rem
+            line-height 3rem
+            text-align center
+            color $ligth-text
+            font-size $fs-s
         .more
             width 100%
             height 2rem
             line-height 2rem
             text-align center
             color $ligth-text
-            font-size 1.2rem
+            font-size $fs-sss
         .list-item
             width 100%
             min-height 13rem
