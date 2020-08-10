@@ -1,7 +1,7 @@
 /*
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:40:36
- * @LastEditTime: 2020-08-08 17:45:56
+ * @LastEditTime: 2020-08-10 22:16:15
  * @LastEditors: Please set LastEditors
  * @Description: 博客路由
  * @FilePath: \axiang-blog-vue-typescript\src\router\front.ts
@@ -30,6 +30,21 @@ const frontRouter: Array<RouteConfig> = [{
         component: () => import('frontViews/article/index.vue'),
         meta: {
             title: '文章'
+        }
+    }]
+}, {
+    path: '/article-detail/:articleId',
+    component: Layout,
+    redirect: {
+        name: 'ArticleDetail'
+    },
+    children: [{
+        path: '/article-detail/:articleId',
+        name: 'ArticleDetail',
+        props: true,
+        component: () => import('frontViews/article-detail/index.vue'),
+        meta: {
+            title: '文章详情'
         }
     }]
 }]

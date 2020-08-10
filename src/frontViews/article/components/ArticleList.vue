@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-08-02 21:43:05
- * @LastEditTime: 2020-08-09 19:55:25
+ * @LastEditTime: 2020-08-10 22:19:56
  * @Description: 文章列表
  * @FilePath: \axiang-blog-vue-typescript\src\frontViews\article\components\ArticleList.vue
 -->
@@ -15,7 +15,10 @@
             :key="index"
             class="list-item"
         >
-            <div class="article-content">
+            <div
+                class="article-content"
+                @click="showDetail(item.articleId)"
+            >
                 <h3 class="title">
                     {{ item.title }}
                 </h3>
@@ -44,6 +47,7 @@
                 <img
                     :src="item.firstImage"
                     alt="图片加载失败"
+                    @click="showDetail(item.articleId)"
                 >
             </div>
         </div>
@@ -90,6 +94,10 @@
                 this.$emit('changeLoading')
                 this.$emit('getArticle')
             }
+        }
+
+        showDetail(articleId) {
+            this.$router.push(`/article-detail/${articleId}`)
         }
     }
 </script>

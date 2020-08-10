@@ -15,3 +15,11 @@ export function getLabelsApi(params) {
         params
     })
 }
+
+export function getArticleDetailApi(params) {
+    return service({
+        url: '/front/article/detail',
+        method: 'get',
+        params
+    })
+}
