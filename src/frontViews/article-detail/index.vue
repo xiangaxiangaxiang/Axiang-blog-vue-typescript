@@ -56,6 +56,7 @@
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator'
     import { getArticleDetailApi } from '@/api/front/article'
+    import { likeApi, dislikeApi } from '@/api/front/like'
     import Comments from './components/Comments.vue'
     import { debounce } from 'lodash'
     @Component({
@@ -71,6 +72,7 @@
         private articleTitle:string = ''
         private likeStatus:boolean = false
         private showBackToTop:boolean = false
+        private timer:any = null
 
         mounted() {
             this.getArticleDetail()
@@ -92,11 +94,12 @@
             const scrollbar = this.$refs.articleScrollbar
             // eslint-disable-next-line
             const wrap = ( scrollbar as HTMLFormElement ).$refs['wrap']
-            console.log(wrap.animate({scrollTop: 0, duration: 1000}))
-            wrap.animate({
-                scrollTop: 0,
-                duration: 1000
-            })
+            this.timer = setInterval(() => {
+                wrap.scrollTop = wrap.scrollTop > 50 ? wrap.scrollTop - 50 : 0
+                if (wrap.scrollTop === 0) {
+                    clearInterval(this.timer)
+                }
+            }, 15)
         }
 
         async getArticleDetail() {
@@ -111,8 +114,21 @@
             }
         }
 
-        handleLike() {
-            this.likeStatus = !this.likeStatus
+        async handleLike() {
+            let res
+            const data = {
+                    targetId: this.articleId,
+                    type: 100
+                }
+            if (this.likeStatus) {
+                res = await dislikeApi(data)
+            } else {
+                res = await likeApi(data)
+            }
+            if (res && res.status === 0) {
+                this.likeStatus = !this.likeStatus
+                this.$message.success(this.likeStatus ? '谢谢你的点赞摸摸哒': '看见我四十米长的大刀没？赶紧点亮小心心')
+            }
         }
     }
 </script>
