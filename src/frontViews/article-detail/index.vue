@@ -17,6 +17,7 @@
             <div
                 class="item comments"
                 title="查看评论"
+                @click="showCommonts"
             >
                 <font-awesome-icon icon="comments" />
             </div>
@@ -44,7 +45,7 @@
                     class="article-detail markdown-body"
                     v-html="articleHtml"
                 />
-                <comments />
+                <comments ref="comments" />
             </el-scrollbar>
         </el-col>
         <el-col :span="6">
@@ -90,6 +91,11 @@
             }
         }
 
+        showCommonts() {
+            const commentsDom = this.$refs.comments as HTMLFormElement
+            console.log(commentsDom.scrollTop)
+        }
+
         backToTop() {
             const scrollbar = this.$refs.articleScrollbar
             // eslint-disable-next-line
@@ -111,6 +117,7 @@
                 this.articleHtml = res.data.html
                 this.markdown = res.data.markdown
                 this.articleTitle = res.data.title
+                this.likeStatus = res.data.likeStatus
             }
         }
 

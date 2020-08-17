@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-14 21:06:42
- * @LastEditTime: 2020-08-10 21:56:36
+ * @LastEditTime: 2020-08-17 21:34:32
  * @LastEditors: Please set LastEditors
  * @Description: 用户接口
  * @FilePath: \axiang-blog-vue-typescript\src\api\front\user.ts
@@ -47,5 +47,12 @@ export function touristApi() {
     return service({
         url: '/front/user/tourist',
         method: 'get'
+    })
+}
+
+export function logoutApi() {
+    return service({
+        url: '/front/user/logout',
+        method: 'post'
     })
 }

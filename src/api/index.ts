@@ -53,10 +53,8 @@ service.interceptors.response.use(
     (error) => {
         if (error.response && error.response.data) {
             const res = error.response.data
-            const baseMsg = `errorcode ${res.status}!`
             let msg:string = ''
             if (res.msg instanceof Array && res.msg.length > 0) {
-                msg += baseMsg
                 for (let i = 0; i < res.msg.length; i ++) {
                     msg += ` (${i+1}) ${res.msg[i]}`
                 }
@@ -65,7 +63,7 @@ service.interceptors.response.use(
                     type: 'error'
                 })
             } else if (typeof res.msg === 'string') {
-                msg = `${baseMsg} ${res.msg}`
+                msg = res.msg
                 Message({
                     message: msg,
                     type: 'error'

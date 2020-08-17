@@ -143,7 +143,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import { updateAccountApi, updatePasswordApi } from '@/api/front/user'
+    import { updateAccountApi, updatePasswordApi, logoutApi } from '@/api/front/user'
     import md5 from 'md5'
     import Cookies from 'js-cookie'
 
@@ -194,10 +194,10 @@
             ]
         }
 
-        handleCommand(command) {
+        async handleCommand(command) {
             if (command === 'logout') {
+                await logoutApi()
                 sessionStorage.clear()
-                Cookies.remove('auth')
                 this.$router.go(0)
             } else if (command === 'updateAccount') {
                 this.updateAccountDialog = true
