@@ -233,7 +233,7 @@
             const res = await adminLogin(loginData)
             if (res && res.status === 0) {
                 this.$message.success('登录成功')
-                sessionStorage.setItem('uid', res.data.token)
+                sessionStorage.setItem('uid', res.data.uid)
                 sessionStorage.setItem('nickname', res.data.nickname)
                 sessionStorage.setItem('avatar', res.data.avatar)
                 this.$router.push('/admin/home')

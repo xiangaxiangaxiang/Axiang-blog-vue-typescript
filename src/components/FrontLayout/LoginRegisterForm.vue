@@ -152,11 +152,11 @@
             nickname: ''
         }
         public validatePass2 = (rule, value, callback) => {
-            if (value === '') {
+            if (value.trim() === '') {
                 // eslint-disable-next-line
                 callback(new Error('请再次输入密码'))
                 // eslint-disable-next-line
-            } else if (value !== this.registerForm.password1) {
+            } else if (value.trim() !== this.registerForm.password1.trim()) {
                 // eslint-disable-next-line
                 callback(new Error('两次输入密码不一致!'))
             } else {

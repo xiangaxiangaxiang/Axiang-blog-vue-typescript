@@ -25,7 +25,7 @@
                 class="item back-to-top"
                 :class="{show: showBackToTop}"
                 title="回到顶部"
-                @click="backToTop"
+                @click="scrollTo(0)"
             >
                 <font-awesome-icon icon="caret-up" />
             </div>
@@ -91,21 +91,30 @@
             }
         }
 
-        showCommonts() {
-            const commentsDom = this.$refs.comments as HTMLFormElement
-            console.log(commentsDom.scrollTop)
-        }
-
-        backToTop() {
+        scrollTo(scrollTop:number) {
             const scrollbar = this.$refs.articleScrollbar
             // eslint-disable-next-line
             const wrap = ( scrollbar as HTMLFormElement ).$refs['wrap']
+            let abs:number = Math.abs(scrollTop - wrap.scrollTop)
+            let speed = 15 / 300 * abs < 50 ? 50 : 15 / 800 * abs
+            speed = parseInt(speed.toString())
             this.timer = setInterval(() => {
-                wrap.scrollTop = wrap.scrollTop > 50 ? wrap.scrollTop - 50 : 0
-                if (wrap.scrollTop === 0) {
+                abs = Math.abs(scrollTop - wrap.scrollTop)
+                if (scrollTop > wrap.scrollTop) {
+                    wrap.scrollTop = abs > speed ? wrap.scrollTop + speed : scrollTop
+                } else {
+                    wrap.scrollTop = abs > speed ? wrap.scrollTop - speed : scrollTop
+                }
+                if (wrap.scrollTop + abs === scrollTop) {
                     clearInterval(this.timer)
                 }
             }, 15)
+        }
+
+        showCommonts() {
+            const commentsDom = this.$refs.comments as HTMLFormElement
+            const commentsScrollTop = commentsDom.$el.offsetTop
+            this.scrollTo(commentsScrollTop)
         }
 
         async getArticleDetail() {

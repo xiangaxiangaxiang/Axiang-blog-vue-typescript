@@ -46,6 +46,7 @@
             <login-register-form
                 :dialog-visable="showDialog"
                 :type="showType"
+                :key="showDialogKey"
             />
         </el-col>
     </el-row>
@@ -89,13 +90,16 @@
             name: '其他',
             path: '/other'
         }]
-
         private path:string = ''
-
         private isLogin:boolean = false
+        private showDialogKey:number = Date.now()
 
         get showDialog() {
-            return UserModule.showLoginRegisterForm
+            const showLoginRegisterForm = UserModule.showLoginRegisterForm
+            if (!showLoginRegisterForm) {
+                this.showDialogKey = Date.now()
+            }
+            return showLoginRegisterForm
         }
 
         get showType() {

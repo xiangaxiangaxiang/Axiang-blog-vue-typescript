@@ -1,21 +1,28 @@
 <template>
     <div class="comment-container">
-        <div
-            v-for="item in 30"
-            :key="item"
-            class="list"
-        >
-            {{ item }}
-        </div>
+        <picker
+            :include="['people']"
+            :show-search="false"
+            :show-preview="false"
+            :show-categories="false"
+            @select="addEmoji"
+        />
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator'
+    import { Picker } from 'emoji-mart-vue'
     @Component({
-        name: 'Comments'
+        name: 'Comments',
+        components: {
+            Picker
+        }
     })
     export default class Comments extends Vue {
+        addEmoji(e) {
+            console.log(e.native.toString())
+        }
     }
 </script>
 <style lang="stylus" scoped>
