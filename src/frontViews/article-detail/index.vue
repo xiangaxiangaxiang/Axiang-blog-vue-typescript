@@ -45,7 +45,10 @@
                     class="article-detail markdown-body"
                     v-html="articleHtml"
                 />
-                <comments ref="comments" />
+                <comments
+                    ref="comments"
+                    :target-id="articleId"
+                />
             </el-scrollbar>
         </el-col>
         <el-col :span="6">

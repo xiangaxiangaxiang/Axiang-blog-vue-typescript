@@ -14,7 +14,7 @@
             />
             <div
                 class="action-box clearfix"
-                v-show="showAction"
+                @click.stop
             >
                 <div
                     class="emoji-btn"
@@ -31,13 +31,14 @@
                         :show-categories="false"
                         @select="addEmoji"
                         v-show="showEmojiSelect"
-                        @click.stop
+                        @click.stop.native
                     />
                 </div>
                 <div class="submit-button">
                     <el-button
                         type="primary"
                         size="small"
+                        @click="submitCommont(100)"
                     >
                         评论
                     </el-button>
@@ -48,8 +49,9 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch } from 'vue-property-decorator'
+    import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
     import { Picker } from 'emoji-mart-vue'
+    import { submitCommontApi, getCommontsApi } from '@/api/front/commonts'
     @Component({
         name: 'Comments',
         components: {
@@ -57,20 +59,32 @@
         }
     })
     export default class Comments extends Vue {
+        @Prop({default: ''}) targetId!:string
         private avatar:string = sessionStorage.getItem('avatar') as string
         private comment:string = ''
-        private showAction:boolean = true
         private showEmojiSelect:boolean = false
 
         @Watch('showEmojiSelect')
         changeShowEmojiSelect(newValue) {
-            console.log(newValue)
             if (newValue) {
-                const that = this
-                window.addEventListener('click', function(e) {
-                    console.log(e.target)
-                    that.showEmojiSelect = false
-                } ,false)
+                document.body.addEventListener('click', this.showEmojiEventListener, false)
+            } else {
+                document.body.removeEventListener('click', this.showEmojiEventListener, false)
+            }
+        }
+
+        showEmojiEventListener(e) {
+            this.showEmojiSelect = false
+        }
+
+        async submitCommont(type, targetId=this.targetId) {
+            const data = {
+                type,
+                targetId: targetId
+            }
+            const res = await submitCommontApi(data)
+            if (res && res.status === 0) {
+                console.log(res)
             }
         }
 
