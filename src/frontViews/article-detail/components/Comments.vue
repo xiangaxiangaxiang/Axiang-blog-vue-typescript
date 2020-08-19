@@ -45,6 +45,20 @@
                 </div>
             </div>
         </div>
+        <div class="comment-list">
+            <div
+                class="comment-item clearfix"
+                v-for="item in commentList"
+                :key="item.uniqueId"
+            >
+                <div class="avatar">
+                    <img
+                        src="item.userAvatar"
+                        alt="加载出错"
+                    >
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -62,6 +76,7 @@
         @Prop({default: ''}) targetId!:string
         private avatar:string = sessionStorage.getItem('avatar') as string
         private comment:string = ''
+        private replyComment:string = ''
         private showEmojiSelect:boolean = false
 
         @Watch('showEmojiSelect')
@@ -73,14 +88,35 @@
             }
         }
 
-        showEmojiEventListener(e) {
+        showEmojiEventListener() {
             this.showEmojiSelect = false
         }
 
-        async submitCommont(type, targetId=this.targetId) {
+        mounted() {
+            this.getCommonts()
+        }
+
+        async getCommonts() {
+            const params = {
+                targetId: this.targetId
+            }
+            const res = await getCommontsApi(params)
+            if (res && res.status === 0) {
+                console.log(res)
+            }
+        }
+
+        async submitCommont(type:number, targetId:string=this.targetId, replyUserId:string='', commentId:string='') {
+            if (this.comment.trim() === '' && this.replyComment.trim() === '') {
+                this.$message.error('请输入评论')
+                return
+            }
             const data = {
                 type,
-                targetId: targetId
+                targetId: targetId,
+                content: replyUserId === '' ? this.comment : this.replyComment,
+                commentId: commentId !== '' ? commentId : null,
+                replyUserId: replyUserId !== '' ? replyUserId : null
             }
             const res = await submitCommontApi(data)
             if (res && res.status === 0) {
@@ -96,12 +132,11 @@
 </script>
 <style lang="stylus" scoped>
     .comment-container
-        padding 2rem
+        background $line-grey
         .comment-input
             width 100%
             padding 1rem
             margin-bottom 1rem
-            background $line-grey
             .avatar
                 width 4rem
                 height 4rem

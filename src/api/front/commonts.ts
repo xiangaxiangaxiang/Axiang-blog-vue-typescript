@@ -2,7 +2,7 @@ import service from '../index'
 
 export function submitCommontApi(data) {
     return service({
-        url: '/front/commont/add',
+        url: '/front/comment/add',
         method: 'post',
         data
     })
@@ -10,7 +10,7 @@ export function submitCommontApi(data) {
 
 export function getCommontsApi(params) {
     return service({
-        url: '/front/commont/getComment',
+        url: '/front/comment/getComment',
         method: 'get',
         params
     })
