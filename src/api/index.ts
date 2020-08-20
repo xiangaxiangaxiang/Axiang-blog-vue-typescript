@@ -71,6 +71,7 @@ service.interceptors.response.use(
             }
             const status = error.response.status
             if (status === 403) {
+                sessionStorage.clear()
                 UserModule.showDialog()
             }
         } else {

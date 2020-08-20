@@ -57,6 +57,79 @@
                         alt="加载出错"
                     >
                 </div>
+                <div class="content-box">
+                    <div class="user-info">
+                        <span>
+                            {{ item.userInfo.nickname }}
+                        </span>
+                    </div>
+                    <div class="comment-content">
+                        {{ item.content }}
+                    </div>
+                    <div class="reply-stat">
+                        <time class="time">
+                            {{ item.createdTime | formatTime }}
+                        </time>
+                        <div class="delete cursor-pointer">
+                            &nbsp;·&nbsp;删除
+                        </div>
+                        <div class="action">
+                            <div class="like">
+                                <font-awesome-icon icon="heart" />
+                            </div>
+                            <div class="comment">
+                                <font-awesome-icon icon="comment" />评论
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="reply-comments-wrapper"
+                        v-show="item.replyComments.length"
+                    >
+                        <div
+                            class="reply-comments"
+                            v-for="replyItem in item.replyComments"
+                            :key="replyItem.uniqueId"
+                        >
+                            <div class="avatar">
+                                <img
+                                    src="replyItem.userAvatar"
+                                    alt="加载出错"
+                                >
+                            </div>
+                            <div class="reply-box">
+                                <div class="user-info">
+                                    <span>
+                                        {{ replyItem.userInfo.nickname }}
+                                    </span>
+                                    &nbsp;回复:
+                                    <span>
+                                        {{ replyItem.replyUserInfo.nickname }}
+                                    </span>
+                                </div>
+                                <div class="comment-content">
+                                    {{ item.content }}
+                                </div>
+                                <div class="reply-stat">
+                                    <time class="time">
+                                        {{ item.createdAt }}
+                                    </time>
+                                    <div class="delete cursor-pointer">
+                                        &nbsp;·&nbsp;删除
+                                    </div>
+                                    <div class="action">
+                                        <div class="like">
+                                            <font-awesome-icon icon="heart" />
+                                        </div>
+                                        <div class="comment">
+                                            <font-awesome-icon icon="comment" />评论
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -78,6 +151,7 @@
         private comment:string = ''
         private replyComment:string = ''
         private showEmojiSelect:boolean = false
+        private commentList:[] = []
 
         @Watch('showEmojiSelect')
         changeShowEmojiSelect(newValue) {
@@ -102,7 +176,7 @@
             }
             const res = await getCommontsApi(params)
             if (res && res.status === 0) {
-                console.log(res)
+                this.commentList = res.data
             }
         }
 
@@ -120,7 +194,7 @@
             }
             const res = await submitCommontApi(data)
             if (res && res.status === 0) {
-                console.log(res)
+                this.$message.success('评论成功')
             }
         }
 
@@ -133,9 +207,9 @@
 <style lang="stylus" scoped>
     .comment-container
         background $line-grey
+        padding 1.5rem
         .comment-input
             width 100%
-            padding 1rem
             margin-bottom 1rem
             .avatar
                 width 4rem
@@ -157,6 +231,8 @@
                 height 3rem
                 margin-top 1rem
                 padding-left 5rem
+                /deep/.emoji-mart-category-label
+                    display none
                 .emoji-btn
                     width 5rem
                     height 100%
@@ -167,4 +243,44 @@
                     cursor pointer
                 .submit-button
                     float right
+        .comment-list
+            width 100%
+            margin-top 1.5rem
+            padding-left 5rem
+            .comment-item
+                width 100%
+                display flex
+                &+.comment-item
+                    margin-top 1.5rem
+                .avatar
+                    width 3.2rem
+                    height 3.2rem
+                    border 1px solid $blue
+                    border-radius 50%
+                    display inline-block
+                    img
+                        width 100%
+                        height 100%
+                &:last-child
+                    .content-box
+                        border-bottom none
+                .content-box
+                    flex 1
+                    margin-left 1rem
+                    padding-bottom 1rem
+                    border-bottom 1px solid rgba(0,21,41,0.2)
+                    .user-info
+                        width 100%
+                        font-size $fs-s
+                        color $orange
+                    .comment-content
+                        width 100%
+                        line-height 1.2
+                        margin-top 1rem
+                        font-size $fs-ss
+                        color $second-text
+                    .reply-stat
+                        width 100%
+                        margin-top 1rem
+                        display flex
 </style>

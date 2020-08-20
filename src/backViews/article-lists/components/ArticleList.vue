@@ -76,7 +76,7 @@
         >
             <template slot-scope="{row}">
                 <span>
-                    {{ _formatTime(row.created_at) }}
+                    {{ row.created_at | formatTime }}
                 </span>
             </template>
         </el-table-column>
@@ -87,7 +87,7 @@
         >
             <template slot-scope="{row}">
                 <span>
-                    {{ _formatTime(row.updated_at) }}
+                    {{ row.updated_at | formatTime }}
                 </span>
             </template>
         </el-table-column>
@@ -125,7 +125,6 @@
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator'
     import { changePublishStatusApi, deleteArticleApi } from '@/api/back/article'
-    import { formatTime } from '@/common/js/util'
     @Component({
         name: 'ArticleList'
     })
@@ -155,10 +154,6 @@
 
         sortChange(column) {
             this.$emit('sort-change', column.prop, column.order)
-        }
-
-        _formatTime(time) {
-            return formatTime(time)
         }
 
         // 改变文章发布状态

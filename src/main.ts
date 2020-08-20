@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 // import store from "./store"
+import { formatTime } from './common/js/util'
 
 import './plugins/element.js'
 import './plugins/fontawesome'
@@ -17,6 +18,7 @@ Component.registerHooks([
     'beforeRouteUpdate'
 ])
 
+Vue.filter('formatTime', formatTime)
 
 new Vue({
     router,
