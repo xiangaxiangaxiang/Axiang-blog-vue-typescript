@@ -71,14 +71,14 @@
                             {{ item.createdTime | formatTime }}
                         </time>
                         <div class="delete cursor-pointer">
-                            &nbsp;·&nbsp;删除
+                            &nbsp;·&nbsp; 删除
                         </div>
                         <div class="action">
                             <div class="like">
                                 <font-awesome-icon icon="heart" />
                             </div>
                             <div class="comment">
-                                <font-awesome-icon icon="comment" />评论
+                                <font-awesome-icon icon="comment" />&nbsp;评论
                             </div>
                         </div>
                     </div>
@@ -247,6 +247,7 @@
             width 100%
             margin-top 1.5rem
             padding-left 5rem
+            z-index 0
             .comment-item
                 width 100%
                 display flex
@@ -283,4 +284,16 @@
                         width 100%
                         margin-top 1rem
                         display flex
+                        height 3rem
+                        line-height 3rem
+                        font-size $fs-sss
+                        color $ligth-text
+                        .action
+                            margin-left auto
+                            div
+                                display inline-block
+                                height 100%
+                                cursor pointer
+                                &:first-child
+                                    margin-right 1.5rem
 </style>

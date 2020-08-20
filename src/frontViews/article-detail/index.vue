@@ -202,4 +202,5 @@
                 margin-top 3rem
                 padding-bottom 5rem
                 color $blue
+                min-height 60rem
 </style>
