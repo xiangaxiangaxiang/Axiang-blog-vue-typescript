@@ -195,6 +195,7 @@
             const res = await submitCommontApi(data)
             if (res && res.status === 0) {
                 this.$message.success('评论成功')
+                this.getCommonts()
             }
         }
 
@@ -204,6 +205,7 @@
         }
     }
 </script>
+
 <style lang="stylus" scoped>
     .comment-container
         background $line-grey
