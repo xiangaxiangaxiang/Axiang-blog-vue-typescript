@@ -70,7 +70,11 @@
                         <time class="time">
                             {{ item.createdTime | formatTime }}
                         </time>
-                        <div class="delete cursor-pointer">
+                        <div
+                            class="delete cursor-pointer"
+                            @click="deleteCommont(item.uniqueId)"
+                            v-if="currentUid === item.userInfo.uid"
+                        >
                             &nbsp;·&nbsp; 删除
                         </div>
                         <div class="action">
@@ -108,13 +112,17 @@
                                     </span>
                                 </div>
                                 <div class="comment-content">
-                                    {{ item.content }}
+                                    {{ replyItem.content }}
                                 </div>
                                 <div class="reply-stat">
                                     <time class="time">
-                                        {{ item.createdAt }}
+                                        {{ replyItem.createdTime | formatTime }}
                                     </time>
-                                    <div class="delete cursor-pointer">
+                                    <div
+                                        class="delete cursor-pointer"
+                                        v-if="currentUid === replyItem.userInfo.uid"
+                                        @click="deleteCommont(replyItem.uniqueId)"
+                                    >
                                         &nbsp;·&nbsp;删除
                                     </div>
                                     <div class="action">
@@ -122,7 +130,7 @@
                                             <font-awesome-icon icon="heart" />
                                         </div>
                                         <div class="comment">
-                                            <font-awesome-icon icon="comment" />评论
+                                            <font-awesome-icon icon="comment" />&nbsp;评论
                                         </div>
                                     </div>
                                 </div>
@@ -138,7 +146,7 @@
 <script lang="ts">
     import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
     import { Picker } from 'emoji-mart-vue'
-    import { submitCommontApi, getCommontsApi } from '@/api/front/commonts'
+    import { submitCommentApi, getCommentsApi, deleteCommentApi } from '@/api/front/comments'
     @Component({
         name: 'Comments',
         components: {
@@ -147,6 +155,7 @@
     })
     export default class Comments extends Vue {
         @Prop({default: ''}) targetId!:string
+        private currentUid:string = sessionStorage.getItem('uid') as string
         private avatar:string = sessionStorage.getItem('avatar') as string
         private comment:string = ''
         private replyComment:string = ''
@@ -167,20 +176,30 @@
         }
 
         mounted() {
-            this.getCommonts()
+            this.getComments()
         }
 
-        async getCommonts() {
+        async deleteCommont(uniqueId) {
+            const data = {
+                uniqueId
+            }
+            const res = await deleteCommentApi(data)
+            if (res && res.status === 0) {
+                this.getComments()
+            }
+        }
+
+        async getComments() {
             const params = {
                 targetId: this.targetId
             }
-            const res = await getCommontsApi(params)
+            const res = await getCommentsApi(params)
             if (res && res.status === 0) {
                 this.commentList = res.data
             }
         }
 
-        async submitCommont(type:number, targetId:string=this.targetId, replyUserId:string='', commentId:string='') {
+        async submitComment(type:number, targetId:string=this.targetId, replyUserId:string='', commentId:string='') {
             if (this.comment.trim() === '' && this.replyComment.trim() === '') {
                 this.$message.error('请输入评论')
                 return
@@ -192,10 +211,10 @@
                 commentId: commentId !== '' ? commentId : null,
                 replyUserId: replyUserId !== '' ? replyUserId : null
             }
-            const res = await submitCommontApi(data)
+            const res = await submitCommentApi(data)
             if (res && res.status === 0) {
                 this.$message.success('评论成功')
-                this.getCommonts()
+                this.getComments()
             }
         }
 
@@ -249,7 +268,6 @@
             width 100%
             margin-top 1.5rem
             padding-left 5rem
-            z-index 0
             .comment-item
                 width 100%
                 display flex
@@ -260,7 +278,6 @@
                     height 3.2rem
                     border 1px solid $blue
                     border-radius 50%
-                    display inline-block
                     img
                         width 100%
                         height 100%
@@ -298,4 +315,13 @@
                                 cursor pointer
                                 &:first-child
                                     margin-right 1.5rem
+                .reply-comments-wrapper
+                    width 100%
+                    .reply-comments
+                        display flex
+                        width 100%
+                        margin-top 1rem
+                        .reply-box
+                            flex 1
+                            margin-left 1rem
 </style>

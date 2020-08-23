@@ -1,6 +1,6 @@
 import service from '../index'
 
-export function submitCommontApi(data) {
+export function submitCommentApi(data) {
     return service({
         url: '/front/comment/add',
         method: 'post',
@@ -8,7 +8,7 @@ export function submitCommontApi(data) {
     })
 }
 
-export function getCommontsApi(params) {
+export function getCommentsApi(params) {
     return service({
         url: '/front/comment/getComment',
         method: 'get',
@@ -16,9 +16,9 @@ export function getCommontsApi(params) {
     })
 }
 
-export function deleteCommontApi(data) {
+export function deleteCommentApi(data) {
     return service({
-        url: '/front/commont/delete',
+        url: '/front/comment/delete',
         method: 'post',
         data
     })

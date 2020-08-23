@@ -17,7 +17,7 @@
             <div
                 class="item comments"
                 title="查看评论"
-                @click="showCommonts"
+                @click="showComments"
             >
                 <font-awesome-icon icon="comments" />
             </div>
@@ -114,7 +114,7 @@
             }, 15)
         }
 
-        showCommonts() {
+        showComments() {
             const commentsDom = this.$refs.comments as HTMLFormElement
             const commentsScrollTop = commentsDom.$el.offsetTop
             this.scrollTo(commentsScrollTop)
