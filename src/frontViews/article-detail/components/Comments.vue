@@ -69,7 +69,7 @@
                         :target-id="targetId"
                         :reply-user-id="activeReplyUserId"
                         :comment-id="activeCommentId"
-                        v-show="item.uniqueId === activeReply"
+                        v-if="item.uniqueId === activeReply"
                         @getComments="getComments"
                         @closeReply="activeReply=''"
                     />
@@ -134,7 +134,7 @@
                                     :target-id="targetId"
                                     :reply-user-id="activeReplyUserId"
                                     :comment-id="activeCommentId"
-                                    v-show="replyItem.uniqueId === activeReply"
+                                    v-if="replyItem.uniqueId === activeReply"
                                     @getComments="getComments"
                                     @closeReply="activeReply = ''"
                                 />
