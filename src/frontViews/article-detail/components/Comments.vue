@@ -1,6 +1,6 @@
 <template>
     <div class="comment-container">
-        <div class="comment-input">
+        <div class="comment-input-wrapper">
             <div class="avatar">
                 <img
                     v-if="avatar"
@@ -8,42 +8,12 @@
                     alt="加载错误"
                 >
             </div>
-            <el-input
-                v-model="comment"
-                class="comment"
+            <comment-input
+                style="flex: 1"
+                button-size="small"
+                :target-id="targetId"
+                @get-comments="getComments"
             />
-            <div
-                class="action-box clearfix"
-                @click.stop
-            >
-                <div
-                    class="emoji-btn"
-                    @click="showEmojiSelect=!showEmojiSelect"
-                >
-                    <span>
-                        表情
-                    </span>
-                    <font-awesome-icon icon="smile" />
-                    <picker
-                        :include="['people']"
-                        :show-search="false"
-                        :show-preview="false"
-                        :show-categories="false"
-                        @select="addEmoji"
-                        v-show="showEmojiSelect"
-                        @click.stop.native
-                    />
-                </div>
-                <div class="submit-button">
-                    <el-button
-                        type="primary"
-                        size="small"
-                        @click="submitCommont(100)"
-                    >
-                        评论
-                    </el-button>
-                </div>
-            </div>
         </div>
         <div class="comment-list">
             <div
@@ -85,11 +55,24 @@
                             >
                                 <font-awesome-icon icon="heart" />
                             </div>
-                            <div class="comment">
+                            <div
+                                class="comment"
+                                @click="setActiceReply(item)"
+                            >
                                 <font-awesome-icon icon="comment" />&nbsp;评论
                             </div>
                         </div>
                     </div>
+                    <comment-input
+                        :type="300"
+                        button-size="mini"
+                        :target-id="targetId"
+                        :reply-user-id="activeReplyUserId"
+                        :comment-id="activeCommentId"
+                        v-show="item.uniqueId === activeReply"
+                        @getComments="getComments"
+                        @closeReply="activeReply=''"
+                    />
                     <div
                         class="reply-comments-wrapper"
                         v-show="item.replyComments.length"
@@ -132,16 +115,29 @@
                                     <div class="action">
                                         <div
                                             @click="handleLike(replyItem)"
-                                            :title="item.likeStatus ? '取消点赞': '点赞'"
-                                            :class="item.likeStatus ? 'like': ''"
+                                            :title="replyItem.likeStatus ? '取消点赞': '点赞'"
+                                            :class="replyItem.likeStatus ? 'like': ''"
                                         >
                                             <font-awesome-icon icon="heart" />
                                         </div>
-                                        <div class="comment">
+                                        <div
+                                            class="comment"
+                                            @click="setActiceReply(replyItem)"
+                                        >
                                             <font-awesome-icon icon="comment" />&nbsp;评论
                                         </div>
                                     </div>
                                 </div>
+                                <comment-input
+                                    :type="300"
+                                    button-size="mini"
+                                    :target-id="targetId"
+                                    :reply-user-id="activeReplyUserId"
+                                    :comment-id="activeCommentId"
+                                    v-show="replyItem.uniqueId === activeReply"
+                                    @getComments="getComments"
+                                    @closeReply="activeReply = ''"
+                                />
                             </div>
                         </div>
                     </div>
@@ -152,40 +148,35 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
-    import { Picker } from 'emoji-mart-vue'
-    import { submitCommentApi, getCommentsApi, deleteCommentApi } from '@/api/front/comments'
+    import { Component, Vue, Prop } from 'vue-property-decorator'
+    import CommentInput from './CommentInput.vue'
+    import { getCommentsApi, deleteCommentApi } from '@/api/front/comments'
     import { likeApi, dislikeApi } from '@/api/front/like'
     @Component({
         name: 'Comments',
         components: {
-            Picker
+            CommentInput
         }
     })
     export default class Comments extends Vue {
         @Prop({default: ''}) targetId!:string
+
         private currentUid:string = sessionStorage.getItem('uid') as string
         private avatar:string = sessionStorage.getItem('avatar') as string
-        private comment:string = ''
-        private replyComment:string = ''
-        private showEmojiSelect:boolean = false
+        private activeReply:string = ''
+        private activeReplyUserId:string = ''
+        private activeCommentId:string = ''
         private commentList:[] = []
-
-        @Watch('showEmojiSelect')
-        changeShowEmojiSelect(newValue) {
-            if (newValue) {
-                document.body.addEventListener('click', this.showEmojiEventListener, false)
-            } else {
-                document.body.removeEventListener('click', this.showEmojiEventListener, false)
-            }
-        }
-
-        showEmojiEventListener() {
-            this.showEmojiSelect = false
-        }
 
         mounted() {
             this.getComments()
+        }
+
+        setActiceReply(item) {
+            this.activeReply = item.uniqueId
+            this.activeReplyUserId = item.userInfo.uid
+            this.activeCommentId = item.commentId
+            console.log(this.activeCommentId, this.activeReplyUserId, this.activeReply)
         }
 
         async handleLike(item) {
@@ -202,6 +193,7 @@
             }
             if (res && res.status === 0) {
                 this.getComments()
+                this.$message.success(item.likeStatus ? '看见我四十米长的大刀没？赶紧点亮小心心': '谢谢你的点赞摸摸哒')
             }
         }
 
@@ -224,30 +216,6 @@
                 this.commentList = res.data
             }
         }
-
-        async submitComment(type:number, targetId:string=this.targetId, replyUserId:string='', commentId:string='') {
-            if (this.comment.trim() === '' && this.replyComment.trim() === '') {
-                this.$message.error('请输入评论')
-                return
-            }
-            const data = {
-                type,
-                targetId: targetId,
-                content: replyUserId === '' ? this.comment : this.replyComment,
-                commentId: commentId !== '' ? commentId : null,
-                replyUserId: replyUserId !== '' ? replyUserId : null
-            }
-            const res = await submitCommentApi(data)
-            if (res && res.status === 0) {
-                this.$message.success('评论成功')
-                this.getComments()
-            }
-        }
-
-        addEmoji(e) {
-            this.comment += e.native
-            this.showEmojiSelect = false
-        }
     }
 </script>
 
@@ -255,12 +223,14 @@
     .comment-container
         background $line-grey
         padding 1.5rem
-        .comment-input
+        .comment-input-wrapper
             width 100%
             margin-bottom 1rem
+            display flex
             .avatar
                 width 4rem
                 height 4rem
+                margin-right 1rem
                 border-radius 50%
                 border 1px solid $blue
                 display inline-block
