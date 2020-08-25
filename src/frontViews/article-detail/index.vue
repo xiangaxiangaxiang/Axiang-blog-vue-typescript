@@ -136,9 +136,9 @@
         async handleLike() {
             let res
             const data = {
-                    targetId: this.articleId,
-                    type: 100
-                }
+                targetId: this.articleId,
+                type: 100
+            }
             if (this.likeStatus) {
                 res = await dislikeApi(data)
             } else {
@@ -176,8 +176,6 @@
                 user-select none
                 &.comments
                     color $blue
-                &.like
-                    color $red
                 &.dislike
                     color $second-text
                 &.back-to-top

@@ -78,7 +78,11 @@
                             &nbsp;·&nbsp; 删除
                         </div>
                         <div class="action">
-                            <div class="like">
+                            <div
+                                @click="handleLike(item)"
+                                :title="item.likeStatus ? '取消点赞': '点赞'"
+                                :class="item.likeStatus ? 'like': ''"
+                            >
                                 <font-awesome-icon icon="heart" />
                             </div>
                             <div class="comment">
@@ -126,7 +130,11 @@
                                         &nbsp;·&nbsp;删除
                                     </div>
                                     <div class="action">
-                                        <div class="like">
+                                        <div
+                                            @click="handleLike(replyItem)"
+                                            :title="item.likeStatus ? '取消点赞': '点赞'"
+                                            :class="item.likeStatus ? 'like': ''"
+                                        >
                                             <font-awesome-icon icon="heart" />
                                         </div>
                                         <div class="comment">
@@ -147,6 +155,7 @@
     import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
     import { Picker } from 'emoji-mart-vue'
     import { submitCommentApi, getCommentsApi, deleteCommentApi } from '@/api/front/comments'
+    import { likeApi, dislikeApi } from '@/api/front/like'
     @Component({
         name: 'Comments',
         components: {
@@ -177,6 +186,23 @@
 
         mounted() {
             this.getComments()
+        }
+
+        async handleLike(item) {
+            const data:{targetId:string, type: number, replyUserId?:string} = {
+                targetId: item.uniqueId,
+                type: 300
+            }
+            let res
+            if (item.likeStatus) {
+                res = await dislikeApi(data)
+            } else {
+                data.replyUserId = item.userInfo.uid
+                res = await likeApi(data)
+            }
+            if (res && res.status === 0) {
+                this.getComments()
+            }
         }
 
         async deleteCommont(uniqueId) {
