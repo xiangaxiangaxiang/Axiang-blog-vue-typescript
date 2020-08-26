@@ -61,6 +61,20 @@ const frontRouter: Array<RouteConfig> = [{
             title: '关于'
         }
     }]
+}, {
+    path: '/post',
+    component: Layout,
+    redirect: {
+        name: 'Post'
+    },
+    children: [{
+        path: '/post',
+        name: 'Post',
+        component: () => import('frontViews/post/index.vue'),
+        meta: {
+            title: '动态'
+        }
+    }]
 }]
 
 export default frontRouter
