@@ -28,6 +28,39 @@ module.exports = {
             .set('router', resolve('src/router'))
             .set('store', resolve('src/store'));
     },
+    configureWebpack: config => {
+        const UglifyPlugin = require('uglifyjs-webpack-plugin')
+        if (process.env.NODE_ENV == 'production') {
+            // 为生产环境修改配置
+            config.mode = 'production'
+            // 将每个依赖包打包成单独的js文件
+            let optimization = {
+                minimizer: [new UglifyPlugin({
+                    sourceMap: false,
+                    test: /\.js($|\?)/i,
+                    parallel: true,
+                    uglifyOptions: {
+                        ecma: 8,
+                        output: {
+                            comments: false,
+                            beautify: false
+                        },
+                        warnings: false,
+                        compress: {
+                            drop_console: true,
+                            drop_debugger: true
+                        }
+                    }
+                })]
+            }
+            Object.assign(config, {
+                optimization
+            })
+        } else {
+            // 为开发环境修改配置
+            config.mode = 'development'
+        }
+    },
     devServer: {
         port: 8088,
         open: true,

@@ -138,6 +138,8 @@
                 return '生活'
             } else if (type === 300) {
                 return '梦想'
+            } else if (type === 400) {
+                return '关于'
             }
             return '未知'
         }
@@ -148,8 +150,10 @@
                 return 'color-green'
             } else if (type === 300) {
                 return 'color-orange'
+            } else if (type === 300) {
+                return 'color-red'
             }
-            return '未知'
+            return ''
         }
 
         sortChange(column) {

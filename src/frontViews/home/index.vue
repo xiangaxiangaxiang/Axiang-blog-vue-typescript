@@ -73,8 +73,8 @@
             name: 'Github',
             path: 'https://github.com/xiangaxiangaxiang'
         }, {
-            name: '其他',
-            path: '/other'
+            name: '关于',
+            path: '/about'
         }]
 
         pageJump(path) {

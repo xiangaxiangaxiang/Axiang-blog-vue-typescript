@@ -16,6 +16,13 @@ export function getLabelsApi(params) {
     })
 }
 
+export function getAboutApi() {
+    return service({
+        url: '/front/article/about',
+        method: 'get'
+    })
+}
+
 export function getArticleDetailApi(params) {
     return service({
         url: '/front/article/detail',

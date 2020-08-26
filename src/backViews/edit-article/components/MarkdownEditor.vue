@@ -39,6 +39,10 @@
                                     label="梦想"
                                     :value="300"
                                 />
+                                <el-option
+                                    label="关于"
+                                    :value="400"
+                                />
                             </el-select>
                         </el-form-item>
                     </el-col>

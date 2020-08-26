@@ -47,6 +47,20 @@ const frontRouter: Array<RouteConfig> = [{
             title: '文章详情'
         }
     }]
+}, {
+    path: '/about',
+    component: Layout,
+    redirect: {
+        name: 'About'
+    },
+    children: [{
+        path: '/about',
+        name: 'About',
+        component: () => import('frontViews/about/index.vue'),
+        meta: {
+            title: '关于'
+        }
+    }]
 }]
 
 export default frontRouter

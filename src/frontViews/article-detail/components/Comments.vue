@@ -57,7 +57,7 @@
                             </div>
                             <div
                                 class="comment"
-                                @click="setActiceReply(item)"
+                                @click="setActiveReply(item)"
                             >
                                 <font-awesome-icon icon="comment" />&nbsp;评论
                             </div>
@@ -122,7 +122,7 @@
                                         </div>
                                         <div
                                             class="comment"
-                                            @click="setActiceReply(replyItem)"
+                                            @click="setActiveReply(replyItem)"
                                         >
                                             <font-awesome-icon icon="comment" />&nbsp;评论
                                         </div>
@@ -172,7 +172,7 @@
             this.getComments()
         }
 
-        setActiceReply(item) {
+        setActiveReply(item) {
             this.activeReply = item.uniqueId
             this.activeReplyUserId = item.userInfo.uid
             this.activeCommentId = item.commentId
