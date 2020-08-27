@@ -107,7 +107,6 @@
     import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
     import { UserModule } from '@/store/modules/user'
     import { userLoginApi, userRegisterApi } from '@/api/front/user'
-    import { resetRouter } from '@/router/index'
     import md5 from 'md5'
 
     interface loginRulesType {

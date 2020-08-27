@@ -29,33 +29,37 @@ module.exports = {
             .set('store', resolve('src/store'));
     },
     configureWebpack: config => {
-        const UglifyPlugin = require('uglifyjs-webpack-plugin')
-        if (process.env.NODE_ENV == 'production') {
+        const CompressionWebpackPlugin = require('compression-webpack-plugin')
+        const TerserPlugin = require('terser-webpack-plugin')
+        if (process.env.NODE_ENV === 'production') {
             // 为生产环境修改配置
             config.mode = 'production'
             // 将每个依赖包打包成单独的js文件
-            let optimization = {
-                minimizer: [new UglifyPlugin({
+            config.plugins.push(new CompressionWebpackPlugin({
+                algorithm: 'gzip',
+                test: /\.js$|\.css|\.jpg/,
+                threshold: 10240,
+                minRatio: 0.8,
+                deleteOriginalAssets: true
+            }))
+            config.plugins.push(
+                new TerserPlugin({
+                    test: /\.js(\?.*)?$/i,
                     sourceMap: false,
-                    test: /\.js($|\?)/i,
-                    parallel: true,
-                    uglifyOptions: {
-                        ecma: 8,
+                    terserOptions: {
                         output: {
                             comments: false,
                             beautify: false
                         },
-                        warnings: false,
                         compress: {
                             drop_console: true,
                             drop_debugger: true
-                        }
-                    }
-                })]
-            }
-            Object.assign(config, {
-                optimization
-            })
+                        },
+                        mangle: true, // Note `mangle.properties` is `false` by default.
+                    },
+                    extractComments: false
+                })
+            )
         } else {
             // 为开发环境修改配置
             config.mode = 'development'

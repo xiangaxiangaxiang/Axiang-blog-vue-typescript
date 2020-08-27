@@ -17,7 +17,7 @@ const backRouter: RouteConfig[] = [{
         title: '后台管理登陆'
     }
 }, {
-    path: '/edit-article',
+    path: '/admin/edit-article',
     component: () => import('backViews/edit-article/index.vue'),
     name: 'EditArticle',
     meta: {
@@ -53,7 +53,7 @@ const backRouter: RouteConfig[] = [{
         icon: 'book-open'
     },
     children: [{
-        path: '/admin/article/manage',
+        path: '/admin/article',
         name: 'ArticleManagement',
         component: () => import('backViews/article-lists/index.vue'),
         meta: {

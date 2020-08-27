@@ -42,11 +42,12 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator';
+    import { userLogoutApi } from '@/api/back/userManage'
     @Component
     export default class TopBar extends Vue {
         private title:string = ''
         private icon:string = ''
-        private avatar:string = 'https://avatars2.githubusercontent.com/u/42111444?s=60&v=4'
+        private avatar:string = sessionStorage.getItem('avatar') as string || ''
 
         created() {
             this.title = this.$route.meta.title
@@ -60,6 +61,7 @@
         }
 
         logout() {
+            userLogoutApi()
             sessionStorage.clear()
             this.$router.push('/adminLogin')
         }

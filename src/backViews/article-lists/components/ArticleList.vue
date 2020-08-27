@@ -208,7 +208,7 @@
         // 修改文章
         editArticle(row) {
             sessionStorage.setItem('article', JSON.stringify(row))
-            this.$router.push('/edit-article')
+            this.$router.push('/admin/edit-article')
         }
     }
 </script>

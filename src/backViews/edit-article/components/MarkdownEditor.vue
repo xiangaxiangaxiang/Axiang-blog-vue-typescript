@@ -207,7 +207,7 @@
                     if (res && res.status === 0) {
                         this.$message.success(this.publish ? '发布成功' : '保存成功')
                         if (!this.articleId) {
-                            this.$router.push('/admin/article/manage')
+                            this.$router.push('/admin/article')
                         }
                     }
                 } else {

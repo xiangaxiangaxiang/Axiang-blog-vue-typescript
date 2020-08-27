@@ -46,3 +46,10 @@ export function enableUserApi(data) {
         data
     })
 }
+
+export function userLogoutApi() {
+    return service({
+        url: '/back/user/logout',
+        method: 'post'
+    })
+}

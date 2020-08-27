@@ -64,7 +64,14 @@
         <span
             slot="reference"
         >
-            <font-awesome-icon icon="bell" />
+            <el-badge
+                :value="unreadNums"
+                :max="99"
+                class="unread"
+                :hidden="unreadNums === 0"
+            >
+                <font-awesome-icon icon="bell" />
+            </el-badge>
         </span>
     </el-popover>
 </template>
@@ -121,6 +128,7 @@
         }
 
         async getNotice() {
+            this.unreadNums = 0
             const params = {
                 offset: 0,
                 limit: 10,
@@ -159,6 +167,9 @@
         height 40rem
         overflow hidden
         background-color $greyBg
+        .unread
+            width 1rem
+            height 1rem
         .header
             width 100%
             height 3.9rem

@@ -64,7 +64,7 @@
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$router.push('/admin/article/manage')
+                this.$router.push('/admin/article')
             })
         }
     }

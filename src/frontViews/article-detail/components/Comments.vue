@@ -23,7 +23,7 @@
             >
                 <div class="avatar">
                     <img
-                        src="item.userAvatar"
+                        :src="item.userAvatar"
                         alt="加载出错"
                     >
                 </div>
@@ -84,7 +84,7 @@
                         >
                             <div class="avatar">
                                 <img
-                                    src="replyItem.userAvatar"
+                                    :src="replyItem.userAvatar"
                                     alt="加载出错"
                                 >
                             </div>

@@ -58,7 +58,6 @@
     import LoginRegisterForm from './LoginRegisterForm.vue'
     import Notice from '../Notice/index.vue'
     import { UserModule } from '@/store/modules/user'
-    import Cookies from 'js-cookie'
     @Component({
         name: 'TopNav',
         components: {
