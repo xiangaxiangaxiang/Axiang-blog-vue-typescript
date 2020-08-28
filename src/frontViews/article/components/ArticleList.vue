@@ -84,7 +84,7 @@
                 const scrollbar = this.$refs.scrollbar
                 // eslint-disable-next-line
                 const wrap = ( scrollbar as HTMLFormElement ).$refs['wrap']
-                wrap.addEventListener('scroll', debounce(this.handleScroll, 300))
+                wrap.addEventListener('scroll', debounce(this.handleScroll, 300), false)
             })
         }
 

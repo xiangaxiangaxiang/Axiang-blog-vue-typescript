@@ -3,7 +3,8 @@
         placement="bottom-start"
         width="350"
         trigger="click"
-        @show="getNotice"
+        @show="showNotice"
+        @hide="hideNotice"
     >
         <div class="notice-content">
             <div class="header">
@@ -28,7 +29,10 @@
                     />
                 </div>
             </div>
-            <el-scrollbar class="scrollbar">
+            <el-scrollbar
+                class="scrollbar"
+                ref="notice-scrollbar"
+            >
                 <template v-if="activeType === 'like'">
                     <div
                         class="notice-item"
@@ -79,6 +83,7 @@
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
     import { getNoticeApi, getUnreadNumsApi } from '@/api/notice'
+    import { debounce } from 'lodash'
 
     enum likeType {
         ARTICLE = 100,
@@ -130,6 +135,35 @@
             }
         }
 
+        showNotice() {
+            this.addEvent()
+            this.getNotice()
+        }
+
+        hideNotice() {
+            const scrollbar = this.$refs['notice-scrollbar']
+            // eslint-disable-next-line
+            const wrap = ( scrollbar as HTMLFormElement ).$refs['wrap']
+            wrap.removeEventListener('scroll', debounce(this.handleScroll, 300), false)
+        }
+
+        addEvent() {
+            const scrollbar = this.$refs['notice-scrollbar']
+            // eslint-disable-next-line
+            const wrap = ( scrollbar as HTMLFormElement ).$refs['wrap']
+            wrap.addEventListener('scroll', debounce(this.handleScroll, 300), false)
+        }
+
+        handleScroll(e) {
+            const isEnd = e.target.scrollHeight === e.target.clientHeight + e.target.scrollTop
+            const more = this.activeType === 'like'
+                ? this.likeTotal !== 0 && this.likes.length < this.likeTotal
+                : this.commentTotal !== 0 && this.comments.length < this.commentTotal
+            if (isEnd && more) {
+                this.getNotice()
+            }
+        }
+
         async getNotice() {
             this.unreadNums = 0
             const params = {
@@ -140,9 +174,15 @@
             const res = await getNoticeApi(params)
             if (res && res.status === 0) {
                 if (this.activeType === 'like') {
-                    this.likes = res.data
+                    res.data.notices.forEach(item => {
+                        this.likes.push(item)
+                    })
+                    this.likeTotal = res.data.total
                 } else {
-                    this.comments = res.data
+                    res.data.notices.forEach(item => {
+                        this.comments.push(item)
+                    })
+                    this.commentTotal = res.data.total
                 }
             }
         }

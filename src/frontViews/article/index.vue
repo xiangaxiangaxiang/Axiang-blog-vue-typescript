@@ -108,7 +108,7 @@
                 label: this.label !== '' ? this.label : null
             }
             const res = await getArticlesApi(params)
-            const data = [].concat(res.data.articles)
+            const data = res.data.articles
             data.forEach(item => {
                 this.articles.push(item)
             })
