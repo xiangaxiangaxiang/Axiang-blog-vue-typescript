@@ -99,6 +99,9 @@
         private comments:object[] = []
         private likes:object[] = []
         private unreadNums:number = 0
+        private limit:number = 10
+        private likeTotal:number = 0
+        private commentTotal:number = 0
         private timer
 
         @Watch('activeType')
@@ -130,8 +133,8 @@
         async getNotice() {
             this.unreadNums = 0
             const params = {
-                offset: 0,
-                limit: 10,
+                offset: this.activeType === 'like' ? this.likes.length : this.comments.length,
+                limit: this.limit,
                 type: this.activeType === 'like' ? noticeType.LIKE : noticeType.COMMENT
             }
             const res = await getNoticeApi(params)

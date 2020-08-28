@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch } from 'vue-property-decorator';
+    import { Component, Vue, Watch } from 'vue-property-decorator'
     import { userLogoutApi } from '@/api/back/userManage'
     @Component
     export default class TopBar extends Vue {
