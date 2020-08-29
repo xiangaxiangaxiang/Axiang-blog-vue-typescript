@@ -166,7 +166,9 @@
         private activeReply:string = ''
         private activeReplyUserId:string = ''
         private activeCommentId:string = ''
-        private commentList:[] = []
+        private commentList:object[] = []
+        private limit:number = 10
+        private total:number = 0
 
         mounted() {
             this.getComments()
@@ -209,11 +211,17 @@
 
         async getComments() {
             const params = {
-                targetId: this.targetId
+                targetId: this.targetId,
+                offset: this.commentList.length,
+                limit: this.limit
             }
             const res = await getCommentsApi(params)
             if (res && res.status === 0) {
-                this.commentList = res.data
+                res.data.comments.forEach(item => {
+                    this.commentList.push(item)
+                })
+                this.total = res.data.total
+                console.log(this.commentList.map(item => item.uniqueId))
             }
         }
     }

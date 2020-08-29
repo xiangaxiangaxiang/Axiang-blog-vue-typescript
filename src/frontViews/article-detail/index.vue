@@ -71,6 +71,7 @@
     })
     export default class ArticleDetail extends Vue {
         @Prop({default: ''}) articleId!:string
+
         private articleHtml:string = ''
         private markdown:string = ''
         private articleTitle:string = ''
@@ -91,6 +92,13 @@
                 this.showBackToTop = true
             } else {
                 this.showBackToTop = false
+            }
+            const isEnd = e.target.scrollHeight === e.target.clientHeight + e.target.scrollTop
+            if (isEnd) {
+                const commentsDom = this.$refs.comments as HTMLFormElement
+                if (commentsDom.total !== 0 && commentsDom.commentList.length < commentsDom.total) {
+                    commentsDom.getComments()
+                }
             }
         }
 
