@@ -54,7 +54,6 @@
         private routerList:string[] = []
 
         get activeRoute():string {
-            console.log(this.$route.path)
             return this.$route.path
         }
 
@@ -85,7 +84,6 @@
                     this.routerList.push(router)
                 }
             })
-            console.log(this.routerList)
         }
     }
 </script>

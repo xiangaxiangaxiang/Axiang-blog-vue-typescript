@@ -27,7 +27,6 @@
     })
     export default class Layout extends Vue {
         beforeDestroy() {
-            console.log(666)
             sessionStorage.clear()
         }
     }

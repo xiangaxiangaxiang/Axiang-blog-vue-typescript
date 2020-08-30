@@ -99,9 +99,11 @@
             const res = await submitCommentApi(data)
             if (res && res.status === 0) {
                 this.$message.success('评论成功')
-                this.$emit('getComments')
                 this.comment = ''
                 this.checkEmpty()
+                if (res.data) {
+                    this.$emit('addComment', res.data)
+                }
             }
         }
     }

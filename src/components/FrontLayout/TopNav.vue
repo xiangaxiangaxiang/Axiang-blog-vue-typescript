@@ -2,7 +2,12 @@
     <el-row class="nav-container">
         <el-col :span="5">
             <div class="logo">
-                Hi, 我是翔阿翔阿翔
+                <span
+                    class="cursor-pointer"
+                    @click="$router.push('/home')"
+                >
+                    Hi, 我是翔阿翔阿翔
+                </span>
             </div>
         </el-col>
         <el-col :span="14">
