@@ -53,7 +53,7 @@
         </el-col>
         <el-col
             :span="6"
-            style="height: 100%;"
+            style="height: 100%;border-left: 1px solid rgba(0,21,41,0.2);"
         >
             <side-bar
                 :html="articleHtml"
