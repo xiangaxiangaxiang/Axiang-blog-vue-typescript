@@ -51,8 +51,13 @@
                 />
             </el-scrollbar>
         </el-col>
-        <el-col :span="6">
-            lalala
+        <el-col
+            :span="6"
+            style="height: 100%;"
+        >
+            <side-bar
+                :html="articleHtml"
+            />
         </el-col>
     </el-row>
 </template>
@@ -62,11 +67,13 @@
     import { getArticleDetailApi } from '@/api/front/article'
     import { likeApi, dislikeApi } from '@/api/front/like'
     import Comments from './components/Comments.vue'
+    import SideBar from './components/SideBar.vue'
     import { debounce } from 'lodash'
     @Component({
         name: 'ArticleDetail',
         components: {
-            Comments
+            Comments,
+            SideBar
         }
     })
     export default class ArticleDetail extends Vue {
