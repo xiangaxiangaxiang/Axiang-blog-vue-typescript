@@ -8,6 +8,14 @@ export function getArticlesApi(params) {
     })
 }
 
+export function getRecommendationApi(params) {
+    return service({
+        url: '/front/article/recommendation',
+        method: 'get',
+        params
+    })
+}
+
 export function getLabelsApi(params) {
     return service({
         url: '/front/article/label',

@@ -25,11 +25,7 @@
             SideBar
         }
     })
-    export default class Layout extends Vue {
-        beforeDestroy() {
-            sessionStorage.clear()
-        }
-    }
+    export default class Layout extends Vue {}
 </script>
 <style lang="stylus" scoped>
     .layout-container

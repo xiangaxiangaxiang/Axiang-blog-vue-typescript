@@ -8,12 +8,14 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop } from 'vue-property-decorator'
+    import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+    import { getRecommendationApi } from '@/api/front/article'
     @Component({
         name: 'ArticleDetailSidebar'
     })
     export default class ArticleDetailSidebar extends Vue {
         @Prop({default: ''}) html!:string
+        @Prop({default: () => []}) labels!:string[]
 
         get toc() {
             const reg = /<[hH][1-3]>.*?<\/[hH][1-3]>/g
@@ -24,6 +26,17 @@
                 })
             })
             return tocArr.join('')
+        }
+
+        @Watch('labels')
+        async getRecommendation(newValue) {
+            const params = {
+                labels: JSON.stringify(newValue)
+            }
+            const res = await getRecommendationApi(params)
+            if (res && res.status === 0) {
+                console.log(res)
+            }
         }
     }
 </script>

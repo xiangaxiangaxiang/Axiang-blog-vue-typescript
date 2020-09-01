@@ -57,6 +57,7 @@
         >
             <side-bar
                 :html="articleHtml"
+                :labels="labels"
             />
         </el-col>
     </el-row>
@@ -85,6 +86,7 @@
         private likeStatus:boolean = false
         private showBackToTop:boolean = false
         private timer:any = null
+        private labels:string[] = []
 
         mounted() {
             this.getArticleDetail()
@@ -145,6 +147,7 @@
                 this.markdown = res.data.markdown
                 this.articleTitle = res.data.title
                 this.likeStatus = res.data.likeStatus
+                this.labels = res.data.labels
             }
         }
 
