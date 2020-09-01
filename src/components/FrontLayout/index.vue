@@ -8,7 +8,7 @@
                     :span="14"
                     :offset="5"
                 >
-                    <router-view />
+                    <router-view :key="$route.fullPath" />
                 </el-col>
             </el-row>
         </div>

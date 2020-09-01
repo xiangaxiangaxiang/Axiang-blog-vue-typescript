@@ -4,6 +4,21 @@
             class="toc"
             v-html="toc"
         />
+        <div class="recommendation">
+            <h2 class="header">
+                推荐阅读
+            </h2>
+            <ul class="article-list">
+                <li
+                    v-for="article in aritcles"
+                    :key="article.articleId"
+                    class="article-item"
+                    @click="redirectTo(article.articleId)"
+                >
+                    {{ article.title }}
+                </li>
+            </ul>
+        </div>
     </el-scrollbar>
 </template>
 
@@ -15,7 +30,10 @@
     })
     export default class ArticleDetailSidebar extends Vue {
         @Prop({default: ''}) html!:string
+        @Prop({default: ''}) articleId!:string
         @Prop({default: () => []}) labels!:string[]
+
+        private aritcles:{title:string, articleId:string}[] = []
 
         get toc() {
             const reg = /<[hH][1-3]>.*?<\/[hH][1-3]>/g
@@ -31,11 +49,21 @@
         @Watch('labels')
         async getRecommendation(newValue) {
             const params = {
-                labels: JSON.stringify(newValue)
+                labels: JSON.stringify(newValue),
+                articleId: this.articleId
             }
             const res = await getRecommendationApi(params)
             if (res && res.status === 0) {
-                console.log(res)
+                this.aritcles = res.data
+            }
+        }
+
+        redirectTo(articleId) {
+            const path = `/article-detail/${articleId}`
+            console.log(path, this.$route.path)
+            if (this.$route.path !== path) {
+                this.$router.push(path)
+                console.log(666)
             }
         }
     }
@@ -44,7 +72,6 @@
 <style lang="stylus">
     .toc
         padding-top 3rem
-        margin-bottom 2rem
         color $orange
         h1
             font-size $fs-m
@@ -57,12 +84,10 @@
         h1, h2, h3
             height 2.7rem
             line-height 2.7rem
-            overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
             font-weight bold
             cursor pointer
             position relative
+            text-overflow()
             a
                 width 100%
                 height 100%
@@ -70,4 +95,22 @@
                 position absolute
                 top 0
                 left 0
+    .recommendation
+        width 100%
+        color $red
+        margin-top 3rem
+        .header
+            width 100%
+            height 4rem
+            font-size $fs-l
+            font-weight bold
+        .article-list
+            width 100%
+            .article-item
+                width 100%
+                height 2.5rem
+                line-height 2.5rem
+                font-size $fs-s
+                text-overflow()
+                cursor pointer
 </style>

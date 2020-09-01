@@ -141,9 +141,7 @@
                     color $orange
                     font-size $fs-s
                     font-weight bold
-                    overflow hidden
-                    text-overflow ellipsis
-                    display -webkit-box
+                    text-overflow()
                     -webkit-line-clamp 2
                     -webkit-box-orient vertical
                     &:hover
@@ -156,9 +154,7 @@
                     margin-bottom 1rem
                     color $blue
                     font-size $fs-ss
-                    overflow hidden
-                    text-overflow ellipsis
-                    display -webkit-box
+                    text-overflow()
                     -webkit-line-clamp 3
                     -webkit-box-orient vertical
                 .statistics

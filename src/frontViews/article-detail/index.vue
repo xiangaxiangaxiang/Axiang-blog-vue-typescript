@@ -58,6 +58,7 @@
             <side-bar
                 :html="articleHtml"
                 :labels="labels"
+                :article-id="articleId"
             />
         </el-col>
     </el-row>
