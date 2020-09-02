@@ -92,6 +92,7 @@
     import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
     import { match, isImage } from 'commonmark-helpers'
     import { uploadImgApi, upsertArticleApi } from '@/api/back/article'
+    import ImageCompressor from 'js-image-compressor'
     @Component({
         name: 'MarkdownEditor'
     })
@@ -157,7 +158,33 @@
 
         $imgAdd(pos, $file){
             // 缓存图片信息
-            this.imgFile[pos] = $file
+            // eslint-disable-next-line
+            const vm = this
+            new ImageCompressor({
+                file: $file,
+                quality: 0.6,
+                mimeType: 'image/jpeg',
+                maxWidth: 2000,
+                maxHeight: 2000,
+                width: 1000,
+                height: 1000,
+                minWidth: 500,
+                minHeight: 500,
+                convertSize: Infinity,
+                loose: true,
+                redressOrientation: true,
+                success (result){
+                    const newFile = new File([result], `${Date.now()}-${result.name}`)
+                    vm.imgFile[pos] = newFile
+                },
+                afterDraw(ctx, canvas) {
+                    ctx.restore()
+                    ctx.fillStyle = '#fff';
+                    const fontSize = canvas.width * 0.01 > 30 ? 30 : canvas.width * 0.01 < 20 ? 20 : canvas.width * 0.01
+                    ctx.font = fontSize + 'px microsoft yahei'
+                    ctx.fillText('翔阿翔阿翔', 10, canvas.height - 20)
+                }
+            })
         }
 
         $imgDel(pos){
@@ -170,9 +197,9 @@
 
         async uploadImage() {
             if (Object.keys(this.imgFile).length) {
-                let formdata = new FormData();
+                let formdata = new FormData()
                 for (var _img in this.imgFile) {
-                    formdata.append(_img, this.imgFile[_img]);
+                    formdata.append(_img, this.imgFile[_img])
                 }
                 const res = await uploadImgApi(formdata)
                 if (res.status === 0) {
@@ -180,6 +207,7 @@
                     data.forEach(item => {
                         this.$refs.md.$img2Url(item[0], item[1])
                     })
+                    this.imgFile = []
                 }
             }
             this.uploadArticle()

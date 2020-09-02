@@ -214,7 +214,7 @@
                 line-height 8rem
                 font-weight bold
                 font-size $article-title
-                color $orange
+                color $blue
             .article-detail
                 margin-top 3rem
                 padding-bottom 5rem
