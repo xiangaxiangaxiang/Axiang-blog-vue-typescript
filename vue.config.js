@@ -14,6 +14,30 @@ function addStyleResource (rule) {
     })
 }
 
+const cdn = {
+    css: [
+        // element-ui css
+        'https://cdn.bootcdn.net/ajax/libs/element-ui/2.9.2/theme-chalk/index.css'
+    ],
+    js: [
+        // vue must at first!
+        'https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js',
+        // vue router
+        'https://cdn.bootcdn.net/ajax/libs/vue-router/3.1.5/vue-router.min.js',
+        // vuex
+        'https://cdn.bootcdn.net/ajax/libs/vuex/3.1.2/vuex.min.js',
+        // element-ui js
+        'https://cdn.bootcdn.net/ajax/libs/element-ui/2.9.2/index.js',
+        // echarts
+        'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.common.min.js',
+        'https://unpkg.com/browse/echarts@4.8.0/theme/macarons.js',
+        // axios
+        'https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js',
+        // lodash
+        'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.19/lodash.min.js'
+    ]
+}
+
 module.exports = {
     chainWebpack: config => {
         const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
@@ -27,6 +51,28 @@ module.exports = {
             .set('backViews', resolve('src/backViews'))
             .set('router', resolve('src/router'))
             .set('store', resolve('src/store'));
+        config.plugin('html').tap(args => {
+            args[0].cdn = {
+                css: [],
+                js: []
+            }
+            return args
+        })
+        config.when(process.env.NODE_ENV === 'production', config => {
+            config.set('externals', {
+                vue: 'Vue',
+                'vue-router': 'VueRouter',
+                'vuex': 'Vuex',
+                'element-ui':'ELEMENT',
+                axios: 'axios',
+                lodash: '_',
+                echarts: 'echarts'
+            })
+            config.plugin('html').tap(args => {
+                args[0].cdn = cdn
+                return args
+            })
+        })
     },
     configureWebpack: config => {
         const CompressionWebpackPlugin = require('compression-webpack-plugin')
@@ -35,13 +81,13 @@ module.exports = {
             // 为生产环境修改配置
             config.mode = 'production'
             // 将每个依赖包打包成单独的js文件
-            config.plugins.push(new CompressionWebpackPlugin({
-                algorithm: 'gzip',
-                test: /\.js$|\.css|\.jpg/,
-                threshold: 10240,
-                minRatio: 0.8,
-                deleteOriginalAssets: true
-            }))
+            // config.plugins.push(new CompressionWebpackPlugin({
+            //     algorithm: 'gzip',
+            //     test: /\.js$|\.css|\.jpg/,
+            //     threshold: 10240,
+            //     minRatio: 0.8,
+            //     deleteOriginalAssets: true
+            // }))
             config.plugins.push(
                 new TerserPlugin({
                     test: /\.js(\?.*)?$/i,

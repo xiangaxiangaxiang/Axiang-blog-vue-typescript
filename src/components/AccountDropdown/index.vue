@@ -145,7 +145,6 @@
     import { Component, Vue } from 'vue-property-decorator'
     import { updateAccountApi, updatePasswordApi, logoutApi } from '@/api/front/user'
     import md5 from 'md5'
-    import Cookies from 'js-cookie'
 
     interface updatePasswordFormType {
         oldPassword:string
