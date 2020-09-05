@@ -23,7 +23,7 @@
             >
                 <div class="avatar">
                     <img
-                        :src="item.userAvatar"
+                        :src="item.userInfo.avatar"
                         alt="加载出错"
                     >
                 </div>
@@ -88,7 +88,7 @@
                         >
                             <div class="avatar">
                                 <img
-                                    :src="replyItem.userAvatar"
+                                    :src="replyItem.userInfo.avatar"
                                     alt="加载出错"
                                 >
                             </div>
@@ -309,9 +309,10 @@
                 border-radius 50%
                 border 1px solid $blue
                 display inline-block
-                .img
+                img
                     width 100%
                     height 100%
+                    border-radius 50%
             .comment
                 vertical-align top
                 width calc(100% - 5rem)
@@ -352,6 +353,7 @@
                     img
                         width 100%
                         height 100%
+                        border-radius 50%
                 &:last-child
                     .content-box
                         border-bottom none

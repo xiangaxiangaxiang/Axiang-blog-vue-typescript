@@ -49,7 +49,7 @@
                 </span>
             </div>
             <login-register-form
-                :dialog-visable="showDialog"
+                :dialog-visiable="showDialog"
                 :type="showType"
                 :key="showDialogKey"
             />

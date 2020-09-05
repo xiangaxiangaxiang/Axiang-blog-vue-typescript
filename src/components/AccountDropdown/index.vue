@@ -144,6 +144,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
     import { updateAccountApi, updatePasswordApi, logoutApi } from '@/api/front/user'
+    import { UserModule } from '@/store/modules/user'
     import md5 from 'md5'
 
     interface updatePasswordFormType {
@@ -197,7 +198,8 @@
             if (command === 'logout') {
                 await logoutApi()
                 sessionStorage.clear()
-                this.$router.go(0)
+                // this.$router.go(0)
+                UserModule.reloadPage()
             } else if (command === 'updateAccount') {
                 this.updateAccountDialog = true
             } else if (command === 'updatePassword') {

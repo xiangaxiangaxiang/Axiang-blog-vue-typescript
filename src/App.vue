@@ -1,13 +1,19 @@
 <template>
     <div id="app">
-        <router-view />
+        <router-view :key="reload" />
     </div>
 </template>
 
 <script>
     import { touristApi } from '@/api/front/user'
+    import { UserModule } from '@/store/modules/user'
     export default {
         name: 'App',
+        computed: {
+            reload() {
+                return UserModule.reload
+            }
+        },
         async mounted() {
             const firstLoad = sessionStorage.getItem('firstLoad')
             if (!firstLoad) {

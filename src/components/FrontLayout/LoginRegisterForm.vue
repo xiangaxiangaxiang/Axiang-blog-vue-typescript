@@ -1,7 +1,7 @@
 <template>
     <el-dialog
         width="350px"
-        :visible="dialogVisable"
+        :visible="dialogVisiable"
         :modal-append-to-body="false"
         :before-close="closeDialog"
     >
@@ -136,7 +136,7 @@
     export default class LoginRegisterForm extends Vue {
         $refs!: {md: HTMLFormElement}
 
-        @Prop({default: false}) dialogVisable!:boolean
+        @Prop({default: false}) dialogVisiable!:boolean
         @Prop({default: ''}) type!:string
 
         private showType: string = 'login'
@@ -149,19 +149,6 @@
             password1: '',
             password2: '',
             nickname: ''
-        }
-        public validatePass2 = (rule, value, callback) => {
-            if (value.trim() === '') {
-                // eslint-disable-next-line
-                callback(new Error('请再次输入密码'))
-                // eslint-disable-next-line
-            } else if (value.trim() !== this.registerForm.password1.trim()) {
-                // eslint-disable-next-line
-                callback(new Error('两次输入密码不一致!'))
-            } else {
-                // eslint-disable-next-line
-                callback()
-            }
         }
         private loginRules:loginRulesType = {
             account: [
@@ -195,9 +182,26 @@
         private loginFormKey:number = Date.now()
         private registerFormKey:number = Date.now()
 
+        mounted() {
+            this.showType = UserModule.showLoginRegisterType
+        }
+
         @Watch('type')
-        changeType() {
-            this.showType = this.type
+        changeType(newValue) {
+            this.showType = newValue
+        }
+
+        validatePass2(rule, value, callback) {
+            if (value.trim() === '') {
+                // eslint-disable-next-line
+                callback(new Error('请再次输入密码'))
+            } else if (value.trim() !== this.registerForm.password1.trim()) {
+                // eslint-disable-next-line
+                callback(new Error('两次输入密码不一致!'))
+            } else {
+                // eslint-disable-next-line
+                callback()
+            }
         }
 
         closeDialog() {
@@ -219,7 +223,8 @@
                         sessionStorage.setItem('avatar', res.data.avatar)
                         sessionStorage.setItem('token', res.data.token)
                         sessionStorage.setItem('isLogin', 'true')
-                        this.$router.go(0)
+                        // this.$router.go(0)
+                        UserModule.reloadPage()
                     }
                 } else {
                     return false
@@ -251,6 +256,8 @@
             // 在这里报错
             // this.registerForm = this.$option.data().registerForm
             // this.loginForm = this.$option.data().loginForm
+            this.loginFormKey = Date.now()
+            this.registerFormKey = Date.now()
             this.loginForm = {
                 account: '',
                 password: ''
@@ -261,9 +268,8 @@
                 password2: '',
                 nickname: ''
             }
+            console.log(this.loginForm, this.registerForm)
             this.showType = this.showType === 'login' ? 'register' : 'login'
-            this.loginFormKey = Date.now()
-            this.registerFormKey = Date.now()
         }
     }
 </script>

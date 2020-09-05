@@ -18,6 +18,7 @@ export interface IUserState {
 class User extends VuexModule implements IUserState {
     public showLoginRegisterForm = false
     public showLoginRegisterType = ''
+    public reload = Date.now()
 
     @Mutation
     private TOGGLE_DIALOG(type:string) {
@@ -31,6 +32,12 @@ class User extends VuexModule implements IUserState {
         this.showLoginRegisterType = 'login'
     }
 
+    @Mutation
+    private RELOADPAGE() {
+        this.showLoginRegisterForm = false
+        this.reload = Date.now()
+    }
+
     @Action
     public toggleDialog(type='') {
         this.TOGGLE_DIALOG(type)
@@ -39,6 +46,11 @@ class User extends VuexModule implements IUserState {
     @Action
     public showDialog() {
         this.SHOW_DIALOG()
+    }
+
+    @Action
+    public reloadPage() {
+        this.RELOADPAGE()
     }
 }
 
