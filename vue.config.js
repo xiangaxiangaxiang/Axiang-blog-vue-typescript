@@ -30,7 +30,7 @@ const cdn = {
         'https://cdn.bootcdn.net/ajax/libs/element-ui/2.9.2/index.js',
         // echarts
         'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.common.min.js',
-        'https://unpkg.com/browse/echarts@4.8.0/theme/macarons.js',
+        'https://echarts-www.cdn.bcebos.com/zh/asset/theme/macarons.js?_v_=20200710_1',
         // axios
         'https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js',
         // lodash
