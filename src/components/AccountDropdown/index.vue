@@ -252,6 +252,10 @@
                 this.$message.error('只接受图片文件')
                 return
             }
+            if (avatar.size > 1024 * 1024) {
+                this.$message.error('头像不能超过1M')
+                return
+            }
             const formdata = new FormData()
             formdata.append('file', avatar)
             formdata.append('uid', this.uid as string)

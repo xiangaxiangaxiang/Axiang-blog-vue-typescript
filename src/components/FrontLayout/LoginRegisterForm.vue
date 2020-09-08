@@ -175,6 +175,8 @@
                 { min: 6, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
             ],
             nickname: [
+                // eslint-disable-next-line
+                { validator: this.validateNickname, trigger: 'blur' },
                 { required: true, message: '请输入用户昵称', trigger: 'blur' },
                 { min: 2, max: 32, message: '长度在6~32个字符', trigger: 'blur' }
             ]
@@ -189,6 +191,24 @@
         @Watch('type')
         changeType(newValue) {
             this.showType = newValue
+        }
+
+        validateNickname(rule, value, callback) {
+            // 防损友专属验证 !!!!!!!!
+            const stupidNames = ['sb翔', 'sx翔', '傻嗨翔', 'SB翔', 'sxx', 'sbx']
+            for (let i in stupidNames) {
+                if (value.indexOf(stupidNames[i]) > -1) {
+                    callback(new Error('wdnmd!!!'))
+                    return
+                }
+            }
+            if (value.trim() === '翔阿翔阿翔') {
+                // eslint-disable-next-line
+                callback(new Error('这是朕专属昵称！！！'))
+            } else {
+                // eslint-disable-next-line
+                callback()
+            }
         }
 
         validatePass2(rule, value, callback) {
