@@ -1,7 +1,7 @@
 <!--
  * @Author: 翔阿翔阿翔
  * @Date: 2020-05-13 22:28:47
- * @LastEditTime: 2020-08-14 20:47:17
+ * @LastEditTime: 2020-09-19 17:00:14
  * @Description: 博客主页
  * @FilePath: \axiang-blog-vue-typescript\src\front\home\index.vue
  -->
@@ -38,6 +38,14 @@
                         </p>
                     </el-col>
                 </el-row>
+            </div>
+            <div class="footer">
+                <a
+                    href="http://beian.miit.gov.cn"
+                    target="_blank"
+                >
+                    IPC备案号: 粤ICP备2020088258号-1
+                </a>
             </div>
         </div>
     </div>
@@ -139,6 +147,15 @@
                 font-size $fs-mx
                 color $blue
                 text-align center
+            .footer
+                position fixed
+                bottom 0
+                left 0
+                right 0
+                height 50px
+                line-height 50px
+                text-align center
+                font-size $fs-ss
 </style>
 
 
