@@ -2,6 +2,7 @@
     <el-scrollbar class="scrollbar">
         <div
             class="toc"
+            @click="showTitle"
             v-html="toc"
         />
         <div class="recommendation">
@@ -40,7 +41,7 @@
             const arr = this.html.match(reg) as string[] ? this.html.match(reg) as string[] : []
             const tocArr = arr.map(item => {
                 return item.replace(/<a id="(.*)"><\/a>/g, (m, s1) => {
-                    return `<a id="${s1}" href="#${s1}"></a>`
+                    return `<a data-id="${s1}" href="javascript:void(0);"></a>`
                 })
             })
             return tocArr.join('')
@@ -58,12 +59,18 @@
             }
         }
 
+        showTitle(event) {
+            const id = event.target.dataset['id']
+            const dom = document.querySelector(`#${id}`)
+            // eslint-disable-next-line no-unused-expressions
+            dom && dom.scrollIntoView()
+        }
+
         redirectTo(articleId) {
             const path = `/article-detail/${articleId}`
             console.log(path, this.$route.path)
             if (this.$route.path !== path) {
                 this.$router.push(path)
-                console.log(666)
             }
         }
     }
